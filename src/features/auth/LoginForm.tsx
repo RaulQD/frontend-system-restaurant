@@ -3,15 +3,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { authenticatedUser } from '@/services/apiAuth';
-import { LoginDatForm } from '@/types/auth';
+import { LoginDataForm } from '@/types/auth';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 export default function LoginForm() {
-    const initialValues: LoginDatForm = {
+    const initialValues: LoginDataForm = {
         username: '',
         password: '',
     };
+
     const {
         register,
         handleSubmit,
@@ -19,26 +21,29 @@ export default function LoginForm() {
     } = useForm({
         defaultValues: initialValues,
     });
-    const { mutate } = useMutation({
+    const mutation = useMutation({
         mutationFn: authenticatedUser,
         onError: (error) => {
-            console.log(error);
+            toast.error(error.message);
         },
         onSuccess: (data) => {
-            console.log(data);
+            toast.success('Bienvenido');
+            localStorage.setItem('AUTHENTICATION', JSON.stringify(data));
+            // localStorage.setItem('USER', JSON.stringify(data?.user));
         },
     });
 
-    const onSubmit = (data: LoginDatForm) => {
-        mutate(data);
-        console.log(data);
-        console.log('232');
+    const onSubmit = (data: LoginDataForm) => {
+        mutation.mutate(data);
     };
 
     return (
         <>
             <div className='sm:mx-auto sm:w-full sm:max-w-lg'>
-                <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
+                <form
+                    className='space-y-6'
+                    onSubmit={handleSubmit(onSubmit)}
+                    noValidate>
                     <div>
                         <Label htmlFor='email'>Email</Label>
                         <div className='mt-2'>

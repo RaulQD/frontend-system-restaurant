@@ -1,13 +1,7 @@
-import { Button } from '@/components/ui/button';
+import FilterButton from '@/components/FilterButton';
 import CardTable from '@/features/manage-table/components/CardTable';
 
 export default function ManageTable() {
-    const tables = [
-        { tableNumber: 1, clients: 2, maxClients: 4 },
-        { tableNumber: 2, clients: 4, maxClients: 4 },
-        { tableNumber: 3, clients: 1, maxClients: 2 },
-        { tableNumber: 4, clients: 0, maxClients: 6 },
-    ];
     return (
         <section>
             <div>
@@ -18,11 +12,7 @@ export default function ManageTable() {
                         </h1>
                     </div>
                     {/* Rooms tables */}
-                    <div className='flex items-center justify-center gap-4'>
-                        <Button variant={'principal'}>Comedor Principal</Button>
-                        <Button variant={'outline'}>Exterior</Button>
-                        <Button variant={'outline'}>Terraza</Button>
-                    </div>
+                    <FilterButton />
                 </div>
                 <div className='flex items-center justify-start gap-4 mt-2'>
                     <div className='flex items-center justify-center gap-3'>
