@@ -32,6 +32,7 @@ export default function LoginForm() {
     const onSubmit = (data: LoginDatForm) => {
         mutate(data);
         console.log(data);
+        console.log('232');
     };
 
     return (
