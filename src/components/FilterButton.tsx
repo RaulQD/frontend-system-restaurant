@@ -2,32 +2,45 @@ import { Button } from '@/components/ui/button';
 import { getRooms } from '@/services/apiRooms';
 import { Rooms } from '@/types/rooms';
 import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'react-router-dom';
 
-export default function FilterButton() {
-    const {
-        data: rooms,
-        isLoading,
-        isError,
-    } = useQuery<Rooms[]>({
+type FilterButtonProps = {
+    filterValue: string;
+};
+
+export default function FilterButton({ filterValue }: FilterButtonProps) {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const currentRoom = searchParams.get(filterValue) || 'comedor principal';
+
+    const { data: rooms } = useQuery<Rooms[]>({
         queryKey: ['rooms'],
         queryFn: getRooms,
     });
 
-    console.table(rooms);
-    console.log(isLoading);
-    console.log(isError);
+    const handleButtonFilter = (room: string) => {
+        console.log(`URL construida: ${window.location.href}`);
+        searchParams.set(filterValue, room);
+        setSearchParams(searchParams);
+    };
+
     return (
         <div>
             <ul className='flex items-center justify-center gap-4'>
                 {rooms?.map((room) => (
                     <li key={room.id}>
-                        <Button variant={'outline'}>{room.room_name}</Button>
+                        <Button
+                            variant={
+                                currentRoom === room.room_name
+                                    ? 'principal'
+                                    : 'outline'
+                            }
+                            className='capitalize'
+                            onClick={() => handleButtonFilter(room.room_name)}>
+                            {room.room_name}
+                        </Button>
                     </li>
                 ))}
             </ul>
-            {/* <Button variant={'principal'}>Comedor Principal</Button>
-            <Button variant={'outline'}>Exterior</Button>
-            <Button variant={'outline'}>Terraza</Button> */}
         </div>
     );
 }

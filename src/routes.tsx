@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import ManageTable from './pages/ManageTable';
 import Dishes from './pages/Dishes';
+import AdminPanel from './pages/AdminPanel';
 
 export default function AppRoutes() {
     return (
@@ -17,6 +18,7 @@ export default function AppRoutes() {
                         element={<ManageTable />}
                     />
                     <Route path='dashboard/dishes' element={<Dishes />} />
+                    <Route path='dashboard/personal' element={<AdminPanel />} />
                 </Route>
                 <Route path='/auth/' element={<AuthLayout />}>
                     <Route path='login' element={<Login />} />
