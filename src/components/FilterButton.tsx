@@ -1,42 +1,51 @@
 import { Button } from '@/components/ui/button';
-import { getRooms } from '@/services/apiRooms';
-import { Rooms } from '@/types/rooms';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 
-type FilterButtonProps = {
+/* <T> -> los tipos genericos permiten que una función clase o componente trabaje con diferente tipos de datos 
+sin necesidad de especificar un tipo concreto al momento de escribir el códigos */
+type FilterButtonProps<T> = {
     filterValue: string;
+    queryKey: string[];
+    queryFn: () => Promise<T[]>;
+    getLabel: (item: T) => string;
+    getValue: (item: T) => string;
 };
 
-export default function FilterButton({ filterValue }: FilterButtonProps) {
+export default function FilterButton<T>({
+    filterValue,
+    queryKey,
+    queryFn,
+    getLabel,
+    getValue,
+}: FilterButtonProps<T>) {
     const [searchParams, setSearchParams] = useSearchParams();
-    const currentRoom = searchParams.get(filterValue) || 'comedor principal';
+    const currentFilterValue = searchParams.get(filterValue) || '';
 
-    const { data: rooms } = useQuery<Rooms[]>({
-        queryKey: ['rooms'],
-        queryFn: getRooms,
+    const { data: items } = useQuery<T[]>({
+        queryKey,
+        queryFn,
     });
 
-    const handleButtonFilter = (room: string) => {
-        console.log(`URL construida: ${window.location.href}`);
-        searchParams.set(filterValue, room);
+    const handleButtonFilter = (value: string) => {
+        searchParams.set(filterValue, value);
         setSearchParams(searchParams);
     };
 
     return (
         <div>
             <ul className='flex items-center justify-center gap-4'>
-                {rooms?.map((room) => (
-                    <li key={room.id}>
+                {items?.map((item) => (
+                    <li key={getValue(item)}>
                         <Button
                             variant={
-                                currentRoom === room.room_name
+                                currentFilterValue === getValue(item)
                                     ? 'principal'
                                     : 'outline'
                             }
                             className='capitalize'
-                            onClick={() => handleButtonFilter(room.room_name)}>
-                            {room.room_name}
+                            onClick={() => handleButtonFilter(getValue(item))}>
+                            {getLabel(item)}
                         </Button>
                     </li>
                 ))}

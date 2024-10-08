@@ -1,17 +1,16 @@
 import { getTablesByRoomName } from "@/services/apiTables";
 import { Tables } from "@/types/tables";
 import { useQuery } from "@tanstack/react-query";
-import { useSearchParams } from "react-router-dom";
 
 
-export const useTables = () => {
+export const useTables = (room: string) => {
 
-  const [searchParams] = useSearchParams();
-  const room = searchParams.get('room') || 'comerdor principal';
+
 
   const { data: tables, isLoading, isError, error } = useQuery<Tables[]>({
     queryKey: ['getTablesByRoomName', room],
     queryFn: () => getTablesByRoomName(room),
+    enabled: !!room //para no ejecutar la consulta si room es undefined o vacio.
   })
   return { tables, isLoading, isError, error }
 }

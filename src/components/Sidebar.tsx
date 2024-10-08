@@ -58,7 +58,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                             Icon={BiUser}
                             menuItems={[
                                 {
-                                    path: '/admin/dashboard/panel',
+                                    path: '/admin/dashboard/personal',
                                     label: 'Administrar Personal',
                                 },
                             ]}
