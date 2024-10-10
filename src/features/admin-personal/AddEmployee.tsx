@@ -14,7 +14,9 @@ export default function AddEmployee() {
                     <span>Crear Platos</span>
                 </div>
             </div>
-            <EmployeeForm />
+            <div className='flex items-center justify-center'>
+                <EmployeeForm />
+            </div>
         </section>
     );
 }

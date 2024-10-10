@@ -11,7 +11,7 @@ export const getRooms = async () => {
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message)
     } else {
-      throw new Error('Error desconocido al crear una categoria');
+      throw new Error('Error desconocido al obtener las habitaciones');
     }
   }
 }

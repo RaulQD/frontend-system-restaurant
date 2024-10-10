@@ -11,7 +11,9 @@ export default function ManageTable() {
     const [searchParams, setSearchParams] = useSearchParams();
     const room = searchParams.get('room') || 'comedor principal';
     const { tables, isLoading, error } = useTables(room);
-
+    console.log(isLoading);
+    console.log(error);
+    console.table(tables);
     useEffect(() => {
         if (!searchParams.has('room')) {
             searchParams.set('room', 'comedor principal');

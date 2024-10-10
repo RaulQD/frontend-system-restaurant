@@ -35,20 +35,23 @@ export default function FilterButton<T>({
     return (
         <div>
             <ul className='flex items-center justify-center gap-4'>
-                {items?.map((item) => (
-                    <li key={getValue(item)}>
-                        <Button
-                            variant={
-                                currentFilterValue === getValue(item)
-                                    ? 'principal'
-                                    : 'outline'
-                            }
-                            className='capitalize'
-                            onClick={() => handleButtonFilter(getValue(item))}>
-                            {getLabel(item)}
-                        </Button>
-                    </li>
-                ))}
+                {Array.isArray(items) &&
+                    items?.map((item) => (
+                        <li key={getValue(item)}>
+                            <Button
+                                variant={
+                                    currentFilterValue === getValue(item)
+                                        ? 'principal'
+                                        : 'outline'
+                                }
+                                className='capitalize'
+                                onClick={() =>
+                                    handleButtonFilter(getValue(item))
+                                }>
+                                {getLabel(item)}
+                            </Button>
+                        </li>
+                    ))}
             </ul>
         </div>
     );
