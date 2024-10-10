@@ -160,7 +160,7 @@ export default function EmployeeForm() {
                                     className='text-slate-500 font-normal'>
                                     Fecha de contratación
                                 </Label>
-                                <Popover className='mt-2'>
+                                <Popover>
                                     <PopoverTrigger asChild>
                                         <Button
                                             variant={'outline'}
