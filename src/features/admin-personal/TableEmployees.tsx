@@ -6,39 +6,19 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { getEmployees } from '@/services/apiEmployee';
+import { EmployeeList } from '@/types/employee';
+import { useQuery } from '@tanstack/react-query';
 export default function TableEmployees() {
-    const invoices = [
-        {
-            invoice: 'INV001',
-            paymentStatus: 'Paid',
-            totalAmount: '$250.00',
-            paymentMethod: 'Credit Card',
-        },
-        {
-            invoice: 'INV002',
-            paymentStatus: 'Pending',
-            totalAmount: '$150.00',
-            paymentMethod: 'PayPal',
-        },
-        {
-            invoice: 'INV003',
-            paymentStatus: 'Unpaid',
-            totalAmount: '$350.00',
-            paymentMethod: 'Bank Transfer',
-        },
-        {
-            invoice: 'INV004',
-            paymentStatus: 'Paid',
-            totalAmount: '$450.00',
-            paymentMethod: 'Credit Card',
-        },
-        {
-            invoice: 'INV005',
-            paymentStatus: 'Paid',
-            totalAmount: '$550.00',
-            paymentMethod: 'PayPal',
-        },
-    ];
+    const {
+        data: employees,
+        isLoading,
+        isError,
+    } = useQuery<EmployeeList>({
+        queryKey: ['employees', searchName, searchLastName, status],
+        queryFn: () => getEmployees({ searchName, searchName, status }),
+    });
+
     return (
         <div className='rounded-md border mt-6'>
             <div className='overflow-x-auto shadow-sm ring-1 ring-black ring-opacity-5 md:rounded-lg'>
@@ -52,15 +32,15 @@ export default function TableEmployees() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {invoices.map((invoice) => (
-                            <TableRow key={invoice.invoice}>
+                        {employees?.map((employee) => (
+                            <TableRow key={employee}>
                                 <TableCell className='font-medium'>
-                                    {invoice.invoice}
+                                    {employee.employee}
                                 </TableCell>
-                                <TableCell>{invoice.paymentStatus}</TableCell>
-                                <TableCell>{invoice.paymentMethod}</TableCell>
+                                <TableCell>{employee.paymentStatus}</TableCell>
+                                <TableCell>{employee.paymentMethod}</TableCell>
                                 <TableCell className='text-right'>
-                                    {invoice.totalAmount}
+                                    {employee.totalAmount}
                                 </TableCell>
                             </TableRow>
                         ))}

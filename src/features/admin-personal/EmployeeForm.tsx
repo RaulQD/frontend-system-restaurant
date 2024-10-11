@@ -1,23 +1,21 @@
 import { ErrorMessage } from '@/components/ErrorMessage';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/components/ui/popover';
+
 import { Separator } from '@/components/ui/separator';
-import { cn } from '@/lib/utils';
+import { registerUser } from '@/services/apiAuth';
 import { EmployeeFormData } from '@/types/employee';
-import { CalendarIcon } from '@radix-ui/react-icons';
-import { format } from 'date-fns';
+import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 export default function EmployeeForm() {
-    const [date, setDate] = useState<Date>();
+    const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
+
     const initialValue: EmployeeFormData = {
         names: '',
         last_name: '',
@@ -25,9 +23,9 @@ export default function EmployeeForm() {
         email: '',
         phone: '',
         address: '',
-        salary: 0,
-        hire_date: new Date(),
-        position: '',
+        salary: undefined,
+        hire_date: undefined,
+        role_name: '',
         username: '',
         password: '',
     };
@@ -37,8 +35,21 @@ export default function EmployeeForm() {
         formState: { errors },
         reset,
     } = useForm({ defaultValues: initialValue });
-    const onSubmit = (data: any) => {};
+    const { mutate } = useMutation({
+        mutationFn: registerUser,
+        onError(error) {
+            toast.error(error.message);
+        },
+        onSuccess(data) {
+            toast.success(data.message);
+            reset();
+        },
+    });
 
+    const onSubmit = (data: EmployeeFormData) => {
+        mutate(data);
+        navigate('/admin/dashboard/personal');
+    };
     return (
         <div className='w-3/4'>
             <div className=''>
@@ -68,7 +79,8 @@ export default function EmployeeForm() {
                                     placeholder='Nombre'
                                     className='mt-2 '
                                     register={register('names', {
-                                        required: 'Este campo es requerido',
+                                        required:
+                                            'El nombre del empleado es requerido.',
                                         minLength: {
                                             value: 3,
                                             message:
@@ -96,7 +108,8 @@ export default function EmployeeForm() {
                                     placeholder='Apellidos'
                                     className='mt-2'
                                     register={register('last_name', {
-                                        required: 'Este campo es requerido',
+                                        required:
+                                            'El apellido del empleado es requerido.',
                                         minLength: {
                                             value: 3,
                                             message:
@@ -123,7 +136,8 @@ export default function EmployeeForm() {
                                     placeholder='ej. 00000000'
                                     className='mt-2'
                                     register={register('dni', {
-                                        required: 'Este campo es requerido',
+                                        required:
+                                            'El DNI del empleado es requerido.',
                                         minLength: {
                                             value: 8,
                                             message:
@@ -150,10 +164,12 @@ export default function EmployeeForm() {
                                     placeholder='ejemplo@ejemplo.com'
                                     className='mt-2'
                                     register={register('email', {
-                                        required: 'Este campo es requerido',
+                                        required:
+                                            'Ingrese el correo electrónico',
                                         pattern: {
                                             value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
-                                            message: 'Correo inválido',
+                                            message:
+                                                'Correo electronico inválido',
                                         },
                                     })}
                                 />
@@ -176,10 +192,11 @@ export default function EmployeeForm() {
                                     placeholder='ej. 999999999'
                                     className='mt-2'
                                     register={register('phone', {
-                                        required: 'Este campo es requerido',
+                                        required:
+                                            'Ingrese el teléfono del empleado.',
                                         pattern: {
                                             value: /^[0-9]{9}$/,
-                                            message: 'Número inválido',
+                                            message: 'El teléfono es inválido',
                                         },
                                         minLength: {
                                             value: 9,
@@ -239,7 +256,7 @@ export default function EmployeeForm() {
                                 <Input
                                     type='text'
                                     id='salary'
-                                    placeholder='ej. 999999999'
+                                    placeholder='00.00'
                                     className='mt-2'
                                     register={register('salary', {
                                         required:
@@ -263,19 +280,26 @@ export default function EmployeeForm() {
                                     className='text-slate-500 font-normal'>
                                     Fecha de contratación
                                 </Label>
-                                <Popover>
+                                <Input
+                                    type='date'
+                                    id='hire_date'
+                                    placeholder='Fecha de contratación'
+                                    register={register('hire_date', {
+                                        required:
+                                            'Ingrese la fecha de contratación del empleado.',
+                                    })}
+                                />
+                                {/* <Popover>
                                     <PopoverTrigger asChild>
                                         <Button
                                             variant={'outline'}
                                             className={cn(
-                                                'w-[280px] justify-start text-left font-normal',
+                                                'justify-start text-left font-normal',
                                                 !date && 'text-muted-foreground'
                                             )}>
-                                            {date ? (
-                                                format(date, 'PPP')
-                                            ) : (
-                                                <span>Pick a date</span>
-                                            )}
+                                            {date
+                                                ? format(date, 'PPP')
+                                                : 'Selecciona una fecha'}
                                             <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
                                         </Button>
                                     </PopoverTrigger>
@@ -293,7 +317,12 @@ export default function EmployeeForm() {
                                             initialFocus
                                         />
                                     </PopoverContent>
-                                </Popover>
+                                </Popover>*/}
+                                {errors.hire_date && (
+                                    <ErrorMessage>
+                                        {errors.hire_date.message}
+                                    </ErrorMessage>
+                                )}
                             </div>
                             <div>
                                 <Label
@@ -366,7 +395,7 @@ export default function EmployeeForm() {
                                     Contraseña
                                 </Label>
                                 <Input
-                                    type='password'
+                                    type={showPassword ? 'text' : 'password'}
                                     placeholder='**********'
                                     className='mt-2'
                                     register={register('password', {
@@ -384,6 +413,12 @@ export default function EmployeeForm() {
                                         {errors.password.message}
                                     </ErrorMessage>
                                 )}
+                                <Input
+                                    type='checkbox'
+                                    onChange={() =>
+                                        setShowPassword(!showPassword)
+                                    }
+                                />
                             </div>
                         </div>
                     </div>
