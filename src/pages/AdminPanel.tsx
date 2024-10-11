@@ -1,18 +1,11 @@
+import FilterButtonStatus from '@/components/FilterButtonStatus';
+import FilterInput from '@/components/FilterInput';
+import SortBy from '@/components/SortBy';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
+
 import TableEmployees from '@/features/admin-personal/TableEmployees';
 
-import { BiPlus, BiSearch } from 'react-icons/bi';
+import { BiPlus } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 
 export default function AdminPanel() {
@@ -40,43 +33,10 @@ export default function AdminPanel() {
             </div>
             <div className='mt-14'>
                 <div className='flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between'>
-                    <div className='flex items-center justify-start gap-2'>
-                        <Button variant={'principal'}>Activos</Button>
-                        <Button variant={'outline'}>En vacaciones</Button>
-                        <Button variant={'outline'}>Suspendido</Button>
-                    </div>
+                    <FilterButtonStatus />
                     <div className='flex items-center justify-end gap-2'>
-                        <div className='relative'>
-                            <Input
-                                type='text'
-                                id='search'
-                                placeholder='Buscar empleados'
-                                className='pl-10'
-                            />
-                            <Label id='search'>
-                                <BiSearch className='text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 text-lg' />
-                            </Label>
-                        </div>
-                        <div className=''>
-                            <Select>
-                                <SelectTrigger className='w-[150px]'>
-                                    <SelectValue placeholder='Filtros' />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Rangos</SelectLabel>
-                                        <SelectItem value='1'>Hoy</SelectItem>
-                                        <SelectItem value='2'>Ayer</SelectItem>
-                                        <SelectItem value='3'>
-                                            Esta semana
-                                        </SelectItem>
-                                        <SelectItem value='4'>
-                                            Este mes
-                                        </SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        <FilterInput />
+                        <SortBy />
                     </div>
                 </div>
             </div>

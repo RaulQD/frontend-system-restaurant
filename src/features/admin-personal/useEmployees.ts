@@ -1,0 +1,49 @@
+import { getEmployees } from "@/services/apiEmployee"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useSearchParams } from "react-router-dom"
+
+
+export const useEmployees = () => {
+
+  const queryClient = useQueryClient();
+  const [searchParams] = useSearchParams()
+  // FILTER STATUS
+  const filterStatus = searchParams.get('status') || ''
+  // VALIDAR SI NO SE SELECCIONA NINGUNA OPCION DE STATUS, SE MUESTREN TODOS LOS EMPLEADOS
+  const status = !filterStatus || filterStatus === 'todos' ? '' : filterStatus;
+
+  // FILTRO DE BUSQUEDA POR NOMBRE
+  const keywordValue = searchParams.get('searchName') || ''
+  // VERIFICAR SI SE INGRESA UN NOMBRE PARA BUSCAR
+  const searchName = keywordValue ? '' : keywordValue
+
+  // FILTRO DE BUSQUEDA POR APELLIDO
+  const keywordValueLastName = searchParams.get('searchLastName') || ''
+  const searchLastName = keywordValueLastName ? '' : keywordValueLastName
+
+  // PAGINACIÒN
+  const page = !searchParams.get('page') ? 1 : Number(searchParams.get('page'))
+
+  // useQuery -> Hook de react-query que se encarga de realizar la petición al servidor
+  const { data: employees, isLoading, error } = useQuery({
+    queryKey: ['employees', page, searchName, searchLastName, status],
+    queryFn: () => getEmployees({ searchName, searchLastName, status, page }),
+  })
+
+  const pageCount = Math.ceil((employees?.pagination.totalEmployees || 0) / 10)
+
+  // PREFETCH -> CARGA DE DATOS DE FORMA ASINCRONA 
+  if (page < pageCount) {
+    queryClient.prefetchQuery({
+      queryKey: ['employees', page + 1, searchName, searchLastName, status],
+      queryFn: () => getEmployees({ searchName, searchLastName, status, page: page + 1 }),
+    })
+  }
+  if (page > 1) {
+    queryClient.prefetchQuery({
+      queryKey: ['employees', page - 1, searchName, searchLastName, status],
+      queryFn: () => getEmployees({ searchName, searchLastName, status, page: page - 1 }),
+    })
+  }
+  return { employees, isLoading, error, pageCount }
+}

@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { registerUser } from '@/services/apiAuth';
 import { EmployeeFormData } from '@/types/employee';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 export default function EmployeeForm() {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
-
+    const queryClient = useQueryClient();
     const initialValue: EmployeeFormData = {
         names: '',
         last_name: '',
@@ -41,6 +41,7 @@ export default function EmployeeForm() {
             toast.error(error.message);
         },
         onSuccess(data) {
+            queryClient.invalidateQueries({ queryKey: ['employees'] });
             toast.success(data.message);
             reset();
         },

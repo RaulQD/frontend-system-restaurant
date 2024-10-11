@@ -1,4 +1,5 @@
 
-export const rols = {
-
+export type Rol = {
+  id: string;
+  name: string;
 }
