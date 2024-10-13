@@ -10,6 +10,7 @@ type FilterButtonProps<T> = {
     queryFn: () => Promise<T[]>;
     getLabel: (item: T) => string;
     getValue: (item: T) => string;
+    showAllButton?: boolean;
 };
 
 export default function FilterButton<T>({
@@ -18,6 +19,7 @@ export default function FilterButton<T>({
     queryFn,
     getLabel,
     getValue,
+    showAllButton = false,
 }: FilterButtonProps<T>) {
     const [searchParams, setSearchParams] = useSearchParams();
     const currentFilterValue = searchParams.get(filterValue) || '';
@@ -35,6 +37,25 @@ export default function FilterButton<T>({
     return (
         <div>
             <ul className='flex items-center justify-center gap-4'>
+                {/* Botón "Todos" */}
+                {showAllButton && (
+                    <li>
+                        <Button
+                            variant={
+                                currentFilterValue === ''
+                                    ? 'principal'
+                                    : 'outline'
+                            }
+                            className='capitalize'
+                            onClick={() => {
+                                searchParams.delete(filterValue); // Elimina el filtro para mostrar todos
+                                setSearchParams(searchParams);
+                            }}>
+                            Todos
+                        </Button>
+                    </li>
+                )}
+
                 {Array.isArray(items) &&
                     items?.map((item) => (
                         <li key={getValue(item)}>

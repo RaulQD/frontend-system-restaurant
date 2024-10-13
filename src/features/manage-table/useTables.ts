@@ -5,8 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useTables = (room: string) => {
 
-
-
   const { data: tables, isLoading, isError, error } = useQuery<Tables[]>({
     queryKey: ['getTablesByRoomName', room],
     queryFn: () => getTablesByRoomName(room),

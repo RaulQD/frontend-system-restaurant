@@ -7,6 +7,7 @@ import ManageTable from './pages/ManageTable';
 import Dishes from './pages/Dishes';
 import AdminPanel from './pages/AdminPanel';
 import AddEmployee from './features/admin-personal/AddEmployee';
+import AddDishes from './features/dishes/AddDishes';
 
 export default function AppRoutes() {
     return (
@@ -19,8 +20,15 @@ export default function AppRoutes() {
                         element={<ManageTable />}
                     />
                     <Route path='dashboard/dishes' element={<Dishes />} />
+                    <Route
+                        path='dashboard/dishes/add-dishes'
+                        element={<AddDishes />}
+                    />
                     <Route path='dashboard/personal' element={<AdminPanel />} />
-                    <Route path='dashboard/personal-register' element={<AddEmployee />}/>
+                    <Route
+                        path='dashboard/personal-register'
+                        element={<AddEmployee />}
+                    />
                 </Route>
                 <Route path='/auth/' element={<AuthLayout />}>
                     <Route path='login' element={<Login />} />

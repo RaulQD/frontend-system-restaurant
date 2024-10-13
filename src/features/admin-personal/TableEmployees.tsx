@@ -11,7 +11,6 @@ import { formatCurrency } from '../../utils/index';
 import Spinner from '@/components/Spinner';
 import { Badge } from '@/components/ui/badge';
 import { BiDotsVertical } from 'react-icons/bi';
-import { Button } from '@/components/ui/button';
 
 export default function TableEmployees() {
     const { employees, isLoading, error } = useEmployees();

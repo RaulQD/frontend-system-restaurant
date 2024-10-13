@@ -7,13 +7,12 @@ import { Separator } from '@/components/ui/separator';
 import { registerUser } from '@/services/apiAuth';
 import { EmployeeFormData } from '@/types/employee';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 export default function EmployeeForm() {
-    const [showPassword, setShowPassword] = useState(false);
+    // const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const initialValue: EmployeeFormData = {
@@ -49,6 +48,9 @@ export default function EmployeeForm() {
 
     const onSubmit = (data: EmployeeFormData) => {
         mutate(data);
+        navigate('/admin/dashboard/personal');
+    };
+    const redirectToEmployees = () => {
         navigate('/admin/dashboard/personal');
     };
     return (
@@ -396,8 +398,9 @@ export default function EmployeeForm() {
                                     Contraseña
                                 </Label>
                                 <Input
-                                    type={showPassword ? 'text' : 'password'}
+                                    type='password'
                                     placeholder='**********'
+                                    id='password'
                                     className='mt-2'
                                     register={register('password', {
                                         required:
@@ -414,17 +417,15 @@ export default function EmployeeForm() {
                                         {errors.password.message}
                                     </ErrorMessage>
                                 )}
-                                <Input
-                                    type='checkbox'
-                                    onChange={() =>
-                                        setShowPassword(!showPassword)
-                                    }
-                                />
                             </div>
                         </div>
                     </div>
                     <div className='flex items-center justify-end gap-4'>
-                        <Button variant={'outline'}>Cancelar</Button>
+                        <Button
+                            variant={'outline'}
+                            onClick={redirectToEmployees}>
+                            Cancelar
+                        </Button>
                         <Button type='submit' variant={'principal'}>
                             Guardar
                         </Button>
