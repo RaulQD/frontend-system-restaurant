@@ -5,7 +5,7 @@ export type Dish = {
   dish_name: string;
   dish_description: string;
   price: number;
-  available: boolean;
+  available: string;
   category: string;
 }
 
@@ -14,7 +14,8 @@ export type DishesType = {
   dishes_name: string;
   dishes_description: string;
   price: number;
-  available: boolean;
+  available: string;
+  image_url?: string;
   category: Category;
 }
 

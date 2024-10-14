@@ -11,6 +11,7 @@ import { formatCurrency } from '../../utils/index';
 import Spinner from '@/components/Spinner';
 import { Badge } from '@/components/ui/badge';
 import { BiDotsVertical } from 'react-icons/bi';
+import NoImage from '@/assets/not-image-found.png';
 
 export default function TableEmployees() {
     const { employees, isLoading, error } = useEmployees();
@@ -23,12 +24,10 @@ export default function TableEmployees() {
         );
     }
 
-    if (employees?.result.length === 0) {
+    if (!employees?.result.length) {
         return (
             <div className='flex justify-center items-center h-96'>
-                <p className='text-2xl font-semibold text-gray-500'>
-                    No se encontraron empleados
-                </p>
+                <p className='text-lg text-gay-500'>{error?.message}</p>
             </div>
         );
     }
@@ -76,6 +75,7 @@ export default function TableEmployees() {
                     <TableHeader className='bg-slate-200'>
                         <TableRow>
                             <TableHead className='w-[300px]'>ID</TableHead>
+                            <TableHead>Foto</TableHead>
                             <TableHead>Nombres</TableHead>
                             <TableHead>Apellidos</TableHead>
                             <TableHead>Salary</TableHead>
@@ -92,6 +92,16 @@ export default function TableEmployees() {
                             <TableRow key={employee.id}>
                                 <TableCell className='font-medium'>
                                     {employee.id}
+                                </TableCell>
+                                <TableCell>
+                                    <img
+                                        src={
+                                            employee?.profile_picture_url ||
+                                            NoImage
+                                        }
+                                        alt={employee.names}
+                                        className='w-10 h-10 rounded-full'
+                                    />
                                 </TableCell>
                                 <TableCell>{employee.names}</TableCell>
                                 <TableCell>{employee.last_name}</TableCell>

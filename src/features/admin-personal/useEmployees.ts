@@ -21,9 +21,10 @@ export const useEmployees = () => {
   const page = !searchParams.get('page') ? 1 : Number(searchParams.get('page'))
 
   // useQuery -> Hook de react-query que se encarga de realizar la petición al servidor
-  const { data: employees, isLoading, error } = useQuery({
+  const { data: employees, isLoading, isError, error } = useQuery({
     queryKey: ['employees', page, keyword, status],
     queryFn: () => getEmployees({ keyword, status, page }),
+    retry: false,
   })
 
   const pageCount = Math.ceil((employees?.pagination.totalEmployees || 0) / 10)
@@ -41,5 +42,5 @@ export const useEmployees = () => {
       queryFn: () => getEmployees({ keyword, status, page: page - 1 }),
     })
   }
-  return { employees, isLoading, error, pageCount }
+  return { employees, isLoading, isError, error, pageCount }
 }

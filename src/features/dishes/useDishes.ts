@@ -21,6 +21,7 @@ export const useDishes = () => {
   const { data: dishes, isLoading: isLoadingDishes, isError: isErrorDishes, error } = useQuery({
     queryKey: ['dishes', keyword, category, page],
     queryFn: () => getDishes({ keyword, category, page }),
+    retry: false,
   })
   const pageCount = Math.ceil((dishes?.pagination.totalDishes || 0) / 10)
 

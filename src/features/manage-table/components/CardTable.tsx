@@ -9,7 +9,9 @@ type CardTableProps = {
 
 export default function CardTable({ table }: CardTableProps) {
     return (
-        <Card className='bg-blue-100 '>
+        <Card
+            className='bg-blue-100 '
+            onClick={() => console.log('creando orden')}>
             <CardHeader>
                 <CardTitle className='text-blue-500 font-normal font-outfit'>
                     Mesa #{table.num_table}

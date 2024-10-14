@@ -22,6 +22,7 @@ export type EmployeeList = {
   last_name: string;
   salary: number;
   hire_date: Date;
+  profile_picture_url?: string;
   role: Rol;
   status: string;
 }

@@ -8,7 +8,6 @@ import { isAxiosError } from "axios";
 export const authenticatedUser = async (dataForm: LoginDataForm) => {
   try {
     const { data } = await api.post<LoginResponse>('/auth/login', dataForm)
-    console.log(data)
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response)

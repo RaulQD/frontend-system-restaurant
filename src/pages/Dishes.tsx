@@ -1,8 +1,6 @@
-import FilterButton from '@/components/FilterButton';
+import Filter from '@/components/Filter';
 import { Button } from '@/components/ui/button';
 import TableDishes from '@/features/dishes/TableDishes';
-import { getCategories } from '@/services/appCategory';
-import { Category } from '@/types/category';
 import { BiPlus } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,20 +28,7 @@ export default function Dishes() {
                 </Button>
             </div>
             <div className='mt-14'>
-                <div className='flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between'>
-                    <FilterButton<Category>
-                        filterValue='category'
-                        queryKey={['category']}
-                        queryFn={getCategories}
-                        getValue={(category) => category.category_name}
-                        getLabel={(category) => category.category_name}
-                        showAllButton={true}
-                    />
-                    {/* <div className='flex items-center justify-end gap-2'>
-                        <FilterInput filterValue='keyword' />
-                        <SortBy />
-                    </div> */}
-                </div>
+                <Filter />
             </div>
             <TableDishes />
         </section>
