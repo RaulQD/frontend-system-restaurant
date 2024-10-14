@@ -1,3 +1,5 @@
+import DishesForm from './DishesForm';
+
 export default function AddDishes() {
-    return <div>AddDishes</div>;
+    return <DishesForm />;
 }
