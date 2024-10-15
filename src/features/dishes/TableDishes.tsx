@@ -86,9 +86,7 @@ export default function TableDishes() {
                                             {dish.available}
                                         </Badge>
                                     ) : (
-                                        <Badge
-                                            variant='destructive'
-                                            className='text-white font-bold'>
+                                        <Badge variant='destructive'>
                                             {dish.available}
                                         </Badge>
                                     )}

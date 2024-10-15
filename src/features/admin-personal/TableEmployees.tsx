@@ -12,6 +12,7 @@ import Spinner from '@/components/Spinner';
 import { Badge } from '@/components/ui/badge';
 import { BiDotsVertical } from 'react-icons/bi';
 import NoImage from '@/assets/not-image-found.png';
+import PaginationI from '@/components/PaginationI';
 
 export default function TableEmployees() {
     const { employees, isLoading, error } = useEmployees();
@@ -131,6 +132,9 @@ export default function TableEmployees() {
                         ))}
                     </TableBody>
                 </Table>
+                <PaginationI
+                    totalItems={employees?.pagination.totalEmployees || 0}
+                />
             </div>
         </div>
     );
