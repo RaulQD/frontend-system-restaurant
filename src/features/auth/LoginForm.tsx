@@ -2,11 +2,10 @@ import { ErrorMessage } from '@/components/ErrorMessage';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { authenticatedUser } from '@/services/apiAuth';
 import { LoginDataForm } from '@/types/auth';
-import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import { useLogin } from './useLogin';
+import SpinnerMini from '@/components/SpinnerMini';
 
 export default function LoginForm() {
     const initialValues: LoginDataForm = {
@@ -18,23 +17,18 @@ export default function LoginForm() {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm({
         defaultValues: initialValues,
     });
-    const mutation = useMutation({
-        mutationFn: authenticatedUser,
-        onError: (error) => {
-            toast.error(error.message);
-        },
-        onSuccess: (data) => {
-            toast.success('Bienvenido');
-            localStorage.setItem('AUTHENTICATION', JSON.stringify(data));
-            // localStorage.setItem('USER', JSON.stringify(data?.user));
-        },
-    });
+    const { login, isPending } = useLogin();
 
     const onSubmit = (data: LoginDataForm) => {
-        mutation.mutate(data);
+        login(data, {
+            onSuccess: () => {
+                reset();
+            },
+        });
     };
 
     return (
@@ -53,7 +47,7 @@ export default function LoginForm() {
                                 autoComplete='off'
                                 placeholder='usuario'
                                 register={register('username', {
-                                    required: 'El usuario es requerido',
+                                    required: 'El usuario es requerido.',
                                 })}
                             />
                             {errors.username && (
@@ -74,7 +68,7 @@ export default function LoginForm() {
                                 autoComplete='off'
                                 placeholder='*********'
                                 register={register('password', {
-                                    required: 'La contraseña es requerida',
+                                    required: 'La contraseña es requerida.',
                                     minLength: {
                                         value: 8,
                                         message:
@@ -107,9 +101,17 @@ export default function LoginForm() {
                         <Button
                             type='submit'
                             variant={'principal'}
+                            disabled={isPending}
                             className='w-[400px] lg:w-full text-base'
                             size={'lg'}>
-                            Iniciar Sesión
+                            {!isPending ? (
+                                'Iniciar Sesión'
+                            ) : (
+                                <div className='flex items-center justify-center'>
+                                    {' '}
+                                    <SpinnerMini />
+                                </div>
+                            )}
                         </Button>
                     </div>
                 </form>

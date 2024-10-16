@@ -1,13 +1,6 @@
-import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from '@/components/ui/pagination';
 import { useSearchParams } from 'react-router-dom';
+import { Button } from './ui/button';
+import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 type PaginationProps = {
     totalItems: number;
 };
@@ -42,32 +35,22 @@ export default function PaginationI({ totalItems }: PaginationProps) {
                         ? totalItems
                         : currentPage * itemsPerPage}
                 </span>{' '}
-                of <span>{totalItems}</span> resultados
+                de <span>{totalItems}</span> resultados
             </span>
-            <Pagination>
-                <PaginationContent>
-                    <PaginationItem>
-                        <PaginationPrevious href='#' />
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationLink href='#'>1</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationLink href='#' isActive>
-                            2
-                        </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationLink href='#'>3</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationEllipsis />
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationNext href='#' />
-                    </PaginationItem>
-                </PaginationContent>
-            </Pagination>
+            <div className='flex space-x-2'>
+                <Button
+                    variant='outline'
+                    onClick={prevPage}
+                    disabled={currentPage === 1}>
+                    <BiChevronLeft className='text-xl' />
+                </Button>
+                <Button
+                    variant='outline'
+                    onClick={nextPage}
+                    disabled={currentPage === pageCount}>
+                    <BiChevronRight className='text-xl' />
+                </Button>
+            </div>
         </div>
     );
 }

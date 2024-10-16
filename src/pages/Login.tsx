@@ -15,15 +15,15 @@ export default function Login() {
                     </div>
                     <div className='border-b-2'></div>
                     <div className='flex min-h-full flex-1 flex-col justify-center px-8 pt-5 pb-10'>
-                        {/* <div className='sm:mx-auto sm:w-full sm:max-w-sm text-center font-poppins'>
+                        <div className='sm:mx-auto sm:w-full sm:max-w-sm text-center font-poppins'>
                             <h2 className=' mt-4 text-center text-base md:text-xl font-semibold leading-9 tracking-tight text-gray-900 mb-2'>
                                 ¡Bienvenido a Foodie Hub!
                             </h2>
-                            <p className='font-normal text-sm'>
+                            {/* <p className='font-normal text-sm'>
                                 Ingresa tu usuario y contraseña para <br />
                                 iniciar sesión
-                            </p>
-                        </div> */}
+                            </p> */}
+                        </div>
                         <LoginForm />
                         <div className='flex justify-center items-center gap-2 mt-3'>
                             <Button
