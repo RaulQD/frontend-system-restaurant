@@ -1,11 +1,20 @@
 import Filter from '@/components/Filter';
+import ResponsiveDialog from '@/components/ResponsiveDialog';
 import { Button } from '@/components/ui/button';
+import DishesForm from '@/features/dishes/DishesForm';
 import TableDishes from '@/features/dishes/TableDishes';
+import { useState } from 'react';
 import { BiPlus } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 
 export default function Dishes() {
     const navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleOpenModal = () => {
+        setIsOpen(true);
+    };
+
     return (
         <section>
             <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-4'>
@@ -20,9 +29,8 @@ export default function Dishes() {
                 </div>
                 <Button
                     variant={'principal'}
-                    onClick={() =>
-                        navigate('/admin/dashboard/dishes/add-dishes')
-                    }>
+                    // onClick={() =>navigate('/admin/dashboard/dishes/add-dishes')}
+                    onClick={handleOpenModal}>
                     <BiPlus className='mr-1 text-xl text-white' />
                     Agregar plato
                 </Button>
@@ -31,6 +39,13 @@ export default function Dishes() {
                 <Filter />
             </div>
             <TableDishes />
+            <ResponsiveDialog
+                title='Agregar plato'
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                description='Agrega un plato al menú de tu restaurante'>
+                <DishesForm />
+            </ResponsiveDialog>
         </section>
     );
 }

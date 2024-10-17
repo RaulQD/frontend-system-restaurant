@@ -11,7 +11,7 @@ export default function AddEmployee() {
                     <BiChevronRight />
                     <span>Platos</span>
                     <BiChevronRight />
-                    <span>Crear Platos</span>
+                    <span>Crear Empleados</span>
                 </div>
             </div>
             <div className='flex items-center justify-center'>

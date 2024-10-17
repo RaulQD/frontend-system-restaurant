@@ -18,3 +18,18 @@ export const getDishes = async ({ page, category, keyword }: GetDishesAPIType) =
     }
   }
 }
+
+export const createDish = async (formData: FormData) => {
+  try {
+    const { data } = await api.post('/dishes', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message)
+    }
+  }
+}
