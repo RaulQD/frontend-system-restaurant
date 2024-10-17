@@ -1,8 +1,6 @@
 import LogoIcon from '../assets/logo-icon.svg';
 import { BiMenu, BiX } from 'react-icons/bi';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useQuery } from '@tanstack/react-query';
-import { getAuthenticatedUser } from '@/services/apiAuth';
 
 type NavbarProps = {
     sidebarOpen: boolean;
@@ -10,14 +8,14 @@ type NavbarProps = {
 };
 
 export default function Navbar({ sidebarOpen, setSidebarOpen }: NavbarProps) {
-    const { data, isLoading } = useQuery({
+    /*const { data, isLoading } = useQuery({
         queryKey: ['user'],
         queryFn: getAuthenticatedUser,
         enabled: !!localStorage.getItem('token'), // Solo se ejecuta si hay un token
     });
 
     console.log(isLoading);
-    console.log(data);
+    console.log(data);*/
     return (
         <nav className='bg-white border-b border-gray-200 fixed z-30 w-full'>
             <div className='px-3 py-3 lg:px-5 lg:pl-3'>

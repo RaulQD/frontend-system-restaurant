@@ -12,6 +12,7 @@ export type EmployeeQueryParams = {
 export const getEmployees = async ({ keyword, status, page }: EmployeeQueryParams) => {
   try {
     const { data } = await api.get<EmployeeResponse>('/employees', { params: { keyword, status, page } })
+    console.log(data);
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {
