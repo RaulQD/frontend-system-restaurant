@@ -4,35 +4,34 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 import { Separator } from '@/components/ui/separator';
-import { createDish } from '@/services/apiDishes';
 import { getCategories } from '@/services/appCategory';
 import { Category } from '@/types/category';
 import { DishesFormData } from '@/types/dish';
-import { UploadIcon } from '@radix-ui/react-icons';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { Cross2Icon, UploadIcon } from '@radix-ui/react-icons';
+import { useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { BiUpload } from 'react-icons/bi';
+import { useAddDishes } from './useAddDishes';
+import SpinnerMini from '@/components/SpinnerMini';
+import { useState } from 'react';
 
-export default function DishesForm() {
+type DishesFormProps = {
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function DishesForm({ setIsOpen }: DishesFormProps) {
     const { data: category } = useQuery<Category[]>({
         queryKey: ['category'],
         queryFn: getCategories,
     });
-
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm<DishesFormData>();
-    const { mutate } = useMutation({
-        mutationFn: createDish,
-        onError: (error) => {
-            console.log(error.message);
-        },
-        onSuccess: (data) => {
-            console.log(data, 'plato creado');
-        },
-    });
+    const { addDish, isPendingDishes } = useAddDishes();
 
     const onSubmit = (data: DishesFormData) => {
         const formData = new FormData();
@@ -42,11 +41,31 @@ export default function DishesForm() {
         formData.append('category_name', data.category_name);
 
         //AÑADIR LA IMAGEN SELECCIONADA
-        if (data.image_url && data.image_url.length > 0) {
+        if (data.image_url && data.image_url[0]) {
             formData.append('image_url', data.image_url[0]);
+        } else {
+            console.error('No se ha seleccionado ninguna imagen');
+            return;
         }
-        console.log(formData);
-        console.log(data);
+        console.log(data.image_url);
+        addDish(formData, {
+            onSuccess: () => {
+                reset();
+                setIsOpen(false);
+                setSelectedImage(null);
+            },
+        });
+    };
+    //Función para manejar el cambio de la imagen seleccionada y mostrarla en la vista previa
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]; // Acceder al primer archivo del FileList
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setSelectedImage(reader.result as string); // Establecer la URL de datos
+            };
+            reader.readAsDataURL(file); // Leer el archivo como URL de datos
+        }
     };
 
     return (
@@ -56,21 +75,43 @@ export default function DishesForm() {
                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 my-5 font-outfit'>
                     <div className='w-full col-span-3 row-span-2'>
                         <div className='border-2 border-dashed rounded-lg p-4 '>
-                            <Label
-                                htmlFor='image_url'
-                                className='flex flex-col items-center justify-center h-40 cursor-pointer'>
-                                <UploadIcon className='w-10 h-10 text-muted-foreground mb-2' />
-                                <span>Click para subir la imagen</span>
-                            </Label>
-                            <Input
-                                type='file'
-                                id='image_url'
-                                className='hidden'
-                                {...register('image_url', {
-                                    required: 'Sube una imagen del plato.',
-                                })}
-                            />
+                            {selectedImage ? (
+                                <div className='relative'>
+                                    <img
+                                        src={selectedImage}
+                                        alt='Imagen seleccionada'
+                                        className='w-full h-auto rounded-lg'
+                                    />
+                                    {/* Opción para eliminar la imagen seleccionada */}
+                                    <button
+                                        type='button'
+                                        className='mt-2 absolute top-2 right-2 bg-white rounded-full p-1'
+                                        onClick={() => setSelectedImage(null)}>
+                                        <Cross2Icon className='w-5 h-5' />
+                                    </button>
+                                </div>
+                            ) : (
+                                <>
+                                    <Label
+                                        htmlFor='image_url'
+                                        className='flex flex-col items-center justify-center h-40 cursor-pointer'>
+                                        <UploadIcon className='w-10 h-10 text-muted-foreground mb-2' />
+                                        <span>Click para subir la imagen</span>
+                                    </Label>
+                                    <Input
+                                        type='file'
+                                        id='image_url'
+                                        className='hidden'
+                                        {...register('image_url', {
+                                            required:
+                                                'Sube una imagen del plato.',
+                                            onChange: handleImageChange,
+                                        })}
+                                    />
+                                </>
+                            )}
                         </div>
+
                         {errors.image_url && (
                             <ErrorMessage>
                                 {errors.image_url.message}
@@ -151,6 +192,7 @@ export default function DishesForm() {
                                 valueAsNumber: true,
                             })}
                         />
+                        <div className=''>{}</div>
                         {errors.price && (
                             <ErrorMessage>{errors.price.message}</ErrorMessage>
                         )}
@@ -165,7 +207,7 @@ export default function DishesForm() {
                             })}>
                             <option value=''>Selecciona una categoria</option>
                             {category?.map((cat) => (
-                                <option key={cat.id} value={cat.id}>
+                                <option key={cat.id} value={cat.category_name}>
                                     {cat.category_name}
                                 </option>
                             ))}
@@ -181,7 +223,13 @@ export default function DishesForm() {
                 <div className='flex items-center justify-end'>
                     <Button variant={'principal'}>
                         <BiUpload className='mr-2' />
-                        Guardar
+                        {isPendingDishes ? (
+                            <div className='flex justify-center'>
+                                <SpinnerMini />
+                            </div>
+                        ) : (
+                            'Agregar plato'
+                        )}
                     </Button>
                 </div>
             </form>

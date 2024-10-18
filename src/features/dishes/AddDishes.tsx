@@ -1,5 +1,4 @@
 import { BiChevronRight } from 'react-icons/bi';
-import DishesForm from './DishesForm';
 
 export default function AddDishes() {
     return (
@@ -13,9 +12,6 @@ export default function AddDishes() {
                     <BiChevronRight />
                     <span>Crear Platos</span>
                 </div>
-            </div>
-            <div className=''>
-                <DishesForm />
             </div>
         </section>
     );

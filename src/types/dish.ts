@@ -1,15 +1,18 @@
 import { Category } from "./category";
 
-export type Dish = {
+export type DishType = {
   id: string;
   dishes_name: string;
   dishes_description: string;
   price: number;
   available: string;
-  image_url?: FileList;
+  image_url: FileList | null;
   category_name: string;
 }
-export type DishesFormData = Pick<Dish, 'dishes_name' | 'dishes_description' | 'price' | 'image_url' | 'category_name'>
+
+
+
+export type DishesFormData = Pick<DishType, 'dishes_name' | 'dishes_description' | 'price' | 'image_url' | 'category_name'>
 
 export type DishesType = {
   id: string;

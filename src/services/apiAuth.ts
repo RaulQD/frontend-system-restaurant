@@ -1,6 +1,5 @@
 import api from "@/lib/axios";
 import { LoginDataForm, LoginResponse } from "@/types/auth";
-import { EmployeeFormData } from "@/types/employee";
 import { isAxiosError } from "axios";
 
 
@@ -16,9 +15,13 @@ export const authenticatedUser = async (dataForm: LoginDataForm) => {
   }
 }
 
-export const registerUser = async (dataForm: EmployeeFormData) => {
+export const registerUser = async (formData: FormData) => {
   try {
-    const { data } = await api.post('/auth/account', dataForm)
+    const { data } = await api.post('/auth/account', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response)

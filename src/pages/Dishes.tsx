@@ -5,10 +5,8 @@ import DishesForm from '@/features/dishes/DishesForm';
 import TableDishes from '@/features/dishes/TableDishes';
 import { useState } from 'react';
 import { BiPlus } from 'react-icons/bi';
-import { useNavigate } from 'react-router-dom';
 
 export default function Dishes() {
-    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpenModal = () => {
@@ -44,7 +42,7 @@ export default function Dishes() {
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
                 description='Agrega un plato al menú de tu restaurante'>
-                <DishesForm />
+                <DishesForm setIsOpen={setIsOpen} />
             </ResponsiveDialog>
         </section>
     );

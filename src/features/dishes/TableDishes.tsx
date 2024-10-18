@@ -19,6 +19,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import NoImage from '@/assets/not-image-found.png';
+import PaginationI from '@/components/PaginationI';
 
 export default function TableDishes() {
     const { dishes, isLoadingDishes, error } = useDishes();
@@ -39,7 +40,7 @@ export default function TableDishes() {
         );
     }
     return (
-        <div className='rounded-md border mt-6'>
+        <div className='mt-6'>
             <div className='overflow-x-auto shadow-sm ring-1 ring-black ring-opacity-5 md:rounded-lg'>
                 <Table className='w-full divide-y divide-gray-300'>
                     <TableHeader className='bg-slate-200'>
@@ -123,6 +124,7 @@ export default function TableDishes() {
                     </TableBody>
                 </Table>
             </div>
+            <PaginationI totalItems={dishes?.pagination.totalDishes || 0} />
         </div>
     );
 }

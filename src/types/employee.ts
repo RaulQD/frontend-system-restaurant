@@ -27,7 +27,7 @@ export type EmployeeList = {
   status: string;
 }
 
-export type EmployeeFormData = Pick<Employee, 'dni' | 'username' | 'password' | 'phone' | 'email' | 'address' | 'names' | 'last_name' | 'salary' | 'hire_date' | 'role_name'>
+export type EmployeeFormData = Pick<Employee, 'dni' | 'username' | 'password' | 'phone' | 'email' | 'address' | 'names' | 'last_name' | 'salary' | 'profile_picture_url' | 'hire_date' | 'role_name'>
 export type Picture = Pick<Employee, 'profile_picture_url'>
 
 

@@ -1,15 +1,22 @@
 import FilterButtonStatus from '@/components/FilterButtonStatus';
 import FilterInput from '@/components/FilterInput';
+import ResponsiveDialog from '@/components/ResponsiveDialog';
 import SortBy from '@/components/SortBy';
 import { Button } from '@/components/ui/button';
+import EmployeeForm from '@/features/admin-personal/EmployeeForm';
 
 import TableEmployees from '@/features/admin-personal/TableEmployees';
+import { useState } from 'react';
 
 import { BiPlus } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 
 export default function AdminPanel() {
     const navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState(false);
+    const handleOpenModal = () => {
+        setIsOpen(true);
+    };
 
     return (
         <section className=''>
@@ -41,6 +48,13 @@ export default function AdminPanel() {
                 </div>
             </div>
             <TableEmployees />
+            {/* <ResponsiveDialog
+                title='Agregar empleado'
+                description='Agrega un empleado a tu restaurante'
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}>
+                <EmployeeForm setIsOpen={setIsOpen} />
+            </ResponsiveDialog> */}
         </section>
     );
 }
