@@ -11,7 +11,7 @@ export type Employee = {
   phone: string;
   address: string;
   salary?: number;
-  profile_picture_url?: string;
+  profile_picture_url?: FileList | null;
   hire_date?: Date;
   status: string;
   role_name: string;
@@ -28,8 +28,7 @@ export type EmployeeList = {
 }
 
 export type EmployeeFormData = Pick<Employee, 'dni' | 'username' | 'password' | 'phone' | 'email' | 'address' | 'names' | 'last_name' | 'salary' | 'profile_picture_url' | 'hire_date' | 'role_name'>
-export type Picture = Pick<Employee, 'profile_picture_url'>
-
+export type EmployeeProfile = Pick<EmployeeList, 'names' | 'last_name' | 'profile_picture_url' | 'role'>
 
 export type PaginationResponse = {
   currentPage: number;

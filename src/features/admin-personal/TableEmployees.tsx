@@ -10,7 +10,6 @@ import { useEmployees } from './useEmployees';
 import { formatCurrency } from '../../utils/index';
 import Spinner from '@/components/Spinner';
 import { Badge } from '@/components/ui/badge';
-import { BiDotsVertical } from 'react-icons/bi';
 import NoImage from '@/assets/not-image-found.png';
 import PaginationI from '@/components/PaginationI';
 import {

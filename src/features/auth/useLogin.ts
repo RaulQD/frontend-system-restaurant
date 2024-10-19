@@ -15,7 +15,7 @@ export const useLogin = () => {
     },
     onSuccess: (data) => {
       //MOSTRAR EL PRIMER NOMBRE Y APELLIDO DEL USUARIO
-      const fullName = data?.data.full_name;
+      const fullName = data?.full_name;
       const nameParts = fullName?.split(' ');
       const firstName = nameParts![0]
       const lastName = nameParts![2]

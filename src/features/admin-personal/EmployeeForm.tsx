@@ -4,57 +4,28 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 import { Separator } from '@/components/ui/separator';
-import { registerUser } from '@/services/apiAuth';
 import { EmployeeFormData } from '@/types/employee';
-import { UploadIcon } from '@radix-ui/react-icons';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Cross2Icon, UploadIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useCreateEmployee } from './useCreateEmployee';
 
 type EmployeeFormProps = {
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function EmployeeForm({ setIsOpen }: EmployeeFormProps) {
-    // const [showPassword, setShowPassword] = useState(false);
-
     const navigate = useNavigate();
-    const queryClient = useQueryClient();
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const initialValue: EmployeeFormData = {
-        names: '',
-        last_name: '',
-        dni: '',
-        email: '',
-        phone: '',
-        address: '',
-        salary: undefined,
-        hire_date: undefined,
-        role_name: '',
-        username: '',
-        password: '',
-    };
+
     const {
         register,
         handleSubmit,
         formState: { errors },
-        watch,
         reset,
-    } = useForm({ defaultValues: initialValue });
-    const { mutate } = useMutation({
-        mutationFn: registerUser,
-        onError(error) {
-            toast.error(error.message);
-        },
-        onSuccess(data) {
-            queryClient.invalidateQueries({ queryKey: ['employees'] });
-            toast.success(data.message);
-            reset();
-        },
-    });
-
+    } = useForm<EmployeeFormData>();
+    const { createEmployee } = useCreateEmployee();
     const onSubmit = (data: EmployeeFormData) => {
         const formData = new FormData();
         formData.append('names', data.names);
@@ -76,11 +47,13 @@ export default function EmployeeForm({ setIsOpen }: EmployeeFormProps) {
         formData.append('username', data.username);
         formData.append('password', data.password);
 
-        mutate(formData);
+        createEmployee(formData, {
+            onSuccess: () => {
+                reset();
+            },
+        });
     };
-    const watchedValues = watch();
-    console.log(watchedValues.profile_picture_url);
-    console.log(watchedValues);
+
     //Función para manejar el cambio de la imagen seleccionada y mostrarla en la vista previa
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]; // Acceder al primer archivo del FileList
@@ -97,7 +70,6 @@ export default function EmployeeForm({ setIsOpen }: EmployeeFormProps) {
     };
     return (
         <>
-            <pre>{JSON.stringify(watchedValues, null, 2)}</pre>
             <div className='w-full lg:w-3/4'>
                 <div className=''>
                     <h1 className='font-outfit text-xl font-medium'>
@@ -113,22 +85,49 @@ export default function EmployeeForm({ setIsOpen }: EmployeeFormProps) {
                         <div className='grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 mt-5'>
                             <div className='col-span-2'>
                                 <div className='border-2 border-dashed rounded-lg p-8 '>
-                                    <Label
-                                        htmlFor='image_url'
-                                        className='flex flex-col items-center justify-center h-40 cursor-pointer'>
-                                        <UploadIcon className='w-10 h-10 text-muted-foreground mb-2' />
-                                        <span>Click para subir la imagen</span>
-                                    </Label>
-                                    <Input
-                                        type='file'
-                                        id='image_url'
-                                        className='hidden'
-                                        {...register('profile_picture_url', {
-                                            required:
-                                                'Sube una imagen del plato.',
-                                            onChange: handleImageChange,
-                                        })}
-                                    />
+                                    {selectedImage ? (
+                                        <div className='relative'>
+                                            <img
+                                                src={selectedImage}
+                                                alt='Imagen seleccionada'
+                                                className='w-full h-auto rounded-lg'
+                                            />
+                                            {/* Opción para eliminar la imagen seleccionada */}
+                                            <button
+                                                type='button'
+                                                className='mt-2 absolute top-2 right-2 bg-white rounded-full p-1'
+                                                onClick={() =>
+                                                    setSelectedImage(null)
+                                                }>
+                                                <Cross2Icon className='w-5 h-5' />
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <Label
+                                                htmlFor='image_url'
+                                                className='flex flex-col items-center justify-center h-40 cursor-pointer'>
+                                                <UploadIcon className='w-10 h-10 text-muted-foreground mb-2' />
+                                                <span>
+                                                    Click para subir la imagen
+                                                </span>
+                                            </Label>
+                                            <Input
+                                                type='file'
+                                                id='image_url'
+                                                className='hidden'
+                                                {...register(
+                                                    'profile_picture_url',
+                                                    {
+                                                        required:
+                                                            'Sube una imagen del plato.',
+                                                        onChange:
+                                                            handleImageChange,
+                                                    }
+                                                )}
+                                            />
+                                        </>
+                                    )}
                                 </div>
                                 {errors.profile_picture_url && (
                                     <ErrorMessage>
