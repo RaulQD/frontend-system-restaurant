@@ -13,6 +13,18 @@ import { Badge } from '@/components/ui/badge';
 import { BiDotsVertical } from 'react-icons/bi';
 import NoImage from '@/assets/not-image-found.png';
 import PaginationI from '@/components/PaginationI';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import {
+    DotsVerticalIcon,
+    Pencil2Icon,
+    TrashIcon,
+} from '@radix-ui/react-icons';
 
 export default function TableEmployees() {
     const { employees, isLoading, error } = useEmployees();
@@ -122,12 +134,39 @@ export default function TableEmployees() {
                                     </TableCell>
                                     <TableCell>{employee.role.name}</TableCell>
                                     <TableCell className='flex items-end justify-end'>
-                                        <BiDotsVertical
-                                            className='text-lg cursor-pointer'
-                                            onClick={() => {
-                                                console.log('clicked');
-                                            }}
-                                        />
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant='ghost'>
+                                                    <DotsVerticalIcon className='h-4 w-4 cursor-pointer ' />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent
+                                                align='end'
+                                                className='w-[160px] z-50'>
+                                                <div className='py-1'>
+                                                    <DropdownMenuItem
+                                                        className='cursor-pointer'
+                                                        onClick={() =>
+                                                            console.log(
+                                                                'editar'
+                                                            )
+                                                        }>
+                                                        <Pencil2Icon className='w-4 h-4 mr-2' />
+                                                        Editar
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem
+                                                        className='text-red-500 cursor-pointer'
+                                                        onClick={() =>
+                                                            console.log(
+                                                                'eliminar'
+                                                            )
+                                                        }>
+                                                        <TrashIcon className='w-4 h-4 mr-2' />
+                                                        Eliminar
+                                                    </DropdownMenuItem>
+                                                </div>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
                                     </TableCell>
                                 </TableRow>
                             ))}
