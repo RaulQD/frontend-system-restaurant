@@ -1,16 +1,30 @@
 import { useUser } from '@/hooks/useUser';
-import { ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import Spinner from './Spinner';
 
 type ProtectedRoutesProps = {
-    children: ReactNode;
+    allowedRoles: string[];
 };
 
-export const ProtectedRoutes = ({ children }: ProtectedRoutesProps) => {
-    const { user } = useUser();
+export const ProtectedRoutes = ({ allowedRoles }: ProtectedRoutesProps) => {
+    const { user, isLoading, isError } = useUser();
+    console.log(user);
+    const location = useLocation();
+    // 2. mientras carga el usuario, mostrar un spinner
+    if (isLoading)
+        return (
+            <div className='h-screen bg-gray-50 flex items-center justify-center'>
+                <Spinner />
+            </div>
+        );
 
-    if (!user) {
-        return <Navigate to='/auth/login' replace />;
-    }
-    return <>{children}</>;
+    if (isError || !user)
+        return <Navigate to='/auth/login' state={{ from: location }} replace />;
+
+    if (!allowedRoles.includes(user.role.name))
+        return (
+            <Navigate to='/un-authorized' state={{ from: location }} replace />
+        );
+
+    return <Outlet />;
 };

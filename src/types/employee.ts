@@ -28,7 +28,6 @@ export type EmployeeList = {
 }
 
 export type EmployeeFormData = Pick<Employee, 'dni' | 'username' | 'password' | 'phone' | 'email' | 'address' | 'names' | 'last_name' | 'salary' | 'profile_picture_url' | 'hire_date' | 'role_name'>
-export type EmployeeProfile = Pick<EmployeeList, 'names' | 'last_name' | 'profile_picture_url' | 'role'>
 
 export type PaginationResponse = {
   currentPage: number;

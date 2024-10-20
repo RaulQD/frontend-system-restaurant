@@ -8,27 +8,64 @@ import Dishes from './pages/Dishes';
 import AdminPanel from './pages/AdminPanel';
 import AddEmployee from './features/admin-personal/AddEmployee';
 import AddDishes from './features/dishes/AddDishes';
+import { ProtectedRoutes } from './components/ProtectedRoutes';
 
 export default function AppRoutes() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path='/admin/' element={<Layout />}>
-                    <Route path='dashboard' element={<Dashboard />} />
                     <Route
-                        path='dashboard/manage-tables'
-                        element={<ManageTable />}
-                    />
-                    <Route path='dashboard/dishes' element={<Dishes />} />
+                        element={
+                            <ProtectedRoutes allowedRoles={['administrador']} />
+                        }>
+                        <Route path='dashboard' element={<Dashboard />} />
+                    </Route>
                     <Route
-                        path='dashboard/dishes/add-dishes'
-                        element={<AddDishes />}
-                    />
-                    <Route path='dashboard/personal' element={<AdminPanel />} />
+                        element={
+                            <ProtectedRoutes allowedRoles={['administrador']} />
+                        }>
+                        <Route path='dashboard/dishes' element={<Dishes />} />
+                    </Route>
                     <Route
-                        path='dashboard/personal-register'
-                        element={<AddEmployee />}
-                    />
+                        element={
+                            <ProtectedRoutes allowedRoles={['administrador']} />
+                        }>
+                        <Route
+                            path='dashboard/dishes/add-dishes'
+                            element={<AddDishes />}
+                        />
+                    </Route>
+                    <Route
+                        element={
+                            <ProtectedRoutes allowedRoles={['administrador']} />
+                        }>
+                        <Route
+                            path='dashboard/personal'
+                            element={<AdminPanel />}
+                        />
+                    </Route>
+                    <Route
+                        element={
+                            <ProtectedRoutes allowedRoles={['administrador']} />
+                        }>
+                        <Route
+                            path='dashboard/personal-register'
+                            element={<AddEmployee />}
+                        />
+                    </Route>
+                    <Route
+                        element={
+                            <ProtectedRoutes allowedRoles={['administrador']} />
+                        }>
+                        <Route
+                            path='dashboard/manage-tables'
+                            element={<ManageTable />}
+                        />
+                    </Route>
+                    {/* RUTA PARA EL ADMINISTRADOR*/}
+
+                    {/*RUTAS PARA EL MESERO*/}
                 </Route>
                 <Route path='/auth/' element={<AuthLayout />}>
                     <Route path='login' element={<Login />} />

@@ -1,24 +1,27 @@
 import { getAuthenticatedUser } from "@/services/apiAuth"
 import { useQuery } from "@tanstack/react-query"
-import * as useLocalStorage from "@/utils/use.localstorage"
 import { useEffect } from "react"
 
 export const useUser = () => {
   const { data: user, isLoading, isError, error } = useQuery({
-    queryKey: ['user'],
+    queryKey: ['profile'],
     queryFn: getAuthenticatedUser,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
+    retry: false,
     refetchOnWindowFocus: false,
-    initialData: useLocalStorage.getUser,
-  })
+    refetchOnReconnect: false,
+    refetchOnMount: false,
 
+  });
+  // Manejo de errores fuera de la configuración
   useEffect(() => {
-    if (!user) {
-      useLocalStorage.removeUser()
-    } else {
-      useLocalStorage.saveUser(user)
+    if (!localStorage.getItem('token')) {
+      console.error('Token no encontrado en localStorage');
     }
-  })
-  return { user, isLoading, isError, error }
+  }, []);
+  console.log(user)
+  const isAdmin = user?.role.name === 'administrador';
+  const isWaiter = user?.role.name === 'mesero';
+  const isChef = user?.role.name === 'cocinero';
+
+  return { user, isLoading, isError, error, isAdmin, isWaiter, isChef }
 }

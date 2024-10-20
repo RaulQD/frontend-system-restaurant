@@ -102,7 +102,7 @@ export default function LoginForm() {
                             type='submit'
                             variant={'principal'}
                             disabled={isPending}
-                            className='w-[400px] lg:w-full text-base'
+                            className='w-[400px] md:w-full text-base'
                             size={'lg'}>
                             {!isPending ? (
                                 'Iniciar Sesión'

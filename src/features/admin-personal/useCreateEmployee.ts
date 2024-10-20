@@ -9,12 +9,12 @@ export const useCreateEmployee = () => {
   const { mutate: createEmployee } = useMutation({
     mutationFn: registerUser,
     onError: (error) => {
-      console.log(error)
+      toast.error(error.message)
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['employees'] })
       toast.success(data.message)
-      navigarte('/admin/personal')
+      navigarte('/admin/dashboard/personal')
     }
   })
   return { createEmployee }
