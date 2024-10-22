@@ -8,8 +8,8 @@ type ProtectedRoutesProps = {
 
 export const ProtectedRoutes = ({ allowedRoles }: ProtectedRoutesProps) => {
     const { user, isLoading, isError } = useUser();
-    console.log(user);
     const location = useLocation();
+
     // 2. mientras carga el usuario, mostrar un spinner
     if (isLoading)
         return (

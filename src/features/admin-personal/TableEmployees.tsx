@@ -21,6 +21,7 @@ import {
 import { Button } from '@/components/ui/button';
 import {
     DotsVerticalIcon,
+    EyeOpenIcon,
     Pencil2Icon,
     TrashIcon,
 } from '@radix-ui/react-icons';
@@ -152,6 +153,16 @@ export default function TableEmployees() {
                                                         }>
                                                         <Pencil2Icon className='w-4 h-4 mr-2' />
                                                         Editar
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem
+                                                        className='cursor-pointer text-yellow-600'
+                                                        onClick={() =>
+                                                            console.log(
+                                                                'ver información'
+                                                            )
+                                                        }>
+                                                        <EyeOpenIcon className='w-4 h-4 mr-2' />
+                                                        Ver
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem
                                                         className='text-red-500 cursor-pointer'

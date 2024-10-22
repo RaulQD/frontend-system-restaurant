@@ -1,4 +1,4 @@
-import { BiCart, BiSolidReport, BiUser } from 'react-icons/bi';
+import { BiCart, BiDish, BiSolidReport, BiUser } from 'react-icons/bi';
 import SidebarDropdown from './SidebarDropdown';
 import SidebarItems from './SidebarItems';
 import { RxDashboard, RxExit, RxGear } from 'react-icons/rx';
@@ -39,17 +39,10 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                     path: '/admin/dashboard/dishes',
                                     label: 'Platos',
                                 },
-                                {
-                                    path: '/admin/dashboard/dishes/add',
-                                    label: 'Añadir Platos',
-                                },
+
                                 {
                                     path: '/admin/dashboard/category',
                                     label: 'Categorias',
-                                },
-                                {
-                                    path: '/admin/dashboard/category/add',
-                                    label: 'Categoría de Platos',
                                 },
                             ]}
                         />
@@ -78,36 +71,18 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                             ]}
                         />
                         <SidebarDropdown
-                            label='Reportes'
-                            Icon={BiSolidReport}
+                            label='Cocina'
+                            Icon={BiDish}
                             menuItems={[
                                 {
-                                    path: '/admin/dashboard/reports-month',
-                                    label: 'Total ventas por mes',
-                                },
-                                {
-                                    path: '/admin/dashboard/reports-users',
-                                    label: 'Ventas por trabajador',
-                                },
-                            ]}
-                        />
-                        <SidebarDropdown
-                            label='Reportes'
-                            Icon={BiSolidReport}
-                            menuItems={[
-                                {
-                                    path: '/admin/dashboard/reports-month',
-                                    label: 'Total ventas por mes',
-                                },
-                                {
-                                    path: '/admin/dashboard/reports-users',
-                                    label: 'Ventas por trabajador',
+                                    path: '/admin/dashboard/kitchen',
+                                    label: 'Listado de Pedidos',
                                 },
                             ]}
                         />
                     </ul>
                 </div>
-                <div className='px-3'>
+                {/*   <div className='px-3'>
                     <ul className='space-y-2 pb-2 font-outfit'>
                         <SidebarItems
                             path='/admin/dashboard'
@@ -120,7 +95,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                             Icon={RxExit}
                         />
                     </ul>
-                </div>
+                </div>*/}
             </div>
         </aside>
     );

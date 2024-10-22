@@ -48,13 +48,6 @@ export default function AdminPanel() {
                 </div>
             </div>
             <TableEmployees />
-            {/* <ResponsiveDialog
-                title='Agregar empleado'
-                description='Agrega un empleado a tu restaurante'
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}>
-                <EmployeeForm setIsOpen={setIsOpen} />
-            </ResponsiveDialog> */}
         </section>
     );
 }

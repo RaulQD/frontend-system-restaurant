@@ -9,63 +9,38 @@ import AdminPanel from './pages/AdminPanel';
 import AddEmployee from './features/admin-personal/AddEmployee';
 import AddDishes from './features/dishes/AddDishes';
 import { ProtectedRoutes } from './components/ProtectedRoutes';
+import Kitchen from './pages/Kitchen';
+import Category from './pages/Category';
+
+const ROLES = {
+    Administrador: 'administrador',
+    Cocinero: 'cocinero',
+    Mesero: 'mesero',
+};
 
 export default function AppRoutes() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path='/admin/' element={<Layout />}>
-                    <Route
-                        element={
-                            <ProtectedRoutes allowedRoles={['administrador']} />
-                        }>
-                        <Route path='dashboard' element={<Dashboard />} />
-                    </Route>
-                    <Route
-                        element={
-                            <ProtectedRoutes allowedRoles={['administrador']} />
-                        }>
-                        <Route path='dashboard/dishes' element={<Dishes />} />
-                    </Route>
-                    <Route
-                        element={
-                            <ProtectedRoutes allowedRoles={['administrador']} />
-                        }>
-                        <Route
-                            path='dashboard/dishes/add-dishes'
-                            element={<AddDishes />}
-                        />
-                    </Route>
-                    <Route
-                        element={
-                            <ProtectedRoutes allowedRoles={['administrador']} />
-                        }>
-                        <Route
-                            path='dashboard/personal'
-                            element={<AdminPanel />}
-                        />
-                    </Route>
-                    <Route
-                        element={
-                            <ProtectedRoutes allowedRoles={['administrador']} />
-                        }>
-                        <Route
-                            path='dashboard/personal-register'
-                            element={<AddEmployee />}
-                        />
-                    </Route>
-                    <Route
-                        element={
-                            <ProtectedRoutes allowedRoles={['administrador']} />
-                        }>
-                        <Route
-                            path='dashboard/manage-tables'
-                            element={<ManageTable />}
-                        />
-                    </Route>
                     {/* RUTA PARA EL ADMINISTRADOR*/}
+                    <Route element={ <ProtectedRoutes allowedRoles={[ROLES.Administrador]} /> }>
+                        <Route path='dashboard' element={<Dashboard />} />
+                        <Route path='dashboard/personal' element={<AdminPanel />}/>
+                        <Route path='dashboard/personal-register'element={<AddEmployee />}/>
+                        <Route path='dashboard/dishes/add-dishes' element={<AddDishes />} />
+                        <Route path='dashboard/dishes' element={<Dishes />} />
+                        <Route path='dashboard/category' element={<Category />} />
 
-                    {/*RUTAS PARA EL MESERO*/}
+                        <Route path='dashboard/manage-tables' element={<ManageTable />} />
+                        <Route path='dashboard/kitchen' element={<Kitchen />} />
+                    </Route>
+                    {/* RUTA PARA EL MESERO
+                    <Route element={ <ProtectedRoutes allowedRoles={['administrador']} /> }>
+                    </Route>
+                    RUTA PARA EL COCINERO
+                    <Route element={ <ProtectedRoutes allowedRoles={['administrador', 'cocinero']} /> }>
+                    </Route>*/}
                 </Route>
                 <Route path='/auth/' element={<AuthLayout />}>
                     <Route path='login' element={<Login />} />
