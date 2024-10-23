@@ -14,7 +14,7 @@ export default function AddEmployee() {
                     <span>Crear Empleados</span>
                 </div>
             </div>
-            <div className='flex items-center justify-center'>
+            <div className=''>
                 <EmployeeForm />
             </div>
         </section>
