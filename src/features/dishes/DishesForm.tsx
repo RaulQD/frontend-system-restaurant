@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import { Separator } from '@/components/ui/separator';
 import { getCategories } from '@/services/appCategory';
 import { Category } from '@/types/category';
 import { DishesFormData } from '@/types/dish';
@@ -21,7 +20,7 @@ type DishesFormProps = {
 
 export default function DishesForm({ setIsOpen }: DishesFormProps) {
     const { data: category } = useQuery<Category[]>({
-        queryKey: ['category'],
+        queryKey: ['categories'],
         queryFn: getCategories,
     });
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
