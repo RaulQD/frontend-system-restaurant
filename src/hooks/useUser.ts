@@ -18,7 +18,6 @@ export const useUser = () => {
       console.error('Token no encontrado en localStorage');
     }
   }, []);
-  console.log(user)
   const isAdmin = user?.role.name === 'administrador';
   const isWaiter = user?.role.name === 'mesero';
   const isChef = user?.role.name === 'cocinero';

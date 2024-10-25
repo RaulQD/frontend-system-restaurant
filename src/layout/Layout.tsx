@@ -1,17 +1,12 @@
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
 import { Toaster } from '@/components/ui/toaster';
-import { useUser } from '@/hooks/useUser';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 export default function Layout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const { user, isLoading, isError } = useUser();
 
-    console.log('isLoading', isLoading);
-    console.log('isError', isError);
-    console.log(user);
     return (
         <>
             <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
