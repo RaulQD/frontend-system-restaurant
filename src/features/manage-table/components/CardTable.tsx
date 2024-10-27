@@ -2,16 +2,23 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Restaurant from '../../../assets/restaurante.svg';
 import { FaUsers } from 'react-icons/fa';
 import { Tables } from '@/types/tables';
+import { useNavigate } from 'react-router-dom';
 
 type CardTableProps = {
     table: Tables;
 };
 
 export default function CardTable({ table }: CardTableProps) {
+    const navigate = useNavigate();
+    const handlCreateOrder = () => {
+        navigate('/orders');
+        console.log('creando orden');
+    }
+
     return (
         <Card
             className='bg-blue-100 '
-            onClick={() => console.log('creando orden')}>
+            onClick={handlCreateOrder}>
             <CardHeader>
                 <CardTitle className='text-blue-500 font-normal font-outfit'>
                     Mesa #{table.num_table}

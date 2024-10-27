@@ -80,6 +80,16 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                 },
                             ]}
                         />
+                        <SidebarDropdown
+                            label='Ordenes'
+                            Icon={BiDish}
+                            menuItems={[
+                                {
+                                    path: '/admin/dashboard/order-history',
+                                    label: 'Historial de ordenes',
+                                },
+                            ]}
+                        />
                     </ul>
                 </div>
                 {/*   <div className='px-3'>

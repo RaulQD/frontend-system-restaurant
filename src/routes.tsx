@@ -11,6 +11,7 @@ import AddDishes from './features/dishes/AddDishes';
 import { ProtectedRoutes } from './components/ProtectedRoutes';
 import Kitchen from './pages/Kitchen';
 import Category from './pages/Category';
+import OrderHistory from './pages/OrderHistory';
 
 const ROLES = {
     Administrador: 'administrador',
@@ -34,6 +35,9 @@ export default function AppRoutes() {
 
                         <Route path='dashboard/manage-tables' element={<ManageTable />} />
                         <Route path='dashboard/kitchen' element={<Kitchen />} />
+                        <Route path='dashboard/order-history' element={<OrderHistory />} />
+                        
+                        
                     </Route>
                     {/* RUTA PARA EL MESERO
                     <Route element={ <ProtectedRoutes allowedRoles={['administrador']} /> }>
