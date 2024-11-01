@@ -1,7 +1,7 @@
 import { BiCart, BiDish, BiSolidReport, BiUser } from 'react-icons/bi';
 import SidebarDropdown from './SidebarDropdown';
 import SidebarItems from './SidebarItems';
-import { RxDashboard, RxExit, RxGear } from 'react-icons/rx';
+import { RxDashboard } from 'react-icons/rx';
 import { MdOutlineTableBar } from 'react-icons/md';
 
 type SidebarProps = {
@@ -27,7 +27,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                             Icon={RxDashboard}
                         />
                         <SidebarItems
-                            path='/admin/dashboard/manage-tables'
+                            path='/admin/dashboard/tables'
                             label='Manejo de Mesas'
                             Icon={MdOutlineTableBar}
                         />
