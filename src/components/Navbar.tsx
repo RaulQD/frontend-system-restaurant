@@ -101,12 +101,6 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }: NavbarProps) {
                                 </DropdownMenuContent>
                             </DropdownMenu>
 
-                            {/*<div className='flex flex-col leading-5'>
-                                <p className='font-medium '>Raul Quispe </p>
-                                <span className='text-xs font-outfit text-gray-400'>
-                                    Admin
-                                </span>
-                            </div> */}
                         </div>
                     </div>
                 </div>

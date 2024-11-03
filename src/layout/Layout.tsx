@@ -10,7 +10,7 @@ export default function Layout() {
     return (
         <>
             <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            <div className='flex overflow-hidden pt-16 h-screen'>
+            <div className='flex overflow-hidden pt-[60px] h-screen'>
                 <Sidebar
                     sidebarOpen={sidebarOpen}
                     setSidebarOpen={setSidebarOpen}
@@ -24,16 +24,14 @@ export default function Layout() {
                 )}
 
                 <div
-                    className='bg-gray-900 opacity-50 hidden fixed inset-0 z-10'
+                    className='bg-black opacity-50 hidden fixed inset-0 z-10'
                     id='sidebarBackdrop'></div>
                 <div
                     id='main-content'
-                    className={`flex-1 relative overflow-y-auto `}>
+                    className='flex-1 relative overflow-y-auto'>
                     <main>
-                        <div className='min-h-screen'>
-                            <div className='p-6'>
-                                <Outlet />
-                            </div>
+                        <div className='p-6'>
+                            <Outlet />
                         </div>
                     </main>
                 </div>
