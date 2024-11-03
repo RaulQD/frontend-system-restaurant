@@ -73,3 +73,11 @@
         @apply bg-background text-foreground;
     }
 }
+::-webkit-scrollbar {
+    width: 0.5rem;
+    border-radius: 0.75rem;
+    background-color: initial;
+    padding-left: 2rem;
+}
+
+

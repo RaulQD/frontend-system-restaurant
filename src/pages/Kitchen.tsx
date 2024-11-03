@@ -12,7 +12,7 @@ export default function Kitchen() {
                 </div>
             </div>
             <TableKitchen />
-            <ResponsiveDialog />
+            {/* <ResponsiveDialog /> */}
         </section>
     );
 }

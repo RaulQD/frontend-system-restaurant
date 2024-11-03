@@ -30,7 +30,7 @@ export default function Layout() {
                     id='main-content'
                     className='flex-1 relative overflow-y-auto'>
                     <main>
-                        <div className='p-6'>
+                        <div className='px-6 pt-6 pb-2'>
                             <Outlet />
                         </div>
                     </main>

@@ -145,8 +145,8 @@ export default function MenuList() {
     ];
     return (
         <section>
-            <h1 className='font-medium font-outfit'>Elije tu plato</h1>
-            <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-8'>
+            <h1 className='font-medium font-outfit text-xl'>Elije tu plato</h1>
+            <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-6'>
                 {dishes.map((dish) => (
                     <li key={dish.id}>
                         <CardDishes dish={dish} />
