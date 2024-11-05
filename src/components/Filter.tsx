@@ -5,7 +5,7 @@ import FilterInput from './FilterInput';
 
 export default function Filter() {
     return (
-        <div className='flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between'>
+        <div className='flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between'>
             <FilterButton<Category>
                 filterValue='category'
                 queryKey={['category']}

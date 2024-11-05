@@ -84,30 +84,20 @@ export default function OrderList() {
     return (
         <>
             <aside
-                className={cn(
-                    'fixed xl:static right-0 p-5 xl:p-0 flex flex-col gap-y-8 2xl:gap-y-4 h-full bg-white z-50 w-[90%] sm:w-[70%] lg:w-[50%] xl:w-full transition-all font-outfit',
-                    showCart ? 'top-0 delay-300' : '-top-full'
-                )}>
-                <div className='pt-6 px-6 basis-1/12'>
-                    <div className='relative'>
-                        <Input
-                            type='text'
-                            id='search'
-                            placeholder='Buscar empleados'
-                            className='pl-10 py-7'
-                        />
-                        <Label id='search'>
-                            <MagnifyingGlassIcon className='text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 text-lg' />
-                        </Label>
+                className={`fixed xl:static right-0 p-5 xl:p-0 flex flex-col gap-y-8 2xl:gap-y-4 h-full bg-white z-50 w-[90%] sm:w-[70%] lg:w-[50%] xl:w-full transition-all font-outfit',
+                    ${showCart ? 'top-0 delay-300' : '-top-full'}`}>
+                <div className='pt-0 px-0 lg:pt-6 lg:px-6 basis-1/12'>
+                    <div className='flex flex-col gap-y-2 font-outfit'>
+                        <h1 className='text-xl font-medium'>
+                            Detalle de la orden
+                        </h1>
+                        <span className='text-gray-500 text-sm'>
+                            #FH-0000001
+                        </span>
                     </div>
                 </div>
 
                 <div className='basis-11/12 overflow-y-auto flex flex-col lg:p-6 bg-white rounded-lg'>
-                    <section className='basis-1/12'>
-                        <h1 className='text-xl font-medium font-outfit'>
-                            Detalles de la orden
-                        </h1>
-                    </section>
                     <ul className='basis-8/12 max-h-full overflow-y-auto'>
                         {orderDish.map((dish) => (
                             <li key={dish.id} className='mb-3'>

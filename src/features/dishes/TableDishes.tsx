@@ -45,7 +45,7 @@ export default function TableDishes() {
                 <Table className='w-full divide-y divide-gray-300'>
                     <TableHeader className='bg-slate-200'>
                         <TableRow>
-                            <TableHead className='w-[300px]'>ID</TableHead>
+                            <TableHead className='w-[200px] pl-6'>ID</TableHead>
                             <TableHead>Nombre del plato</TableHead>
                             <TableHead>Imagen</TableHead>
                             <TableHead>Descripciòn</TableHead>
@@ -60,7 +60,7 @@ export default function TableDishes() {
                     <TableBody>
                         {dishes?.results.map((dish) => (
                             <TableRow key={dish.id}>
-                                <TableCell className='font-medium'>
+                                <TableCell className='font-medium pl-6'>
                                     {dish.id}
                                 </TableCell>
 
