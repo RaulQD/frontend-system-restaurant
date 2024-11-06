@@ -11,6 +11,7 @@ export type GetDishesAPIType = {
 export const getDishes = async ({ page, category, keyword }: GetDishesAPIType) => {
   try {
     const { data } = await api.get<DishesResponseType>('/dishes', { params: { page, category, keyword } });
+    console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {

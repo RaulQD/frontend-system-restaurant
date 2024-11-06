@@ -363,6 +363,11 @@ export default function EmployeeForm() {
                                                     message:
                                                         'El DNI debe tener al menos 8 caracteres',
                                                 },
+                                                maxLength: {
+                                                    value: 8,
+                                                    message:
+                                                        'El DNI debe tener máximo 8 caracteres',
+                                                }
                                             })}
                                         />
                                         {errors.dni && (

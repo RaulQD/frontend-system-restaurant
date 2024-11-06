@@ -5,12 +5,12 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import LomoSaltado from '@/assets/Lomo-Saltado-323x323-1-1.jpg';
-import { Dish } from './MenuList';
 import { Button } from '@/components/ui/button';
 import { MinusIcon, PlusIcon } from '@radix-ui/react-icons';
+import { DishesType } from '@/types/dish';
 
 type DishProps = {
-    dish: Dish;
+    dish: DishesType;
 };
 
 export default function CardDishes({ dish }: DishProps) {
@@ -25,10 +25,10 @@ export default function CardDishes({ dish }: DishProps) {
                     />
                     <div className='w-full'>
                         <CardTitle className='text-base lg:text-xl font-semibold line-clamp-1'>
-                            {dish.name}
+                            {dish.dishes_name}
                         </CardTitle>
                         <CardDescription className='text-sm text-gray-500 line-clamp-2 '>
-                            {dish.description}
+                            {dish.dishes_description}
                         </CardDescription>
                     </div>
                 </div>

@@ -1,4 +1,7 @@
+import ResponsiveDialog from '@/components/ResponsiveDialog';
 import CardDishes from './CardDishes';
+import { useState } from 'react';
+import { useDishes } from '../../dishes/useDishes';
 
 export type Dish = {
     id: number;
@@ -8,7 +11,13 @@ export type Dish = {
     image: string;
 };
 export default function MenuList() {
-    const dishes = [
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleOpenModal = () => {
+        setIsOpen(true);
+    };
+    const { dishes, isLoadingDishes, error } = useDishes();
+    const dish = [
         {
             id: 1,
             name: 'Pasta Bolognese',
@@ -79,80 +88,28 @@ export default function MenuList() {
             price: 10.5,
             image: 'https://via.placeholder.com/150',
         },
-        {
-            id: 11,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 12,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 13,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 14,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 15,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 16,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 17,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 18,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 19,
-            name: 'Grilled Chicken asdasdasdasdasdasdasd',
-            description: 'Juicy grilled chicken with spices asdasdasd asdasdasd asfqwefasasd',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
     ];
     return (
-        <section>
-            <h1 className='font-medium font-outfit text-xl'>Elije tu plato</h1>
-            <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-6'>
-                {dishes.map((dish) => (
-                    <li key={dish.id}>
-                        <CardDishes dish={dish} />
-                    </li>
-                ))}
-            </ul>
-        </section>
+        <>
+            <section>
+                <h1 className='font-medium font-outfit text-xl'>
+                    Elije tu plato
+                </h1>
+                <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-6'>
+                    {dishes?.results.map((dish) => (
+                        <li key={dish.id} onClick={handleOpenModal}>
+                            <CardDishes dish={dish} />
+                        </li>
+                    ))}
+                </ul>
+            </section>
+            <ResponsiveDialog
+                title='pollo a la brasa'
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                description='Agrega un plato al menú de tu restaurante'>
+                <p>Contenido del plato</p>
+            </ResponsiveDialog>
+        </>
     );
 }

@@ -15,8 +15,8 @@ export default function CardOrderList({ orderdish }: CardOrderListProps) {
                         alt=''
                         className='h-14 w-14 rounded-xl'
                     />
-                    <div className=' w-full flex items-center justify-between gap-4'>
-                        <div className='flex items-center justify-start gap-2'>
+                    <div className=' max-w-full flex items-center justify-between gap-3'>
+                        <div className='flex items-center justify-start '>
                             <CardTitle className=' font-normal text-gray-600 line-clamp-1'>
                                 {orderdish.name}
                             </CardTitle>

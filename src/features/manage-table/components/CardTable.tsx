@@ -10,6 +10,7 @@ type CardTableProps = {
 
 export default function CardTable({ table }: CardTableProps) {
     const navigate = useNavigate();
+    
     const handlCreateOrder = () => {
         navigate('/admin/dashboard/tables/1/order');
         console.log('creando orden');

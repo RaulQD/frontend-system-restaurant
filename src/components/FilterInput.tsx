@@ -24,7 +24,7 @@ export default function FilterInput({ filterValue }: { filterValue: string }) {
                 type='text'
                 id='search'
                 placeholder='Buscar empleados'
-                className='pl-10 bg-white'
+                className='pl-10 bg-white outline-none'
                 value={currentFilter}
                 onChange={(e) => handleInputSearch(e.target.value)}
             />

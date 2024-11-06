@@ -68,7 +68,7 @@ export default function DishesForm({ setIsOpen }: DishesFormProps) {
     };
 
     return (
-        <div className=''>
+        <div className='p-4 lg:p-0'>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 my-5 font-outfit'>
                     <div className='w-full col-span-3 row-span-2'>

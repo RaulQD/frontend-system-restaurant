@@ -18,11 +18,13 @@ export const useDishes = () => {
 
   const page = !searchParams.get('page') ? 1 : Number(searchParams.get('page'))
 
+  //FETCH DISHES DATA
   const { data: dishes, isLoading: isLoadingDishes, isError: isErrorDishes, error } = useQuery({
     queryKey: ['dishes', keyword, category, page],
     queryFn: () => getDishes({ keyword, category, page }),
     retry: false,
   })
+  // CALCULATE THE NUMBER OF PAGES
   const pageCount = Math.ceil((dishes?.pagination.totalDishes || 0) / 10)
 
   //prefetch -> CARGA DE DATOS DE FORMA ASINCRONA

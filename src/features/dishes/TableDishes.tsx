@@ -109,6 +109,13 @@ export default function TableDishes() {
                                                 <DropdownMenuItem
                                                     className='cursor-pointer'
                                                     onClick={() =>
+                                                        console.log('ver')
+                                                    }>
+                                                    Ver
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem
+                                                    className='cursor-pointer'
+                                                    onClick={() =>
                                                         console.log(
                                                             'eliminando'
                                                         )

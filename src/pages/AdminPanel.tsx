@@ -1,22 +1,20 @@
 import FilterButtonStatus from '@/components/FilterButtonStatus';
 import FilterInput from '@/components/FilterInput';
-import ResponsiveDialog from '@/components/ResponsiveDialog';
 import SortBy from '@/components/SortBy';
 import { Button } from '@/components/ui/button';
-import EmployeeForm from '@/features/admin-personal/EmployeeForm';
 
 import TableEmployees from '@/features/admin-personal/TableEmployees';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 import { BiPlus } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 
 export default function AdminPanel() {
     const navigate = useNavigate();
-    const [isOpen, setIsOpen] = useState(false);
-    const handleOpenModal = () => {
-        setIsOpen(true);
-    };
+    // const [isOpen, setIsOpen] = useState(false);
+    // const handleOpenModal = () => {
+    //     setIsOpen(true);
+    // };
 
     return (
         <section className=''>
@@ -39,7 +37,7 @@ export default function AdminPanel() {
                 </Button>
             </div>
             <div className='mt-14'>
-                <div className='flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between'>
+                <div className='flex flex-col items-start gap-4 xl:flex-row xl:items-center xl:justify-between'>
                     <FilterButtonStatus />
                     <div className='flex items-center justify-end gap-2'>
                         <FilterInput filterValue='keyword' />
