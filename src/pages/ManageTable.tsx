@@ -5,19 +5,23 @@ import { useTables } from '@/features/manage-table/useTables';
 import { getRooms } from '@/services/apiRooms';
 import { Rooms } from '@/types/rooms';
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export default function ManageTable() {
     const [searchParams, setSearchParams] = useSearchParams();
     const room = searchParams.get('room') || 'comedor principal';
     const { tables, isLoading, error } = useTables(room);
-
+    const navigate = useNavigate();
     useEffect(() => {
         if (!searchParams.has('room')) {
             searchParams.set('room', 'comedor principal');
             setSearchParams(searchParams);
         }
     }, [searchParams, setSearchParams]);
+
+    const handleRediRectToCreateOrder = (tableId: number) => {
+        navigate(`/admin/dashboard/tables/${tableId}/order`);
+    };
 
     return (
         <section>
@@ -65,14 +69,19 @@ export default function ManageTable() {
                                 <p className='text-lg'>{error?.message}</p>
                             </div>
                         ) : (
-                            <div className='grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-2 xl:grid-cols-3 gap-4'>
+                            <ul className='grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-2 xl:grid-cols-3 gap-4'>
                                 {tables?.map((table) => (
-                                    <CardTable
+                                    <li
                                         key={table.id_table}
-                                        table={table}
-                                    />
+                                        onClick={() =>
+                                            handleRediRectToCreateOrder(
+                                                table.id_table
+                                            )
+                                        }>
+                                        <CardTable table={table} />
+                                    </li>
                                 ))}
-                            </div>
+                            </ul>
                         )}
                     </>
                 )}

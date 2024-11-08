@@ -1,6 +1,6 @@
 
 export type Rooms = {
-  id: string;
+  id: number;
   room_name: string;
   tables: number;
 }

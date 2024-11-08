@@ -1,7 +1,7 @@
 import { Rol } from "./rols";
 
 export type Employee = {
-  id: string;
+  id: number;
   username: string;
   password: string;
   names: string;
@@ -17,7 +17,7 @@ export type Employee = {
   role_name: string;
 }
 export type EmployeeList = {
-  id: string;
+  id: number;
   names: string;
   last_name: string;
   salary: number;

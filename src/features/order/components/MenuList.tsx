@@ -2,93 +2,29 @@ import ResponsiveDialog from '@/components/ResponsiveDialog';
 import CardDishes from './CardDishes';
 import { useState } from 'react';
 import { useDishes } from '../../dishes/useDishes';
+import Spinner from '@/components/Spinner';
 
-export type Dish = {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    image: string;
-};
 export default function MenuList() {
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleOpenModal = () => {
-        setIsOpen(true);
-    };
+    // const handleOpenModal = () => {
+    //     setIsOpen(true);
+    // };
     const { dishes, isLoadingDishes, error } = useDishes();
-    const dish = [
-        {
-            id: 1,
-            name: 'Pasta Bolognese',
-            description: 'Pasta with rich tomato and meat sauce',
-            price: 12.99,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 2,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 3,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 4,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 5,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 6,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 7,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 8,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 9,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 10,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-    ];
+    if (isLoadingDishes) {
+        return (
+            <div className='flex justify-center items-center h-96'>
+                <Spinner />
+            </div>
+        );
+    }
+    if (!dishes?.results.length) {
+        return (
+            <div className='flex justify-center items-center h-96'>
+                <p className='text-lg text-gray-500'>{error?.message}</p>
+            </div>
+        );
+    }
     return (
         <>
             <section>
@@ -97,7 +33,7 @@ export default function MenuList() {
                 </h1>
                 <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-6'>
                     {dishes?.results.map((dish) => (
-                        <li key={dish.id} onClick={handleOpenModal}>
+                        <li key={dish.id}>
                             <CardDishes dish={dish} />
                         </li>
                     ))}

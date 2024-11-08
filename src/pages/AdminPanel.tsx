@@ -39,7 +39,7 @@ export default function AdminPanel() {
             <div className='mt-14'>
                 <div className='flex flex-col items-start gap-4 xl:flex-row xl:items-center xl:justify-between'>
                     <FilterButtonStatus />
-                    <div className='flex items-center justify-end gap-2'>
+                    <div className='flex flex-col md:flex-row md:items-center md:justify-end gap-2'>
                         <FilterInput filterValue='keyword' />
                         <SortBy />
                     </div>

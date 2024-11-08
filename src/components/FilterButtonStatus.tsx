@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button } from './ui/button';
-import { FilterSelect } from './FilterSelect';
 
 const statusOptions = [
     { key: 'all', label: 'Todos', value: 'todos' },
@@ -10,13 +9,8 @@ const statusOptions = [
     { key: 'inactive', label: 'No Activo', value: 'no activo' },
     { key: 'suspended', label: 'Suspendido', value: 'suspendido' },
 ];
-type FilterButtonStatusProps = {
-    useSelectOnMobile?: boolean; // Agregado para controlar si se usa Select en móvil
-};
 
-export default function FilterButtonStatus({
-    useSelectOnMobile = true,
-}: FilterButtonStatusProps) {
+export default function FilterButtonStatus() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
@@ -25,9 +19,10 @@ export default function FilterButtonStatus({
         }
     }, [searchParams, setSearchParams]);
 
-    //ARREGLAR BUG DE FILTRO DE STATUS YA QUE AL PONERLO EN MODO MOBILE NO FUNCIONA O MUESTRA EL FILTRO TODOS MÁS NO EL QUE SELECCIONE 
+    //ACTUALIZAR EL FILTRO DE STATUS CUANDO SE CAMBIE EL ESTADO LOCAL
     const handleStatusChange = (statusValue: string) => {
-        if (statusValue === 'all') {
+        // setCurrentStatus(statusValue);
+        if (statusValue === 'todos') {
             searchParams.delete('status');
         } else {
             searchParams.set('status', statusValue);
@@ -36,33 +31,19 @@ export default function FilterButtonStatus({
     };
     return (
         <>
-            {useSelectOnMobile && (
-                <div className=' xl:hidden'>
-                    <FilterSelect
-                        items={statusOptions}
-                        currentFilterValue={searchParams.get('status') || 'all'}
-                        showAllButton={true}
-                        getLabel={(item) => item.label}
-                        getValue={(item) => item.value}
-                        onValueChange={(value) => handleStatusChange(value)}
-                    />
-                </div>
-            )}
-            <div className={useSelectOnMobile ? 'hidden xl:block' : 'block'}>
-                <div className='flex items-center justify-start gap-2'>
-                    {statusOptions.map((status) => (
-                        <Button
-                            key={status.key}
-                            onClick={() => handleStatusChange(status.value)}
-                            variant={
-                                searchParams.get('status') === status.value
-                                    ? 'principal'
-                                    : 'outline'
-                            }>
-                            {status.label}
-                        </Button>
-                    ))}
-                </div>
+            <div className='flex flex-wrap md:items-center justify-start gap-2'>
+                {statusOptions.map((status) => (
+                    <Button
+                        key={status.key}
+                        onClick={() => handleStatusChange(status.value)}
+                        variant={
+                            searchParams.get('status') === status.value
+                                ? 'principal'
+                                : 'outline'
+                        }>
+                        {status.label}
+                    </Button>
+                ))}
             </div>
         </>
     );

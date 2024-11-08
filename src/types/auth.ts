@@ -1,6 +1,6 @@
 import { Rol } from "./rols";
 export type Data = {
-  id: string;
+  id: number;
   username: string;
   full_name: string;
   profile_picture_url: string;

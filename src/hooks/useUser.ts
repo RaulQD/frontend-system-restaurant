@@ -12,6 +12,7 @@ export const useUser = () => {
     refetchOnMount: false,
 
   });
+
   // Manejo de errores fuera de la configuración
   useEffect(() => {
     if (!localStorage.getItem('AUTHENTICATION')) {

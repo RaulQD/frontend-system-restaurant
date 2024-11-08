@@ -1,7 +1,7 @@
 import { Category } from "./category";
 
 export type DishType = {
-  id: string;
+  id: number;
   dishes_name: string;
   dishes_description: string;
   price: number;
@@ -15,7 +15,7 @@ export type DishType = {
 export type DishesFormData = Pick<DishType, 'dishes_name' | 'dishes_description' | 'price' | 'image_url' | 'category_name'>
 
 export type DishesType = {
-  id: string;
+  id: number;
   dishes_name: string;
   dishes_description: string;
   price: number;
