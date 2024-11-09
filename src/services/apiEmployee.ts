@@ -1,5 +1,5 @@
 import api from "@/lib/axios"
-import { EmployeeResponse } from "@/types/employee"
+import { Employee, EmployeeResponse } from "@/types/employee"
 import { isAxiosError } from "axios"
 
 
@@ -21,6 +21,19 @@ export const getEmployees = async ({ keyword, status, page }: EmployeeQueryParam
       console.log('error')
     }
   }
+}
+
+export const getEmployeeById = async (employeeid: Employee['id']) => {
+  try {
+    const { data } = await api.get<Employee>(`/employees/${employeeid}`)
+    console.log(data);
+    return data
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message)
+    }
+  }
+
 }
 
 export const uploadImage = async (file: File): Promise<string> => {

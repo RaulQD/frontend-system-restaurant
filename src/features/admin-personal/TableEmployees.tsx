@@ -25,9 +25,28 @@ import {
     Pencil2Icon,
     TrashIcon,
 } from '@radix-ui/react-icons';
+import ResponsiveDialog from '@/components/ResponsiveDialog';
+import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Employee } from '@/types/employee';
 
-export default function TableEmployees() {
+type EmployeeProps = {
+    employee: Employee;
+};
+
+export default function TableEmployees({ employee }: EmployeeProps) {
     const { employees, isLoading, error } = useEmployees();
+    const [isOpen, setIsOpen] = useState(false);
+    // const location = useLocation();
+    // const navigate = useNavigate();
+    // const queryParams = new URLSearchParams(location.search);
+    // const showDetailsEmployee = queryParams.get('showDetailsEmployee');
+    // const show = showDetailsEmployee === employee.id.toString();
+
+    // const handleShowDetails = () => {
+    //     queryParams.set('showDetailsEmployee', employee.id.toString());
+    //     navigate(`${location.pathname}?${queryParams.toString()}`);
+    // };
 
     if (isLoading) {
         return (
@@ -88,7 +107,9 @@ export default function TableEmployees() {
                     <Table className='w-full divide-y divide-gray-300'>
                         <TableHeader className='bg-slate-200'>
                             <TableRow>
-                                <TableHead className='w-[300px]'>ID</TableHead>
+                                <TableHead className='w-[150px] pl-4'>
+                                    ID
+                                </TableHead>
                                 <TableHead>Foto</TableHead>
                                 <TableHead>Nombres</TableHead>
                                 <TableHead>Apellidos</TableHead>
@@ -104,7 +125,7 @@ export default function TableEmployees() {
                         <TableBody>
                             {employees?.result.map((employee) => (
                                 <TableRow key={employee.id}>
-                                    <TableCell className='font-medium'>
+                                    <TableCell className='font-medium pl-4'>
                                         {employee.id}
                                     </TableCell>
                                     <TableCell>
@@ -157,9 +178,7 @@ export default function TableEmployees() {
                                                     <DropdownMenuItem
                                                         className='cursor-pointer text-yellow-600'
                                                         onClick={() =>
-                                                            console.log(
-                                                                'ver información'
-                                                            )
+                                                            setIsOpen(true)
                                                         }>
                                                         <EyeOpenIcon className='w-4 h-4 mr-2' />
                                                         Ver
@@ -186,6 +205,13 @@ export default function TableEmployees() {
                 <PaginationI
                     totalItems={employees?.pagination.totalEmployees || 0}
                 />
+                <ResponsiveDialog
+                    title='Detalle del Empleado'
+                    isOpen={isOpen}
+                    description='Información del empleado'
+                    setIsOpen={setIsOpen}>
+                    <p>Contenido del dialog</p>
+                </ResponsiveDialog>
             </div>
         </>
     );

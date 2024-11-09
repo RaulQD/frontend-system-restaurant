@@ -3,8 +3,12 @@ import CardDishes from './CardDishes';
 import { useState } from 'react';
 import { useDishes } from '../../dishes/useDishes';
 import Spinner from '@/components/Spinner';
+import { OrderItem } from '@/types/order';
+type MenuListProps = {
+    handleAddItemToOrder: (item: OrderItem) => void;
+};
 
-export default function MenuList() {
+export default function MenuList({ handleAddItemToOrder }: MenuListProps) {
     const [isOpen, setIsOpen] = useState(false);
 
     // const handleOpenModal = () => {
@@ -33,7 +37,7 @@ export default function MenuList() {
                 </h1>
                 <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-6'>
                     {dishes?.results.map((dish) => (
-                        <li key={dish.id}>
+                        <li key={dish.id} onClick={() => handleAddItemToOrder}>
                             <CardDishes dish={dish} />
                         </li>
                     ))}

@@ -15,7 +15,7 @@ type DishProps = {
 
 export default function CardDishes({ dish }: DishProps) {
     return (
-        <Card>
+        <Card className='cursor-pointer'>
             <CardContent className='p-4'>
                 <div className='flex justify-start gap-2'>
                     <img

@@ -20,9 +20,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import NoImage from '@/assets/not-image-found.png';
 import PaginationI from '@/components/PaginationI';
+import ResponsiveDialog from '@/components/ResponsiveDialog';
+import { useState } from 'react';
 
 export default function TableDishes() {
     const { dishes, isLoadingDishes, error } = useDishes();
+    const [isOpen, setIsOpen] = useState(false);
 
     // Verificar si se están cargando los platos
     if (isLoadingDishes) {
@@ -109,7 +112,7 @@ export default function TableDishes() {
                                                 <DropdownMenuItem
                                                     className='cursor-pointer'
                                                     onClick={() =>
-                                                        console.log('ver')
+                                                        setIsOpen(true)
                                                     }>
                                                     Ver
                                                 </DropdownMenuItem>
@@ -132,6 +135,13 @@ export default function TableDishes() {
                 </Table>
             </div>
             <PaginationI totalItems={dishes?.pagination.totalDishes || 0} />
+            <ResponsiveDialog
+                title='Agregar plato'
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                description='Agrega un plato al menú de tu restaurante'>
+                <div>Contenido</div>
+            </ResponsiveDialog>
         </div>
     );
 }
