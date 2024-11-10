@@ -10,9 +10,6 @@ type MenuListProps = {
 export default function MenuList({ handleAddItemToOrder }: MenuListProps) {
     const [isOpen, setIsOpen] = useState(false);
 
-    // const handleOpenModal = () => {
-    //     setIsOpen(true);
-    // };
     const { dishes, isLoadingDishes, error } = useDishes();
     if (isLoadingDishes) {
         return (

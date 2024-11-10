@@ -3,39 +3,29 @@ import CardOrderList from './CardOrderList';
 import { BiCart } from 'react-icons/bi';
 import { useState } from 'react';
 import { Separator } from '@/components/ui/separator';
-import { useOrderItems } from '../useOrderItems';
+import { Order, OrderItem } from '@/types/order';
+import { formatCurrency } from '@/utils';
 
 type OrderListProps = {
+    orderId: Order['id_order'];
+    orderItems: OrderItem[];
     handleCreateOrder: () => void;
 };
 
-export default function OrderList({ handleCreateOrder }: OrderListProps) {
+export default function OrderList({
+    handleCreateOrder,
+    orderItems,
+}: OrderListProps) {
+    
     const [showCart, setShowCart] = useState(false);
-    const orderDish = [
-        {
-            id: 1,
-            name: 'Pasta Bolognese',
-            description: 'Pasta with rich tomato and meat sauce',
-            price: 12.99,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 2,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-        {
-            id: 3,
-            name: 'Grilled Chicken',
-            description: 'Juicy grilled chicken with spices',
-            price: 10.5,
-            image: 'https://via.placeholder.com/150',
-        },
-    ];
-    const { orderItems, isLoadingDishes, error } = useOrderItems();
-    console.log(orderItems);
+    const subTotal = orderItems.reduce(
+        (acc, items) => acc + items.quantity * (items.price || 0),
+        0
+    );
+    //calcular el igv 
+    const IGV = subTotal * (18/100);
+    const total = subTotal + IGV;
+
     return (
         <>
             <aside
@@ -55,8 +45,8 @@ export default function OrderList({ handleCreateOrder }: OrderListProps) {
 
                 <div className='basis-11/12 overflow-y-auto flex flex-col lg:p-6 bg-white rounded-lg'>
                     <ul className='basis-8/12 max-h-full overflow-y-auto'>
-                        {orderDish.map((dish) => (
-                            <li key={dish.id} className='mb-3'>
+                        {orderItems.map((dish) => (
+                            <li key={dish.dish_id} className='mb-3'>
                                 <CardOrderList orderdish={dish} />
                             </li>
                         ))}
@@ -66,18 +56,20 @@ export default function OrderList({ handleCreateOrder }: OrderListProps) {
                         <ul className='space-y-1 2xl:space-y-3'>
                             <li className='flex items-center justify-between'>
                                 <p className='text-gray-500'>Subtotal</p>
-                                <span className='text-lg font-bold'>S/250</span>
+                                <span className='text-lg font-bold'>
+                                    {formatCurrency(subTotal)}
+                                </span>
                             </li>
                             <li className='flex items-center justify-between'>
                                 <p className='text-gray-500'>IGV(18%)</p>
                                 <span className='text-lg font-bold'>
                                     {' '}
-                                    S/.50
+                                    {formatCurrency(IGV)}
                                 </span>
                             </li>
                             <li className='flex items-center justify-between'>
                                 <p className='text-gray-500'>Total</p>
-                                <span className='text-lg font-bold'>S/300</span>
+                                <span className='text-lg font-bold'>{formatCurrency(total)}</span>
                             </li>
                         </ul>
                         <Button

@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import { Order } from "@/types/order";
+import { OrderCreateData} from "@/types/order";
 import { isAxiosError } from "axios";
 
 export const getOrders = async () => {
@@ -14,7 +14,7 @@ export const getOrders = async () => {
   }
 }
 
-export const createOrder = async (order: Order) => {
+export const createOrder = async (order: OrderCreateData) => {
   try {
     const { data } = await api.post('/orders', order);
     console.log(data);
