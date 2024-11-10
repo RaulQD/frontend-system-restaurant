@@ -3,9 +3,8 @@ import CardDishes from './CardDishes';
 import { useState } from 'react';
 import { useDishes } from '../../dishes/useDishes';
 import Spinner from '@/components/Spinner';
-import { OrderItem } from '@/types/order';
 type MenuListProps = {
-    handleAddItemToOrder: (item: OrderItem) => void;
+    handleAddItemToOrder: (dishId: number) => void;
 };
 
 export default function MenuList({ handleAddItemToOrder }: MenuListProps) {
@@ -37,7 +36,9 @@ export default function MenuList({ handleAddItemToOrder }: MenuListProps) {
                 </h1>
                 <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-6'>
                     {dishes?.results.map((dish) => (
-                        <li key={dish.id} onClick={() => handleAddItemToOrder}>
+                        <li
+                            key={dish.id}
+                            onClick={() => handleAddItemToOrder(dish.id)}>
                             <CardDishes dish={dish} />
                         </li>
                     ))}

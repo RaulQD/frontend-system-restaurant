@@ -8,7 +8,6 @@ export type Item = {
   id_item: number;
   dish_id: number;
   quantity: number;
-  price: number;
 }
 
-export type OrderItem = Pick<Item, 'dish_id' | 'quantity' | 'price'>;
+export type OrderItem = Pick<Item, 'dish_id' | 'quantity'>;

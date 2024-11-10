@@ -3,7 +3,9 @@ import FilterOrder from '@/features/order/components/FilterOrder';
 import MenuList from '@/features/order/components/MenuList';
 import OrderList from '@/features/order/components/OrderList';
 import { useCreateOrder } from '@/features/order/useCreateOrder';
+import { useOrderItems } from '@/features/order/useOrderItems';
 import { useUser } from '@/hooks/useUser';
+import { DishType } from '@/types/dish';
 import { Order, OrderItem } from '@/types/order';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -13,12 +15,13 @@ export default function Orders() {
     const { tableId } = useParams<{ tableId: string }>();
     //3. Obtener el valor de la mesa de la URL
     const { user } = useUser();
-    console.log(user);
     const { createOrders } = useCreateOrder();
     //CREAR EL ESTADO DE LOS ITEMS DE LA ORDEN
     const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
+
     //4. Crear una función handleCreateOrder que cree una orden
     const handleCreateOrder = () => {
+        //VALIDAR SI EL USUARIO TIENE UN ID DE EMPLEADO
         if (!user?.employee.id_employee) {
             console.error('No se pudo obtener el id del empleado.');
             return;
@@ -29,11 +32,25 @@ export default function Orders() {
             items: orderItems,
         };
         createOrders(orderData);
+        console.log(orderData);
     };
     //5. Crear una función handleAddItemToOrder que agregue un item a la orden
-    const handleAddItemToOrder = (item: OrderItem) => {
-        console.log('holis');
+    const handleAddItemToOrder = (dishId: number) => {
+        //VALIDAR SI EL ITEM YA ESTA EN LA ORDEN
+        const itemsExists = orderItems.find((item) => item.dish_id === dishId);
+        if (itemsExists) {
+            itemsExists.quantity += 1;
+            setOrderItems([...orderItems]);
+        } else {
+            //AGREGAR EL ITEM A LA ORDEN
+            const item: OrderItem = {
+                dish_id: dishId,
+                quantity: 1,
+            };
+            setOrderItems([...orderItems, item]);
+        }
     };
+    
     return (
         <>
             <section className='h-[90dvh] xl:flex xl:gap-x-4'>
@@ -45,16 +62,13 @@ export default function Orders() {
                         <FilterOrder />
                     </div>
                     <div className='mt-8 mb-6'>
-                        <MenuList 
-                            handleAddItemToOrder={handleAddItemToOrder}
-                        />
+                        <MenuList handleAddItemToOrder={handleAddItemToOrder} />
                     </div>
                 </div>
                 <div className='lg:basis-1/4'>
-                    <OrderList />
+                    <OrderList handleCreateOrder={handleCreateOrder}/>
                 </div>
             </section>
-            
         </>
     );
 }

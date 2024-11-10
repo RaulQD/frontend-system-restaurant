@@ -3,8 +3,13 @@ import CardOrderList from './CardOrderList';
 import { BiCart } from 'react-icons/bi';
 import { useState } from 'react';
 import { Separator } from '@/components/ui/separator';
+import { useOrderItems } from '../useOrderItems';
 
-export default function OrderList() {
+type OrderListProps = {
+    handleCreateOrder: () => void;
+};
+
+export default function OrderList({ handleCreateOrder }: OrderListProps) {
     const [showCart, setShowCart] = useState(false);
     const orderDish = [
         {
@@ -29,6 +34,8 @@ export default function OrderList() {
             image: 'https://via.placeholder.com/150',
         },
     ];
+    const { orderItems, isLoadingDishes, error } = useOrderItems();
+    console.log(orderItems);
     return (
         <>
             <aside
@@ -75,7 +82,8 @@ export default function OrderList() {
                         </ul>
                         <Button
                             variant={'principal'}
-                            className='w-full hover:tracking-widest transition-all'>
+                            className='w-full hover:tracking-widest transition-all'
+                            onClick={() => handleCreateOrder}>
                             Confirmar Orden
                         </Button>
                     </section>
