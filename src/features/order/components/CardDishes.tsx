@@ -4,7 +4,7 @@ import {
     CardDescription,
     CardTitle,
 } from '@/components/ui/card';
-import LomoSaltado from '@/assets/Lomo-Saltado-323x323-1-1.jpg';
+import NotImage from '@/assets/not-image-found.png';
 import { Button } from '@/components/ui/button';
 import { MinusIcon, PlusIcon } from '@radix-ui/react-icons';
 import { DishesType } from '@/types/dish';
@@ -19,7 +19,7 @@ export default function CardDishes({ dish }: DishProps) {
             <CardContent className='p-4'>
                 <div className='flex justify-start gap-2'>
                     <img
-                        src={LomoSaltado}
+                        src={dish.image_url || NotImage}
                         alt=''
                         className='h-20 w-20 rounded-xl'
                     />

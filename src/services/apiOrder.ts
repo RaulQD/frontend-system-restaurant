@@ -57,3 +57,15 @@ export const getItemsByOrder = async (orderId: number) => {
     }
   }
 }
+
+export const cancelOrder = async (orderId: number) => { 
+  try {
+    const { data } = await api.patch(`/orders/${orderId}`);
+    console.log(data);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
+} 

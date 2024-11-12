@@ -1,11 +1,10 @@
-import { Button } from '@/components/ui/button';
 import { useDishes } from '@/features/dishes/useDishes';
 import FilterOrder from '@/features/order/components/FilterOrder';
 import MenuList from '@/features/order/components/MenuList';
 import OrderList from '@/features/order/components/OrderList';
 import { useCreateOrder } from '@/features/order/useCreateOrder';
 import { useUser } from '@/hooks/useUser';
-import {  OrderCreateData, OrderItem } from '@/types/order';
+import { OrderCreateData, OrderItem } from '@/types/order';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -15,7 +14,7 @@ export default function Orders() {
     //3. Obtener el valor de la mesa de la URL
     const { user } = useUser();
     const { createOrders } = useCreateOrder();
-    const {dishes} = useDishes();
+    const { dishes } = useDishes();
     //CREAR EL ESTADO DE LOS ITEMS DE LA ORDEN
     const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
     //capturar el id de la orden creada
@@ -45,7 +44,7 @@ export default function Orders() {
     //5. Crear una función handleAddItemToOrder que agregue un item a la orden
     const handleAddItemToOrder = (dishId: number) => {
         //OBTENER LA INFORMACIÓN DEL PLATO
-        const dish = dishes?.results.find((d) => d.id === dishId)
+        const dish = dishes?.results.find((d) => d.id === dishId);
 
         //VALIDAR SI EL ITEM YA ESTA EN LA ORDEN
         const itemsExists = orderItems.find((item) => item.dish_id === dishId);
@@ -59,7 +58,7 @@ export default function Orders() {
                 dishes_name: dish?.dishes_name,
                 image: dish?.image_url,
                 quantity: 1,
-                price: dish?.price
+                price: dish?.price,
             };
             setOrderItems([...orderItems, item]);
         }
@@ -68,7 +67,7 @@ export default function Orders() {
     return (
         <>
             <section className='h-[90dvh] xl:flex xl:gap-x-4'>
-                <div className='basis-4/4 lg:basis-3/4 overflow-y-auto '>
+                <div className='lg:basis-3/4 overflow-y-auto '>
                     <h1 className='font-outfit text-xl font-medium mb-4'>
                         Orden de la Mesa {tableId}
                     </h1>
@@ -87,7 +86,6 @@ export default function Orders() {
                     />
                 </div>
             </section>
-            <Button onClick={handleCreateOrder}> add</Button>
         </>
     );
 }

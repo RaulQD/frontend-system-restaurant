@@ -16,14 +16,13 @@ export default function OrderList({
     handleCreateOrder,
     orderItems,
 }: OrderListProps) {
-    
     const [showCart, setShowCart] = useState(false);
     const subTotal = orderItems.reduce(
         (acc, items) => acc + items.quantity * (items.price || 0),
         0
     );
-    //calcular el igv 
-    const IGV = subTotal * (18/100);
+    //calcular el igv
+    const IGV = subTotal * (18 / 100);
     const total = subTotal + IGV;
 
     return (
@@ -69,13 +68,18 @@ export default function OrderList({
                             </li>
                             <li className='flex items-center justify-between'>
                                 <p className='text-gray-500'>Total</p>
-                                <span className='text-lg font-bold'>{formatCurrency(total)}</span>
+                                <span className='text-lg font-bold'>
+                                    {formatCurrency(total)}
+                                </span>
                             </li>
                         </ul>
+                        <Button variant={'secondary'} className='w-full'>
+                            Cancelar
+                        </Button>
                         <Button
                             variant={'principal'}
                             className='w-full hover:tracking-widest transition-all'
-                            onClick={() => handleCreateOrder}>
+                            onClick={handleCreateOrder}>
                             Confirmar Orden
                         </Button>
                     </section>

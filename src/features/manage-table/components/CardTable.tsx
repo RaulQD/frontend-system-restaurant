@@ -9,11 +9,11 @@ type CardTableProps = {
 
 export default function CardTable({ table }: CardTableProps) {
 
-    //OBTENER EL NOMBRE DE NUMERO DE LA MESA SELECCIONADA
+  
    
 
     return (
-        <Card className='bg-blue-100 '>
+        <Card className={table.status === 'Disponible' ? 'bg-blue-100' : 'bg-red-100'}>
             <CardHeader>
                 <CardTitle className='text-blue-500 font-normal font-outfit'>
                     Mesa #{table.num_table}
@@ -27,7 +27,7 @@ export default function CardTable({ table }: CardTableProps) {
 
                     <div className='flex items-center justify-center'>
                         <p className='text-xl font-outfit flex items-center justify-center gap-2'>
-                            <FaUsers className='text-2xl text-blue-500' />{' '}
+                            <FaUsers className='text-2xl text-blue-500' />
                             {table.capacity_table}
                         </p>
                     </div>
