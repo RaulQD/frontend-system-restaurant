@@ -1,5 +1,3 @@
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { useDishes } from '@/features/dishes/useDishes';
 import FilterOrder from '@/features/order/components/FilterOrder';
 import MenuList from '@/features/order/components/MenuList';
