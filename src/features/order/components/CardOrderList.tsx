@@ -8,7 +8,7 @@ type CardOrderListProps = {
 
 export default function CardOrderList({ orderdish }: CardOrderListProps) {
 
-   const totalQuantityItems = (orderdish.price || 0) * orderdish.quantity;
+   const totalQuantityItems = (orderdish.unit_price || 0) * orderdish.quantity;
 
     return (
         <Card>

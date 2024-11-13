@@ -1,3 +1,5 @@
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { useDishes } from '@/features/dishes/useDishes';
 import FilterOrder from '@/features/order/components/FilterOrder';
 import MenuList from '@/features/order/components/MenuList';
@@ -17,6 +19,8 @@ export default function Orders() {
     const { dishes } = useDishes();
     //CREAR EL ESTADO DE LOS ITEMS DE LA ORDEN
     const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
+    //CREAR EL ESTADO DE LAS SOLICITUDES ESPECIALES
+    const [specialRequests, setSpecialRequests] = useState<string>('');
     //capturar el id de la orden creada
     const [orderId, setOrderId] = useState<number | null>(null);
 
@@ -36,7 +40,10 @@ export default function Orders() {
             onSuccess: (data) => {
                 if (data?.order?.id_order) {
                     setOrderId(data.order.id_order);
-                    console.log('Orden creada con ID:', data.order.id_order);
+                    setOrderItems([]); //limpiar los items de la orden
+                    setSpecialRequests(''); //limpiar las solicitudes especiales
+                    //navegar a la pagina de lasm esas
+                    //navigate(`/admin/dashboard/tables/`);
                 }
             },
         });
@@ -58,7 +65,8 @@ export default function Orders() {
                 dishes_name: dish?.dishes_name,
                 image: dish?.image_url,
                 quantity: 1,
-                price: dish?.price,
+                unit_price: dish?.price,
+                special_requests: specialRequests,
             };
             setOrderItems([...orderItems, item]);
         }

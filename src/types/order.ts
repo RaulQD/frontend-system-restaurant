@@ -13,7 +13,9 @@ export type Item = {
   dish_id: number;
   dishes_name?: string;
   image?: string;
-  price?: number;
+  unit_price?: number;
+  subtotal: number;
+  special_requests?: string;
   quantity: number;
 }
 export type OrderResponse = {
@@ -21,17 +23,17 @@ export type OrderResponse = {
   status: boolean;
   order: Order;
 }
-export type OrderItem = Pick<Item, 'dish_id' | 'dishes_name' | 'image' | 'price' | 'quantity'>;
-export type OrderCreateData = Omit<Order, 'id_order' | 'order_status'|'created_at'|'updated_at'>;
+export type OrderItem = Pick<Item, 'dish_id' | 'dishes_name' | 'image' | 'unit_price' | 'quantity' | 'special_requests'>;
+export type OrderCreateData = Omit<Order, 'id_order' | 'order_status' | 'created_at' | 'updated_at'>;
 
 export type OrdersList = {
-  id_order:     number;
-  names:        string;
-  num_table:    number;
+  id_order: number;
+  names: string;
+  num_table: number;
   order_status: string;
-  total:        number;
-  created_at:   Date;
-  items:        Item[];
+  total: number;
+  created_at: Date;
+  items: Item[];
 }
 
 export type Dish = {

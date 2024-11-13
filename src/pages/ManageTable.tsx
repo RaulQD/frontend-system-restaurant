@@ -39,7 +39,7 @@ export default function ManageTable() {
                                 </p>
                             </div>
                             <div className='flex items-center justify-center gap-3'>
-                                <span className='bg-red-600 w-2 h-2 py-1 px-1 block rounded-full'></span>
+                                <span className='bg-red-300 w-2 h-2 py-1 px-1 block rounded-full'></span>
                                 <p className='text-sm font-outfit font-medium'>
                                     Ocupados
                                 </p>

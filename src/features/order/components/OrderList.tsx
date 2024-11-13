@@ -18,7 +18,7 @@ export default function OrderList({
 }: OrderListProps) {
     const [showCart, setShowCart] = useState(false);
     const subTotal = orderItems.reduce(
-        (acc, items) => acc + items.quantity * (items.price || 0),
+        (acc, items) => acc + items.quantity * (items.unit_price || 0),
         0
     );
     //calcular el igv

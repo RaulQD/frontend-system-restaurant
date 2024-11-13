@@ -10,6 +10,13 @@ type CardKitchenProps = {
 };
 
 export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
+    //OBTENER LA CANTIDAD DE LOS ITEMM DE LA ORDEN
+    const totalQuantityItems = order.items.reduce(
+        (acc, item) => acc + item.quantity,
+        0
+    );
+    
+
     return (
         <Card className='font-outfit'>
             <CardHeader className='p-4'>
@@ -39,37 +46,24 @@ export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
                 </div>
                 <Separator className='my-4' />
                 <div className='flex justify-between text-sm'>
-                    <span className='font-medium'>4 items</span>
+                    <span className='font-medium'>{totalQuantityItems} items</span>
                     <span className='text-teal-600 font-medium'>
                         {formatCurrency(order.total)}
                     </span>
                 </div>
                 <div>
                     <ul className='flex flex-col justify-between text-sm'>
-                        <li className='flex items-center justify-between gap-2 '>
-                            <p className='font-normal text-gray-500'>
-                                Lomo saltado
-                            </p>
-                            <span className='font-medium text-black'>
-                                S/. 26.90
-                            </span>
-                        </li>
-                        <li className='flex items-center justify-between gap-2 '>
-                            <p className='font-normal text-gray-500'>
-                                Ceviche mixto
-                            </p>
-                            <span className='font-medium text-black'>
-                                S/. 38.90
-                            </span>
-                        </li>
-                        <li className='flex items-center justify-between gap-2 '>
-                            <p className='font-normal text-gray-500'>
-                                S/. Inca kola 3L
-                            </p>
-                            <span className='font-medium text-black '>
-                                S/. 5.50
-                            </span>
-                        </li>
+                        {/* Items */}
+                        {order.items.map((item) => (
+                            <li className='flex items-center justify-between gap-2 ' key={item.id_item}>
+                                <p className='font-normal text-gray-500'>
+                                    {item.dishes_name} x {item.quantity}
+                                </p>
+                                <span className='font-medium text-black'>
+                                    {formatCurrency(item.subtotal)}
+                                </span>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </CardContent>
