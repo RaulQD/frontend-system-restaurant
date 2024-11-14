@@ -11,7 +11,7 @@ export default function CardTable({ table }: CardTableProps) {
     return (
         <Card
             className={
-                table.status === 'Disponible' ? 'bg-blue-100' : 'bg-red-100'
+                table.status === 'DISPONIBLE' ? 'bg-blue-100' : 'bg-red-100'
             }>
             <CardHeader>
                 <CardTitle className='text-blue-500 font-normal font-outfit'>

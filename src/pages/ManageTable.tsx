@@ -20,6 +20,7 @@ export default function ManageTable() {
     }, [searchParams, setSearchParams]);
 
     const handleRediRectToCreateOrder = (tableId: number) => {
+        
         navigate(`/admin/dashboard/tables/${tableId}/order`);
     };
 

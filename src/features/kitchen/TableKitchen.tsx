@@ -22,19 +22,19 @@ export default function TableKitchen() {
     }
     const badgeStatus = (status: string) => {
         switch (status) {
-            case 'pendiente':
+            case 'PENDIENTE':
                 return (
                     <Badge variant='warning' className='text-white font-semibold'>
                         Pendiente
                     </Badge>
                 );
-            case 'en preparación':
+            case 'EN PREPARACIÒN':
                 return (
                     <Badge variant='info' className='text-black font-semibold'>
                         En Preparación
                     </Badge>
                 );
-            case 'servido':
+            case 'SERVIDO':
                 return (
                     <Badge
                         variant='success'
@@ -42,7 +42,7 @@ export default function TableKitchen() {
                         Servido
                     </Badge>
                 );
-            case 'cancelado':
+            case 'CANCELADO':
                 return (
                     <Badge variant='destructive' className='text-white font-semibold'>
                         Cancelado

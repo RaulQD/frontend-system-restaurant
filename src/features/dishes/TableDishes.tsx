@@ -6,21 +6,17 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { BiDotsVertical } from 'react-icons/bi';
-import { useDishes } from './useDishes';
-import Spinner from '@/components/Spinner';
+import { Button } from '@/components/ui/button';
+import { BiTrash } from 'react-icons/bi';
+import { Pencil1Icon } from '@radix-ui/react-icons';
 import { formatCurrency } from '../../utils/index';
 import { Badge } from '@/components/ui/badge';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import Spinner from '@/components/Spinner';
+
 import NoImage from '@/assets/not-image-found.png';
 import PaginationI from '@/components/PaginationI';
 import ResponsiveDialog from '@/components/ResponsiveDialog';
+import { useDishes } from './useDishes';
 import { useState } from 'react';
 
 export default function TableDishes() {
@@ -55,7 +51,7 @@ export default function TableDishes() {
                             <TableHead>Costo del plato</TableHead>
                             <TableHead>Categoria</TableHead>
                             <TableHead>Estado</TableHead>
-                            <TableHead className='text-right'>
+                            <TableHead className='text-center'>
                                 Acciones
                             </TableHead>
                         </TableRow>
@@ -95,8 +91,22 @@ export default function TableDishes() {
                                         </Badge>
                                     )}
                                 </TableCell>
-                                <TableCell className='flex items-end justify-end'>
-                                    <DropdownMenu>
+                                <TableCell className='flex items-center justify-center'>
+                                    <div>
+                                        <Button
+                                            variant={'ghost'}
+                                            onClick={() =>
+                                                console.log('editando')
+                                            }>
+                                            <Pencil1Icon className='text-lg' />
+                                        </Button>
+                                        <Button
+                                            variant={'ghost'}
+                                            onClick={() => setIsOpen(true)}>
+                                            <BiTrash className='text-red-500 text-lg' />
+                                        </Button>
+                                    </div>
+                                    {/* <DropdownMenu>
                                         <DropdownMenuTrigger>
                                             <BiDotsVertical className='h-6 w-6 cursor-pointer text-gray-500' />
                                         </DropdownMenuTrigger>
@@ -127,7 +137,7 @@ export default function TableDishes() {
                                                 </DropdownMenuItem>
                                             </DropdownMenuGroup>
                                         </DropdownMenuContent>
-                                    </DropdownMenu>
+                                    </DropdownMenu> */}
                                 </TableCell>
                             </TableRow>
                         ))}
