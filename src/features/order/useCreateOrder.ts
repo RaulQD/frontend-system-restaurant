@@ -9,7 +9,7 @@ export const useCreateOrder = () => {
       toast.error(error.message)
     },
     onSuccess: (data) => {
-      console.log(data)
+      toast.success(data.message)
     }
   })
   return { createOrders, isPending }

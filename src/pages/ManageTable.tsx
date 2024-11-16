@@ -1,14 +1,17 @@
+import AlertMessageDialog from '@/components/AlertMessageDialog';
 import FilterButton from '@/components/FilterButton';
 import Spinner from '@/components/Spinner';
 import CardTable from '@/features/manage-table/components/CardTable';
 import { useTables } from '@/features/manage-table/useTables';
 import { getRooms } from '@/services/apiRooms';
 import { Rooms } from '@/types/rooms';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export default function ManageTable() {
     const [searchParams, setSearchParams] = useSearchParams();
+    const [selectedTable, setSelectedTable] = useState<number | null>(null);
+    const [isOpen, setIsOpen] = useState(false);
     const room = searchParams.get('room') || 'comedor principal';
     const { tables, isLoading, error } = useTables(room);
     const navigate = useNavigate();
@@ -19,10 +22,30 @@ export default function ManageTable() {
         }
     }, [searchParams, setSearchParams]);
 
+    const handleTableClick = (table: { id_table: number; status: string }) => {
+        if (table.status === 'OCUPADO') {
+            setIsOpen(true);
+            setSelectedTable(table.id_table);
+        } else {
+            handleRediRectToCreateOrder(table.id_table);
+        }
+    };
+
     const handleRediRectToCreateOrder = (tableId: number) => {
-        
         navigate(`/admin/dashboard/tables/${tableId}/order`);
     };
+
+
+    if (!tables) {
+        <div className='flex justify-center items-center pt-20'>
+            <p className='text-lg'>{error?.message}</p>
+        </div>;
+    }
+    if (isLoading) {
+        <div className='flex justify-center items-center pt-40'>
+            <Spinner />
+        </div>;
+    }
 
     return (
         <section>
@@ -59,34 +82,26 @@ export default function ManageTable() {
                 </div>
             </div>
             <div className='mt-10'>
-                {isLoading ? (
-                    <div className='flex justify-center items-center pt-40'>
-                        <Spinner />
-                    </div>
-                ) : (
-                    <>
-                        {!tables ? (
-                            <div className='flex justify-center items-center pt-20'>
-                                <p className='text-lg'>{error?.message}</p>
-                            </div>
-                        ) : (
-                            <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-10 gap-y-5'>
-                                {tables?.map((table) => (
-                                    <li
-                                        key={table.id_table}
-                                        onClick={() =>
-                                            handleRediRectToCreateOrder(
-                                                table.id_table
-                                            )
-                                        }>
-                                        <CardTable table={table} />
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </>
-                )}
+                <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-10 gap-y-5'>
+                    {tables?.map((table) => (
+                        <li
+                            className='cursor-pointer'
+                            key={table.id_table}
+                            onClick={() =>
+                                handleTableClick(table)
+                            }>
+                            <CardTable table={table} />
+                        </li>
+                    ))}
+                </ul>
             </div>
+            <AlertMessageDialog
+                title='Actualizar Orden'
+                description='Esta mesa ya tiene una orden activa. ¿Desea actualizarla?.'
+                onConfirm={() => console.log('confirm')}
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+            />
         </section>
     );
 }

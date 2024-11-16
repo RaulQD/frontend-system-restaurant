@@ -6,19 +6,20 @@ import { useCreateOrder } from '@/features/order/useCreateOrder';
 import { useUser } from '@/hooks/useUser';
 import { OrderCreateData, OrderItem } from '@/types/order';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function Orders() {
+    //CREAR EL ESTADO DE LOS ITEMS DE LA ORDEN
+    const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
+    //CREAR EL ESTADO DE LAS SOLICITUDES ESPECIALES
+    const [specialRequests, setSpecialRequests] = useState<string>('');
+    const navigate = useNavigate();
     //OBTENER EL NOMBRE DE NUMERO DE LA MESA SELECCIONADA DE LA URL
     const { tableId } = useParams<{ tableId: string }>();
     //3. Obtener el valor de la mesa de la URL
     const { user } = useUser();
     const { createOrders } = useCreateOrder();
     const { dishes } = useDishes();
-    //CREAR EL ESTADO DE LOS ITEMS DE LA ORDEN
-    const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
-    //CREAR EL ESTADO DE LAS SOLICITUDES ESPECIALES
-    const [specialRequests, setSpecialRequests] = useState<string>('');
     //capturar el id de la orden creada
     const [orderId, setOrderId] = useState<number | null>(null);
 
@@ -40,8 +41,8 @@ export default function Orders() {
                     setOrderId(data.order.id_order);
                     setOrderItems([]); //limpiar los items de la orden
                     setSpecialRequests(''); //limpiar las solicitudes especiales
-                    //navegar a la pagina de lasm esas
-                    //navigate(`/admin/dashboard/tables/`);
+                    //navegar a la pagina de las mesas
+                    navigate(`/admin/dashboard/tables/`);
                 }
             },
         });

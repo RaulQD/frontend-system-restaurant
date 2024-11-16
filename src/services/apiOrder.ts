@@ -5,7 +5,6 @@ import { isAxiosError } from "axios";
 export const getOrders = async () => {
   try {
     const { data } = await api.get('/orders');
-    console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -17,7 +16,6 @@ export const getOrders = async () => {
 export const createOrder = async (order: OrderCreateData) => {
   try {
     const { data } = await api.post('/orders', order);
-    console.log(data);
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {
