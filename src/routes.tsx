@@ -50,19 +50,22 @@ export default function AppRoutes() {
                             path='dashboard/category'
                             element={<Category />}
                         />
-
                         <Route
                             path='dashboard/tables'
                             element={<ManageTable />}
+                        />
+                        <Route
+                            path='dashboard/tables/:tableId/order'
+                            element={<Orders />}
+                        />
+                        <Route
+                            path='dashboard/tables/:tableId/order/:orderId'
+                            element={<Orders />}
                         />
                         <Route path='dashboard/kitchen' element={<Kitchen />} />
                         <Route
                             path='dashboard/order-history'
                             element={<OrderHistory />}
-                        />
-                        <Route
-                            path='dashboard/tables/:tableId/order'
-                            element={<Orders />}
                         />
                     </Route>
                 </Route>

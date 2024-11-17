@@ -1,10 +1,22 @@
 import api from "@/lib/axios";
-import { OrderCreateData} from "@/types/order";
+import { OrderCreateData } from "@/types/order";
 import { isAxiosError } from "axios";
 
 export const getOrders = async () => {
   try {
     const { data } = await api.get('/orders');
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
+}
+
+export const getOrderActiveForTable = async (tableId: number) => {
+  try {
+    const { data } = await api.get(`/orders/tables/${tableId}/order`);
+    console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -56,7 +68,7 @@ export const getItemsByOrder = async (orderId: number) => {
   }
 }
 
-export const cancelOrder = async (orderId: number) => { 
+export const cancelOrder = async (orderId: number) => {
   try {
     const { data } = await api.patch(`/orders/${orderId}`);
     console.log(data);

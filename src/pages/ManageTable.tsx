@@ -3,18 +3,25 @@ import FilterButton from '@/components/FilterButton';
 import Spinner from '@/components/Spinner';
 import CardTable from '@/features/manage-table/components/CardTable';
 import { useTables } from '@/features/manage-table/useTables';
+import { useGetOrderActiveForTable } from '@/features/order/useGetOrderActiveForTable';
 import { getRooms } from '@/services/apiRooms';
 import { Rooms } from '@/types/rooms';
+import { Tables } from '@/types/tables';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-export default function ManageTable() {
+type Table = {
+    id_table: Tables['id_table'];
+};
+
+export default function ManageTable({ id_table }: Table) {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [selectedTable, setSelectedTable] = useState<number | null>(null);
+
     const [isOpen, setIsOpen] = useState(false);
     const room = searchParams.get('room') || 'comedor principal';
-    const { tables, isLoading, error } = useTables(room);
     const navigate = useNavigate();
+    const { tables, isLoading, error } = useTables(room);
+    const { activeOrder } = useGetOrderActiveForTable(id_table);
     useEffect(() => {
         if (!searchParams.has('room')) {
             searchParams.set('room', 'comedor principal');
@@ -22,19 +29,28 @@ export default function ManageTable() {
         }
     }, [searchParams, setSearchParams]);
 
-    const handleTableClick = (table: { id_table: number; status: string }) => {
+    const handleTableClick = async (table: {
+        id_table: number;
+        status: string;
+    }) => {
         if (table.status === 'OCUPADO') {
             setIsOpen(true);
-            setSelectedTable(table.id_table);
+            handleRediRectToUpdateOrder();
         } else {
             handleRediRectToCreateOrder(table.id_table);
+        }
+    };
+    const handleRediRectToUpdateOrder = () => {
+        if (activeOrder?.id_order) {
+            navigate(
+                `/admin/dashboard/tables/${id_table}/order/${activeOrder.id_order}`
+            );
         }
     };
 
     const handleRediRectToCreateOrder = (tableId: number) => {
         navigate(`/admin/dashboard/tables/${tableId}/order`);
     };
-
 
     if (!tables) {
         <div className='flex justify-center items-center pt-20'>
@@ -87,9 +103,7 @@ export default function ManageTable() {
                         <li
                             className='cursor-pointer'
                             key={table.id_table}
-                            onClick={() =>
-                                handleTableClick(table)
-                            }>
+                            onClick={() => handleTableClick(table)}>
                             <CardTable table={table} />
                         </li>
                     ))}
@@ -98,7 +112,7 @@ export default function ManageTable() {
             <AlertMessageDialog
                 title='Actualizar Orden'
                 description='Esta mesa ya tiene una orden activa. ¿Desea actualizarla?.'
-                onConfirm={() => console.log('confirm')}
+                onConfirm={() => handleRediRectToUpdateOrder()}
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
             />

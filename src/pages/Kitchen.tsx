@@ -1,4 +1,3 @@
-import ResponsiveDialog from '@/components/ResponsiveDialog';
 import TableKitchen from '../features/kitchen/TableKitchen';
 export default function Kitchen() {
     return (

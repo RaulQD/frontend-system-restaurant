@@ -3,9 +3,10 @@ import FilterOrder from '@/features/order/components/FilterOrder';
 import MenuList from '@/features/order/components/MenuList';
 import OrderList from '@/features/order/components/OrderList';
 import { useCreateOrder } from '@/features/order/useCreateOrder';
+import { useGetOrderActiveForTable } from '@/features/order/useGetOrderActiveForTable';
 import { useUser } from '@/hooks/useUser';
 import { OrderCreateData, OrderItem } from '@/types/order';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function Orders() {
@@ -14,14 +15,27 @@ export default function Orders() {
     //CREAR EL ESTADO DE LAS SOLICITUDES ESPECIALES
     const [specialRequests, setSpecialRequests] = useState<string>('');
     const navigate = useNavigate();
-    //OBTENER EL NOMBRE DE NUMERO DE LA MESA SELECCIONADA DE LA URL
-    const { tableId } = useParams<{ tableId: string }>();
-    //3. Obtener el valor de la mesa de la URL
+    //OBTENER EL NUMERO DE LA MESA SELECCIONADA DE LA URL
+    const { tableId, orderId } = useParams<{ tableId: string; orderId?: string }>();
     const { user } = useUser();
     const { createOrders } = useCreateOrder();
     const { dishes } = useDishes();
     //capturar el id de la orden creada
-    const [orderId, setOrderId] = useState<number | null>(null);
+    // const [orderId, setOrderId] = useState<number | null>(null);
+    const { activeOrder, isLoading} = useGetOrderActiveForTable(Number(tableId));
+    console.log(activeOrder);
+
+    useEffect(() => {
+        if(!orderId && activeOrder?.id_order){
+            //SI NO HAY UNA UNA ORDERID EN LA URL, REDIRECCIONAR A LA PAGINA DE LA ORDEN ACTIVA
+            navigate(`/admin/dashboard/tables/${tableId}/order/${activeOrder.id_order}`);
+        }
+    })
+    useEffect(() => {
+        if(activeOrder?.items){
+            setOrderItems(activeOrder.items);
+        }
+    }, [activeOrder]);
 
     //4. Crear una función handleCreateOrder que cree una orden
     const handleCreateOrder = () => {
@@ -38,7 +52,6 @@ export default function Orders() {
         createOrders(orderData, {
             onSuccess: (data) => {
                 if (data?.order?.id_order) {
-                    setOrderId(data.order.id_order);
                     setOrderItems([]); //limpiar los items de la orden
                     setSpecialRequests(''); //limpiar las solicitudes especiales
                     //navegar a la pagina de las mesas
@@ -47,6 +60,8 @@ export default function Orders() {
             },
         });
     };
+    
+
     //5. Crear una función handleAddItemToOrder que agregue un item a la orden
     const handleAddItemToOrder = (dishId: number) => {
         //OBTENER LA INFORMACIÓN DEL PLATO
@@ -76,7 +91,7 @@ export default function Orders() {
             <section className='h-[90dvh] xl:flex xl:gap-x-4'>
                 <div className='lg:basis-3/4 overflow-y-auto '>
                     <h1 className='font-outfit text-xl font-medium mb-4'>
-                        Orden de la Mesa {tableId}
+                         {orderId ? `Orden Activa de la Mesa ${tableId}` : `Nueva Orden para la Mesa ${tableId}`}
                     </h1>
                     <div className='flex items-center gap-x-2 flex-nowrap max-w-full overflow-x-auto '>
                         <FilterOrder />
@@ -88,7 +103,7 @@ export default function Orders() {
                 <div className='lg:basis-1/4'>
                     <OrderList
                         orderItems={orderItems}
-                        orderId={orderId!}
+                        orderId={Number(orderId)}
                         handleCreateOrder={handleCreateOrder}
                     />
                 </div>
