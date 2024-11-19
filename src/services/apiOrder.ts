@@ -16,7 +16,6 @@ export const getOrders = async () => {
 export const getOrderActiveForTable = async (tableId: number) => {
   try {
     const { data } = await api.get(`/orders/tables/${tableId}/order`);
-    console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {

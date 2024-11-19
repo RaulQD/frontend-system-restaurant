@@ -6,22 +6,22 @@ import { useTables } from '@/features/manage-table/useTables';
 import { useGetOrderActiveForTable } from '@/features/order/useGetOrderActiveForTable';
 import { getRooms } from '@/services/apiRooms';
 import { Rooms } from '@/types/rooms';
-import { Tables } from '@/types/tables';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-type Table = {
-    id_table: Tables['id_table'];
-};
-
-export default function ManageTable({ id_table }: Table) {
+export default function ManageTable() {
     const [searchParams, setSearchParams] = useSearchParams();
-
+    //OBTENER EL ID DE LA MESA
+    const [selectedTable, setSelectedTable] = useState<{
+        id_table: number;
+        status: string;
+    } | null>(null);
     const [isOpen, setIsOpen] = useState(false);
     const room = searchParams.get('room') || 'comedor principal';
     const navigate = useNavigate();
     const { tables, isLoading, error } = useTables(room);
-    const { activeOrder } = useGetOrderActiveForTable(id_table);
+    const { activeOrder } = useGetOrderActiveForTable(selectedTable?.id_table || 0);
+
     useEffect(() => {
         if (!searchParams.has('room')) {
             searchParams.set('room', 'comedor principal');
@@ -33,18 +33,18 @@ export default function ManageTable({ id_table }: Table) {
         id_table: number;
         status: string;
     }) => {
+        setSelectedTable(table); // Almacenar la mesa seleccionada
         if (table.status === 'OCUPADO') {
             setIsOpen(true);
-            handleRediRectToUpdateOrder();
         } else {
             handleRediRectToCreateOrder(table.id_table);
         }
     };
-    const handleRediRectToUpdateOrder = () => {
-        if (activeOrder?.id_order) {
-            navigate(
-                `/admin/dashboard/tables/${id_table}/order/${activeOrder.id_order}`
-            );
+    const handleRedirectToUpdateOrder = () => {
+        if (selectedTable && activeOrder?.id_order) {
+            navigate(`/admin/dashboard/tables/${selectedTable.id_table}/order/${activeOrder?.id_order}`);
+        }else{
+            console.error('No se pudo redirigir: falta información de la orden activa.');
         }
     };
 
@@ -112,7 +112,7 @@ export default function ManageTable({ id_table }: Table) {
             <AlertMessageDialog
                 title='Actualizar Orden'
                 description='Esta mesa ya tiene una orden activa. ¿Desea actualizarla?.'
-                onConfirm={() => handleRediRectToUpdateOrder()}
+                onConfirm={() => handleRedirectToUpdateOrder()}
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
             />

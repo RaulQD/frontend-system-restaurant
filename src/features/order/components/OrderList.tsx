@@ -7,7 +7,7 @@ import { Order, OrderItem } from '@/types/order';
 import { formatCurrency } from '@/utils';
 
 type OrderListProps = {
-    orderId: Order['id_order'];
+    orderId: Order['id_order'] | null;
     orderItems: OrderItem[];
     handleCreateOrder: () => void;
 };
@@ -24,7 +24,7 @@ export default function OrderList({
     //calcular el igv
     const IGV = subTotal * (18 / 100);
     const total = subTotal + IGV;
-
+   
     return (
         <>
             <aside

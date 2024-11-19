@@ -16,27 +16,19 @@ export default function Orders() {
     const [specialRequests, setSpecialRequests] = useState<string>('');
     const navigate = useNavigate();
     //OBTENER EL NUMERO DE LA MESA SELECCIONADA DE LA URL
-    const { tableId, orderId } = useParams<{ tableId: string; orderId?: string }>();
+    const { tableId } = useParams<{ tableId: string }>();
     const { user } = useUser();
     const { createOrders } = useCreateOrder();
     const { dishes } = useDishes();
     //capturar el id de la orden creada
     // const [orderId, setOrderId] = useState<number | null>(null);
-    const { activeOrder, isLoading} = useGetOrderActiveForTable(Number(tableId));
-    console.log(activeOrder);
-
+    const { activeOrder, isLoading, isError, error } =
+        useGetOrderActiveForTable(Number(tableId));
     useEffect(() => {
-        if(!orderId && activeOrder?.id_order){
-            //SI NO HAY UNA UNA ORDERID EN LA URL, REDIRECCIONAR A LA PAGINA DE LA ORDEN ACTIVA
-            navigate(`/admin/dashboard/tables/${tableId}/order/${activeOrder.id_order}`);
-        }
-    })
-    useEffect(() => {
-        if(activeOrder?.items){
+        if (activeOrder) {
             setOrderItems(activeOrder.items);
         }
     }, [activeOrder]);
-
     //4. Crear una función handleCreateOrder que cree una orden
     const handleCreateOrder = () => {
         //VALIDAR SI EL USUARIO TIENE UN ID DE EMPLEADO
@@ -60,7 +52,6 @@ export default function Orders() {
             },
         });
     };
-    
 
     //5. Crear una función handleAddItemToOrder que agregue un item a la orden
     const handleAddItemToOrder = (dishId: number) => {
@@ -91,7 +82,9 @@ export default function Orders() {
             <section className='h-[90dvh] xl:flex xl:gap-x-4'>
                 <div className='lg:basis-3/4 overflow-y-auto '>
                     <h1 className='font-outfit text-xl font-medium mb-4'>
-                         {orderId ? `Orden Activa de la Mesa ${tableId}` : `Nueva Orden para la Mesa ${tableId}`}
+                        {activeOrder?.id_order
+                            ? `Orden Activa de la Mesa ${tableId}`
+                            : `Nueva Orden para la Mesa ${tableId}`}
                     </h1>
                     <div className='flex items-center gap-x-2 flex-nowrap max-w-full overflow-x-auto '>
                         <FilterOrder />
@@ -103,7 +96,7 @@ export default function Orders() {
                 <div className='lg:basis-1/4'>
                     <OrderList
                         orderItems={orderItems}
-                        orderId={Number(orderId)}
+                        orderId={activeOrder?.id_order || null}
                         handleCreateOrder={handleCreateOrder}
                     />
                 </div>
