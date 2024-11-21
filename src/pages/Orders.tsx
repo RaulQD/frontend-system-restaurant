@@ -24,9 +24,12 @@ export default function Orders() {
     // const [orderId, setOrderId] = useState<number | null>(null);
     const { activeOrder, isLoading, isError, error } =
         useGetOrderActiveForTable(Number(tableId));
+
     useEffect(() => {
         if (activeOrder) {
-            setOrderItems(activeOrder.items);
+            setOrderItems(activeOrder?.items);
+        } else {
+            setOrderItems([]); // Si no hay orden activa, limpiar el estado
         }
     }, [activeOrder]);
     //4. Crear una función handleCreateOrder que cree una orden
@@ -51,6 +54,7 @@ export default function Orders() {
                 }
             },
         });
+        console.log(orderData);
     };
 
     //5. Crear una función handleAddItemToOrder que agregue un item a la orden
@@ -95,7 +99,7 @@ export default function Orders() {
                 </div>
                 <div className='lg:basis-1/4'>
                     <OrderList
-                        orderItems={orderItems}
+                        orderItems={orderItems || activeOrder?.items}
                         orderId={activeOrder?.id_order || null}
                         handleCreateOrder={handleCreateOrder}
                     />

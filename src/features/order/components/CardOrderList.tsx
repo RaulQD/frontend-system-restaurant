@@ -1,5 +1,5 @@
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
-import { OrderItem } from '@/types/order';
+import {  OrderItem } from '@/types/order';
 import { formatCurrency } from '../../../utils/formatCurrency';
 
 type CardOrderListProps = {

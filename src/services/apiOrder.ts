@@ -2,7 +2,7 @@ import api from "@/lib/axios";
 import { OrderCreateData } from "@/types/order";
 import { isAxiosError } from "axios";
 
-export const getOrders = async () => {
+export const getOrdersForKitchen = async () => {
   try {
     const { data } = await api.get('/orders');
     return data;
@@ -59,6 +59,17 @@ export const getItemsByOrder = async (orderId: number) => {
   try {
     const { data } = await api.get(`/orders/${orderId}/items`);
     console.log(data);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
+}
+export const updateStatusOrder = async (orderId: number, order_status: string) => {
+  try {
+    const { data } = await api.patch(`/orders/${orderId}/status`, { order_status });
+    
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {

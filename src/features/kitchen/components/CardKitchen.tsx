@@ -11,11 +11,10 @@ type CardKitchenProps = {
 
 export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
     //OBTENER LA CANTIDAD DE LOS ITEMM DE LA ORDEN
-    const totalQuantityItems = order.items.reduce(
-        (acc, item) => acc + item.quantity,
-        0
-    );
-    
+    // const totalQuantityItems = order.items.reduce(
+    //     (acc, item) => acc + item.quantity,
+    //     0
+    // );
 
     return (
         <Card className='font-outfit'>
@@ -44,16 +43,16 @@ export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
                         </p>
                     </div>
                 </div>
-                <Separator className='my-4' />
+                {/* <Separator className='my-4' />
                 <div className='flex justify-between text-sm'>
                     <span className='font-medium'>{totalQuantityItems} items</span>
                     <span className='text-teal-600 font-medium'>
                         {formatCurrency(order.total)}
                     </span>
-                </div>
-                <div>
+                </div> */}
+                {/*  <div>
                     <ul className='flex flex-col justify-between text-sm'>
-                        {/* Items */}
+                        Items
                         {order.items.map((item) => (
                             <li className='flex items-center justify-between gap-2 ' key={item.id_item}>
                                 <p className='font-normal text-gray-500'>
@@ -64,8 +63,8 @@ export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
                                 </span>
                             </li>
                         ))}
-                    </ul>
-                </div>
+                    </ul> 
+                </div>*/}
             </CardContent>
         </Card>
     );

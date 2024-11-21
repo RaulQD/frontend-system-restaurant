@@ -44,9 +44,9 @@ export default function OrderList({
 
                 <div className='basis-11/12 overflow-y-auto flex flex-col lg:p-6 bg-white rounded-lg'>
                     <ul className='basis-8/12 max-h-full overflow-y-auto'>
-                        {orderItems.map((dish) => (
-                            <li key={dish.dish_id} className='mb-3'>
-                                <CardOrderList orderdish={dish} />
+                        {orderItems.map((item) => (
+                            <li key={ item.dish_id} className='mb-3'>
+                                <CardOrderList orderdish={item} />
                             </li>
                         ))}
                     </ul>

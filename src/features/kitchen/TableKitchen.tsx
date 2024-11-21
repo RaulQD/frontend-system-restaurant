@@ -1,10 +1,16 @@
 import Spinner from '@/components/Spinner';
 import CardKitchen from './components/CardKitchen';
-import { useOrders } from './useOrders';
+import { useGetOrdersForKitchen } from './useGetOrdersForKitchen';
 import { Badge } from '@/components/ui/badge';
+import ResponsiveDialog from '@/components/ResponsiveDialog';
+import { useLocation } from 'react-router-dom';
 
 export default function TableKitchen() {
-    const { orders, isLoading, isError, error } = useOrders();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const status = queryParams.get('status');
+    const { orders, isLoading, error } = useGetOrdersForKitchen();
+    
     console.log(orders);
     if (isLoading) {
         return (
@@ -24,7 +30,9 @@ export default function TableKitchen() {
         switch (status) {
             case 'PENDIENTE':
                 return (
-                    <Badge variant='warning' className='text-white font-semibold'>
+                    <Badge
+                        variant='warning'
+                        className='text-white font-semibold'>
                         Pendiente
                     </Badge>
                 );
@@ -44,29 +52,39 @@ export default function TableKitchen() {
                 );
             case 'CANCELADO':
                 return (
-                    <Badge variant='destructive' className='text-white font-semibold'>
+                    <Badge
+                        variant='destructive'
+                        className='text-white font-semibold'>
                         Cancelado
                     </Badge>
                 );
             default:
                 return (
-                    <Badge variant='secondary' className='text-white font-semibold'>
+                    <Badge
+                        variant='secondary'
+                        className='text-white font-semibold'>
                         Desconocido
                     </Badge>
                 );
         }
     };
     return (
-        <div className='mb-5'>
-            <ul className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 '>
-                {orders.map((order) => (
-                    <li key={order.id_order}>
-                        <CardKitchen order={order} 
-                        badgeStatus={badgeStatus}
-                        />
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <>
+            <div className='mb-5'>
+                <ul className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 '>
+                    {orders.map((order) => (
+                        <li key={order.id_order}>
+                            <CardKitchen
+                                order={order}
+                                badgeStatus={badgeStatus}
+                            />
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            <ResponsiveDialog>
+
+            </ResponsiveDialog>
+        </>
     );
 }
