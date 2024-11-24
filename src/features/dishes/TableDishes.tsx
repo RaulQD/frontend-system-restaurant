@@ -107,10 +107,10 @@ export default function TableDishes() {
                                         </Button>
                                     </div>
                                     {/* <DropdownMenu>
-                                        <DropdownMenuTrigger>
+                                        <DropdownMenuTrigger asChild>
                                             <BiDotsVertical className='h-6 w-6 cursor-pointer text-gray-500' />
                                         </DropdownMenuTrigger>
-                                        <DropdownMenuContent sideOffset={5}>
+                                        <DropdownMenuContent sideOffset={5} className='w-[160px] z-50'>
                                             <DropdownMenuGroup>
                                                 <DropdownMenuItem
                                                     className='cursor-pointer'
