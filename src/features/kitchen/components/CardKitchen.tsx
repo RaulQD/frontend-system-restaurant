@@ -1,10 +1,9 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { OrdersList } from '@/types/order';
-import { formatCurrency } from '@/utils';
 import { ClockIcon, ComponentInstanceIcon } from '@radix-ui/react-icons';
 import { useGetOrderByID } from '../useGetOrderByID';
-import { replace, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ResponsiveDialog from '@/components/ResponsiveDialog';
 import OrderDetailsKitchen from './OrderDetailsKitchen';
 
@@ -14,11 +13,7 @@ type CardKitchenProps = {
 };
 
 export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
-    const {
-        orderDetails,
-        isLoading: isLoadingOrderDetails,
-        errorOrderDetails,
-    } = useGetOrderByID(order.id_order);
+    const { orderDetails } = useGetOrderByID(order.id_order);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -28,11 +23,6 @@ export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
     const handleOrderDetails = () => {
         navigate(`?orderDetail=${order.id_order}`);
     };
-
-    const firstName = order.names.split(' ')[0];
-    // CONCATENATE FIRST AND LAST NAME
- 
-    console.log(firstName);
 
     return (
         <>
@@ -61,7 +51,6 @@ export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
                             </p>
                         </div>
                     </div>
-   
                 </CardContent>
             </Card>
             <ResponsiveDialog
@@ -71,7 +60,12 @@ export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
                 setIsOpen={() =>
                     navigate(location.pathname, { replace: true })
                 }>
-                <OrderDetailsKitchen orderDetails={orderDetails} />
+                <OrderDetailsKitchen
+                    setIsOpen={() =>
+                        navigate(location.pathname, { replace: true })
+                    }
+                    orderDetails={orderDetails!}
+                />
             </ResponsiveDialog>
         </>
     );

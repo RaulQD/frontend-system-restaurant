@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 
 export default function TableKitchen() {
     const { orders, isLoading, error } = useGetOrdersForKitchen();
-
+console.log(error?.message)
 
     if (isLoading) {
         return (
@@ -14,10 +14,10 @@ export default function TableKitchen() {
             </div>
         );
     }
-    if (!orders?.length) {
+    if (error) {
         return (
             <div className='flex justify-center items-center h-96'>
-                <p className='text-lg text-gray-500'>{error?.message}</p>
+                <p className='text-lg text-gray-500'>{error.message}</p>
             </div>
         );
     }
@@ -67,7 +67,7 @@ export default function TableKitchen() {
         <>
             <div className='mb-5'>
                 <ul className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 '>
-                    {orders.map((order) => (
+                    {orders?.map((order) => (
                         <li key={order.id_order} className='cursor-pointer'>
                             <CardKitchen
                                 order={order}

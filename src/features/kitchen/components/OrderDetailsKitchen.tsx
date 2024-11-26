@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { OrderDetails } from '@/types/order';
 import { useUpdateItemStatus } from '../useUpdateItemStatus';
+import { Badge } from '@/components/ui/badge';
 
 type OrderDetailsKitchenProps = {
     orderDetails: OrderDetails;
@@ -78,25 +79,34 @@ export default function OrderDetailsKitchen({
                                 {item.subtotal}
                             </td>
                             <td className='px-3 py-2 text-sm'>
+                             {item.status === 'SERVIDO' ? (
+                                 <Badge variant={'success'}>
+                                        Servido
+                                 </Badge>
+                             ):(
                                 <form>
-                                    <select
-                                        defaultValue={item.status}
-                                        className='border border-gray-300 rounded-md text-sm p-1 w-full'
-                                        onChange={(
-                                            e: React.ChangeEvent<HTMLSelectElement>
-                                        ) =>
-                                            handleUpdateStatus(
-                                                orderId,
-                                                item.id_item,
-                                                e.target.value
-                                            )
-                                        }>
-                                        <option value='EN PREPARACIÓN'>
-                                            En preparaciòn
-                                        </option>
-                                        <option value='SERVIDO'>Servido</option>
-                                    </select>
-                                </form>
+                                <select
+                                    defaultValue={item.status}
+                                    className='border border-gray-300 rounded-md text-sm p-1 w-full'
+                                    onChange={(
+                                        e: React.ChangeEvent<HTMLSelectElement>
+                                    ) =>
+                                        handleUpdateStatus(
+                                            orderId,
+                                            item.id_item,
+                                            e.target.value
+                                        )
+                                    }>
+                                    <option value='PENDIENTE'>
+                                        Pendiente
+                                    </option>
+                                    <option value='EN PREPARACIÓN'>
+                                        En preparaciòn
+                                    </option>
+                                    <option value='SERVIDO'>Servido</option>
+                                </select>
+                            </form>
+                             )}
                             </td>
                         </tr>
                     ))}

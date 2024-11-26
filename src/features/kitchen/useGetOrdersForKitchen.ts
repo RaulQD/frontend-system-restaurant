@@ -4,9 +4,10 @@ import { useQuery } from "@tanstack/react-query"
 
 export const useGetOrdersForKitchen = () => {
   const { data: orders, isLoading, isError, error } = useQuery<OrdersList[]>({
-    queryKey: ['orders'],
+    queryKey: ['ordersKitchen'],
     queryFn: getOrdersForKitchen,
-    retry: false
+    retry: false,
+    refetchOnWindowFocus: false,
   })
   return { orders, isLoading, isError, error }
 }

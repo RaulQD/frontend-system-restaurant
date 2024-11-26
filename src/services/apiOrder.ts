@@ -4,7 +4,7 @@ import { isAxiosError } from "axios";
 
 export const getOrdersForKitchen = async () => {
   try {
-    const { data } = await api.get('/orders');
+    const { data } = await api.get('/orders/kitchen');
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
