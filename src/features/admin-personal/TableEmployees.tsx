@@ -30,11 +30,8 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Employee } from '@/types/employee';
 
-type EmployeeProps = {
-    employee: Employee;
-};
 
-export default function TableEmployees({ employee }: EmployeeProps) {
+export default function TableEmployees() {
     const { employees, isLoading, error } = useEmployees();
     const [isOpen, setIsOpen] = useState(false);
     // const location = useLocation();

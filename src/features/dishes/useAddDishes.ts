@@ -9,7 +9,6 @@ export const useAddDishes = () => {
     mutationFn: createDish,
     onError: (error) => {
       toast.error(error.message);
-      console.log(error);
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['dishes'] });

@@ -18,11 +18,16 @@ import PaginationI from '@/components/PaginationI';
 import ResponsiveDialog from '@/components/ResponsiveDialog';
 import { useDishes } from './useDishes';
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function TableDishes() {
     const { dishes, isLoadingDishes, error } = useDishes();
     const [isOpen, setIsOpen] = useState(false);
-
+    const navigate = useNavigate();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const dishId = queryParams.get('dishId');
+    const dishEdit = dishId === 
     // Verificar si se están cargando los platos
     if (isLoadingDishes) {
         return (
