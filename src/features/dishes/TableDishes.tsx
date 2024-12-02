@@ -19,15 +19,34 @@ import ResponsiveDialog from '@/components/ResponsiveDialog';
 import { useDishes } from './useDishes';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { DishType } from '@/types/dish';
+import EditDishForm from './EditDishForm';
+import { useQuery } from '@tanstack/react-query';
+import { getDishById } from '@/services/apiDishes';
 
 export default function TableDishes() {
     const { dishes, isLoadingDishes, error } = useDishes();
+
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const dishId = queryParams.get('dishId');
-    const dishEdit = dishId === 
+
+    const dishId = queryParams.get('editDish');
+    const { data: dish } = useQuery({
+        queryKey: ['dish', dishId],
+        queryFn: () => getDishById(Number(dishId)),
+        enabled: !!dishId,
+    })
+    console.log(dish);
+    const handleEditDish = (dishId: DishType['id']) => {
+        navigate(`?editDish=${dishId}`,);
+        setIsOpen(true);
+    };
+    const handleClose = () => {
+        navigate(location.pathname, { replace: true });
+        setIsOpen(false);
+    };
     // Verificar si se están cargando los platos
     if (isLoadingDishes) {
         return (
@@ -101,7 +120,7 @@ export default function TableDishes() {
                                         <Button
                                             variant={'ghost'}
                                             onClick={() =>
-                                                console.log('editando')
+                                                handleEditDish(dish.id)
                                             }>
                                             <Pencil1Icon className='text-lg' />
                                         </Button>
@@ -111,38 +130,6 @@ export default function TableDishes() {
                                             <BiTrash className='text-red-500 text-lg' />
                                         </Button>
                                     </div>
-                                    {/* <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <BiDotsVertical className='h-6 w-6 cursor-pointer text-gray-500' />
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent sideOffset={5} className='w-[160px] z-50'>
-                                            <DropdownMenuGroup>
-                                                <DropdownMenuItem
-                                                    className='cursor-pointer'
-                                                    onClick={() =>
-                                                        console.log('editando')
-                                                    }>
-                                                    Editar
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem
-                                                    className='cursor-pointer'
-                                                    onClick={() =>
-                                                        setIsOpen(true)
-                                                    }>
-                                                    Ver
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem
-                                                    className='cursor-pointer'
-                                                    onClick={() =>
-                                                        console.log(
-                                                            'eliminando'
-                                                        )
-                                                    }>
-                                                    Eliminar
-                                                </DropdownMenuItem>
-                                            </DropdownMenuGroup>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu> */}
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -151,11 +138,11 @@ export default function TableDishes() {
             </div>
             <PaginationI totalItems={dishes?.pagination.totalDishes || 0} />
             <ResponsiveDialog
-                title='Agregar plato'
+                title='Editar plato'
                 isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                description='Agrega un plato al menú de tu restaurante'>
-                <div>Contenido</div>
+                setIsOpen={handleClose}
+                description='Aquí puedes editar los datos del plato.'>
+                <EditDishForm />
             </ResponsiveDialog>
         </div>
     );
