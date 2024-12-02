@@ -205,7 +205,7 @@ export default function DishesForm({ setIsOpen }: DishesFormProps) {
                             })}>
                             <option value=''>Selecciona una categoria</option>
                             {category?.map((cat) => (
-                                <option key={cat.id} value={cat.category_name}>
+                                <option key={cat.id} value={cat.id}>
                                     {cat.category_name}
                                 </option>
                             ))}

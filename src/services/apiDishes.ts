@@ -20,7 +20,7 @@ export const getDishes = async ({ page, category, keyword }: GetDishesAPIType) =
 }
 export const getDishById = async (dishId: DishType['id']) => {
   try {
-    const { data } = await api.get<DishType>(`/dishes/${dishId}`);
+    const { data } = await api.get(`/dishes/${dishId}`);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {

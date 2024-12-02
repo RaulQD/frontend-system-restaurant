@@ -21,32 +21,31 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DishType } from '@/types/dish';
 import EditDishForm from './EditDishForm';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getDishById } from '@/services/apiDishes';
+import { getCategories } from '@/services/appCategory';
+import EditDishData from './EditDishData';
 
 export default function TableDishes() {
     const { dishes, isLoadingDishes, error } = useDishes();
-
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-
-    const dishId = queryParams.get('editDish');
-    const { data: dish } = useQuery({
-        queryKey: ['dish', dishId],
-        queryFn: () => getDishById(Number(dishId)),
-        enabled: !!dishId,
-    })
-    console.log(dish);
-    const handleEditDish = (dishId: DishType['id']) => {
-        navigate(`?editDish=${dishId}`,);
-        setIsOpen(true);
-    };
-    const handleClose = () => {
-        navigate(location.pathname, { replace: true });
-        setIsOpen(false);
-    };
+    // const location = useLocation();
+    // const queryParams = new URLSearchParams(location.search);
+    // const dishId = queryParams.get('editDish');
+    // const { data: dishEdit } = useQuery<DishType>({
+    //     queryKey: ['dish', dishId],
+    //     queryFn: () => getDishById(Number(dishId)),
+    //     enabled: !!dishId,
+    // });
+    // const handleEditDish = (dishId: DishType['id']) => {
+    //     navigate(`?editDish=${dishId}`);
+    //     setIsOpen(true);
+    // };
+    // const handleClose = () => {
+    //     navigate(location.pathname, { replace: true });
+    //     setIsOpen(false);
+    // };
     // Verificar si se están cargando los platos
     if (isLoadingDishes) {
         return (
@@ -120,13 +119,17 @@ export default function TableDishes() {
                                         <Button
                                             variant={'ghost'}
                                             onClick={() =>
-                                                handleEditDish(dish.id)
+                                              {
+                                                navigate(
+                                                    location.pathname +
+                                                        `?editDish=${dish.id}`
+                                                )
+                                                setIsOpen(true)
+                                              }
                                             }>
                                             <Pencil1Icon className='text-lg' />
                                         </Button>
-                                        <Button
-                                            variant={'ghost'}
-                                            onClick={() => setIsOpen(true)}>
+                                        <Button variant={'ghost'}>
                                             <BiTrash className='text-red-500 text-lg' />
                                         </Button>
                                     </div>
@@ -137,13 +140,7 @@ export default function TableDishes() {
                 </Table>
             </div>
             <PaginationI totalItems={dishes?.pagination.totalDishes || 0} />
-            <ResponsiveDialog
-                title='Editar plato'
-                isOpen={isOpen}
-                setIsOpen={handleClose}
-                description='Aquí puedes editar los datos del plato.'>
-                <EditDishForm />
-            </ResponsiveDialog>
+            <EditDishData />
         </div>
     );
 }
