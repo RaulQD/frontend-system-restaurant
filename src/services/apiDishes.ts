@@ -40,6 +40,8 @@ export const createDish = async (formData: FormData) => {
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message)
+    } else {
+      throw new Error('Error de conexión')
     }
   }
 }

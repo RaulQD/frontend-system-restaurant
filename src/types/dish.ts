@@ -5,14 +5,14 @@ export type DishType = {
   dishes_name: string;
   dishes_description: string;
   price: number;
-  available: string;
+  available?: string;
   image_url?: FileList | null;
   category_name: string;
 }
 
 
 
-export type DishesFormData = Pick<DishType, 'dishes_name' | 'dishes_description' | 'price' | 'image_url' | 'category_name'>
+export type DishesFormData = Pick<DishType, 'dishes_name' | 'dishes_description' | 'price' | 'image_url' | 'available' |'category_name'>
 
 
 export type DishesType = {

@@ -103,6 +103,7 @@ export default function DishesForm({ setIsOpen }: DishesFormProps) {
                                         {...register('image_url', {
                                             required:
                                                 'Sube una imagen del plato.',
+                                            
                                             onChange: handleImageChange,
                                         })}
                                     />
@@ -205,7 +206,7 @@ export default function DishesForm({ setIsOpen }: DishesFormProps) {
                             })}>
                             <option value=''>Selecciona una categoria</option>
                             {category?.map((cat) => (
-                                <option key={cat.id} value={cat.id}>
+                                <option key={cat.id} value={cat.category_name}>
                                     {cat.category_name}
                                 </option>
                             ))}

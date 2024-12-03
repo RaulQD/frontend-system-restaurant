@@ -1,44 +1,37 @@
 import ResponsiveDialog from '@/components/ResponsiveDialog';
 import { getDishById } from '@/services/apiDishes';
-import { DishType } from '@/types/dish';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Handle } from 'vaul';
+import EditDishForm from './EditDishForm';
+import { DishType } from '@/types/dish';
 
-export default function EditDishData() {
-    const [isOpen, setIsOpen] = useState(false);
-    const location = useLocation();
-    const navigate = useNavigate();
-    const queryParams = new URLSearchParams(location.search);
-    const dishId = queryParams.get('editDish');
+type EditDishDataProps = {
+    isOpen: boolean;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    dishId: DishType['id'];
+};
+
+export default function EditDishData({
+    isOpen,
+    setIsOpen,
+    dishId,
+}: EditDishDataProps) {
+    // const [isOpen, setIsOpen] = useState(false);
+    // const dishId = queryParams.get('editDish');
 
     const { data } = useQuery({
         queryKey: ['dish', dishId],
         queryFn: () => getDishById(Number(dishId)),
         enabled: !!dishId,
     });
-     const handleEditDish = (dishId: DishType['id']) => {
-        navigate(`?editDish=${dishId}`);
-        setIsOpen(true);
-    };
 
-    const handleClose = () => {
-        navigate(location.pathname, { replace: true });
-        setIsOpen(false);
-    };
-    console.log(data);
     if (data)
         return (
             <ResponsiveDialog
                 title='Editar plato'
                 isOpen={isOpen}
-                setIsOpen={handleClose}
+                setIsOpen={setIsOpen}
                 description='Aquí puedes editar los datos del plato.'>
-                {/* <EditDishForm data={dishEdit} /> */}
-                <div>
-                  hola
-                </div>
+                <EditDishForm data={data} dishId={dishId} setIsOpen ={setIsOpen} />
             </ResponsiveDialog>
         );
 }

@@ -15,33 +15,21 @@ import Spinner from '@/components/Spinner';
 
 import NoImage from '@/assets/not-image-found.png';
 import PaginationI from '@/components/PaginationI';
-import ResponsiveDialog from '@/components/ResponsiveDialog';
 import { useDishes } from './useDishes';
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { DishType } from '@/types/dish';
-import EditDishForm from './EditDishForm';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getDishById } from '@/services/apiDishes';
-import { getCategories } from '@/services/appCategory';
 import EditDishData from './EditDishData';
 
 export default function TableDishes() {
     const { dishes, isLoadingDishes, error } = useDishes();
+    const [dishId, setDishId] = useState<number>(); 
+
     const [isOpen, setIsOpen] = useState(false);
-    const navigate = useNavigate();
-    // const location = useLocation();
-    // const queryParams = new URLSearchParams(location.search);
-    // const dishId = queryParams.get('editDish');
-    // const { data: dishEdit } = useQuery<DishType>({
-    //     queryKey: ['dish', dishId],
-    //     queryFn: () => getDishById(Number(dishId)),
-    //     enabled: !!dishId,
-    // });
-    // const handleEditDish = (dishId: DishType['id']) => {
-    //     navigate(`?editDish=${dishId}`);
-    //     setIsOpen(true);
-    // };
+  
+    const handleEditDish = (dishId: DishType['id']) => {
+        setDishId(dishId);
+        setIsOpen(true);
+    };
     // const handleClose = () => {
     //     navigate(location.pathname, { replace: true });
     //     setIsOpen(false);
@@ -119,13 +107,7 @@ export default function TableDishes() {
                                         <Button
                                             variant={'ghost'}
                                             onClick={() =>
-                                              {
-                                                navigate(
-                                                    location.pathname +
-                                                        `?editDish=${dish.id}`
-                                                )
-                                                setIsOpen(true)
-                                              }
+                                                handleEditDish(dish.id)
                                             }>
                                             <Pencil1Icon className='text-lg' />
                                         </Button>
@@ -140,7 +122,11 @@ export default function TableDishes() {
                 </Table>
             </div>
             <PaginationI totalItems={dishes?.pagination.totalDishes || 0} />
-            <EditDishData />
+            <EditDishData 
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                dishId={dishId!}
+            />
         </div>
     );
 }

@@ -11,9 +11,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useCreateEmployee } from './useCreateEmployee';
 
-type EmployeeFormProps = {
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+
 
 export default function EmployeeForm() {
     const navigate = useNavigate();

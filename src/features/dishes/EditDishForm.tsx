@@ -1,5 +1,4 @@
 import { ErrorMessage } from '@/components/ErrorMessage';
-import SpinnerMini from '@/components/SpinnerMini';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,20 +7,39 @@ import { Category } from '@/types/category';
 import { DishesFormData, DishType } from '@/types/dish';
 import { Cross2Icon, UploadIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BiUpload } from 'react-icons/bi';
+import { useUpdateDish } from './useUpdateDish';
+import SpinnerMini from '@/components/SpinnerMini';
 
-type EditDishProps = {
-    data?: DishType;
+type EditDishFormProps = {
+    data: DishType;
+    dishId: DishType['id'];
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
-export default function EditDishForm({ data }: EditDishProps) {
+const STATUS_AVAILABLE = [
+    {
+        value: 'available',
+        label: 'Disponible',
+    },
+    {
+        value: 'unavailable',
+        label: 'No disponible',
+    },
+];
+export default function EditDishForm({
+    data,
+    dishId,
+    setIsOpen,
+}: EditDishFormProps) {
     const { data: category } = useQuery<Category[]>({
         queryKey: ['categories'],
         queryFn: getCategories,
     });
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [selectedImage, setSelectedImage] = useState<string | File | null>(
+        typeof data.image_url === 'string' ? data.image_url : null
+    );
     const {
         register,
         handleSubmit,
@@ -29,20 +47,55 @@ export default function EditDishForm({ data }: EditDishProps) {
         formState: { errors },
     } = useForm<DishesFormData>({
         defaultValues: {
-            dishes_name: data?.dishes_name,
-            dishes_description: data?.dishes_description,
-            price: data?.price,
-            category_name: data?.category_name,
-            // image_url: data.image_url,
+            dishes_name: data.dishes_name,
+            dishes_description: data.dishes_description,
+            available: data.available,
+            price: data.price,
+            category_name: data.category_name,
         },
     });
-
-    const onSubmit = () => {};
+    const { editDish, isPending } = useUpdateDish();
+    const onSubmit = (data: DishesFormData) => {
+        const formData = new FormData();
+        formData.append('dishes_name', data.dishes_name);
+        formData.append('dishes_description', data.dishes_description);
+        formData.append('price', data.price.toString());
+        formData.append('category_name', data.category_name);
+        //AÑADIR LA IMAGEN SELECCIONADA
+        // Añadir imagen al FormData
+        if (selectedImage instanceof File) {
+            // Si se seleccionó una nueva imagen
+            formData.append('image_url', selectedImage);
+        } else if (typeof selectedImage === 'string') {
+            // Si se mantiene la imagen existente (URL)
+            formData.append('existing_image_url', selectedImage);
+        } else {
+            console.error('No se ha seleccionado ninguna imagen');
+            return;
+        }
+        console.log('Data:', data);
+        console.log('FormData:', data.image_url);
+        const datadish = {
+            dishId: dishId,
+            formData: formData,
+        };
+        editDish(datadish, {
+            onSuccess: () => {
+                setIsOpen(false);
+                reset();
+                setSelectedImage(null);
+            },
+        });
+    };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            // setSelectedImage(file?);
+            const reader = new FileReader();
+            reader.onload = () => {
+                setSelectedImage(reader.result as string); // Establecer la URL de datos
+            };
+            reader.readAsDataURL(file); // Leer el archivo como URL de datos
         }
     };
 
@@ -53,16 +106,27 @@ export default function EditDishForm({ data }: EditDishProps) {
                     <div className='w-full col-span-3 row-span-2'>
                         <div className='border-2 border-dashed rounded-lg p-4 '>
                             {selectedImage ? (
-                                <div className='relative'>
-                                    <img
-                                        src={selectedImage}
-                                        alt='Imagen seleccionada'
-                                        className='w-full h-auto rounded-lg'
-                                    />
+                                <div className='relative flex justify-center items-center'>
+                                    {typeof selectedImage === 'string' ? (
+                                        <img
+                                            src={selectedImage}
+                                            alt='Imagen seleccionada'
+                                            className='w-52 h-auto rounded-lg'
+                                        />
+                                    ) : (
+                                        <img
+                                            src={URL.createObjectURL(
+                                                selectedImage
+                                            )}
+                                            alt='Imagen seleccionada'
+                                            className='w-52 h-auto rounded-lg'
+                                        />
+                                    )}
+
                                     {/* Opción para eliminar la imagen seleccionada */}
                                     <button
                                         type='button'
-                                        className='mt-2 absolute top-2 right-2 bg-white rounded-full p-1'
+                                        className='mt-2 absolute top-2 right-48 bg-white rounded-full p-1'
                                         onClick={() => {
                                             setSelectedImage(null);
                                         }}>
@@ -171,7 +235,21 @@ export default function EditDishForm({ data }: EditDishProps) {
                                 valueAsNumber: true,
                             })}
                         />
-                        <div className=''>{}</div>
+                        {errors.price && (
+                            <ErrorMessage>{errors.price.message}</ErrorMessage>
+                        )}
+                    </div>
+                    <div className=''>
+                        <Label htmlFor='available'>available</Label>
+                        <select
+                            id='available'
+                            className='flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1'>
+                            {STATUS_AVAILABLE.map((status) => (
+                                <option key={status.value} value={status.value}>
+                                    {status.label}
+                                </option>
+                            ))}
+                        </select>
                         {errors.price && (
                             <ErrorMessage>{errors.price.message}</ErrorMessage>
                         )}
@@ -208,7 +286,7 @@ export default function EditDishForm({ data }: EditDishProps) {
                 <div className='flex items-center justify-end'>
                     <Button variant={'principal'}>
                         <BiUpload className='mr-2' />
-                        Guardar plato
+                        {isPending ? <SpinnerMini /> : 'Guardar'}
                     </Button>
                 </div>
             </form>
