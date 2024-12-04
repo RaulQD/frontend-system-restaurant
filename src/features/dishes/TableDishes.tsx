@@ -22,10 +22,10 @@ import EditDishData from './EditDishData';
 
 export default function TableDishes() {
     const { dishes, isLoadingDishes, error } = useDishes();
-    const [dishId, setDishId] = useState<number>(); 
+    const [dishId, setDishId] = useState<number>();
 
     const [isOpen, setIsOpen] = useState(false);
-  
+
     const handleEditDish = (dishId: DishType['id']) => {
         setDishId(dishId);
         setIsOpen(true);
@@ -49,6 +49,25 @@ export default function TableDishes() {
             </div>
         );
     }
+    const availableDish = (available: string) => {
+        switch (available) {
+            case 'DISPONIBLE':
+                return (
+                    <Badge variant='success' className='text-white font-bold'>
+                        Disponible
+                    </Badge>
+                );
+            case 'NO DISPONIBLE':
+                return (
+                    <Badge
+                        variant='destructive'
+                        className='text-white font-bold'>
+                        No Disponible
+                    </Badge>
+                );
+        }
+    };
+
     return (
         <div className='mt-6'>
             <div className='overflow-x-auto shadow-sm ring-1 ring-black ring-opacity-5 md:rounded-lg'>
@@ -90,17 +109,7 @@ export default function TableDishes() {
                                     {dish.category.category_name}
                                 </TableCell>
                                 <TableCell>
-                                    {dish.available === 'Disponible' ? (
-                                        <Badge
-                                            variant='success'
-                                            className='text-white font-bold'>
-                                            {dish.available}
-                                        </Badge>
-                                    ) : (
-                                        <Badge variant='destructive'>
-                                            {dish.available}
-                                        </Badge>
-                                    )}
+                                    {availableDish(dish.available)}
                                 </TableCell>
                                 <TableCell className='flex items-center justify-center'>
                                     <div>
@@ -122,7 +131,7 @@ export default function TableDishes() {
                 </Table>
             </div>
             <PaginationI totalItems={dishes?.pagination.totalDishes || 0} />
-            <EditDishData 
+            <EditDishData
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
                 dishId={dishId!}

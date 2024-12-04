@@ -20,12 +20,12 @@ type EditDishFormProps = {
 };
 const STATUS_AVAILABLE = [
     {
-        value: 'available',
+        value: 'DISPONIBLE',
         label: 'Disponible',
     },
     {
-        value: 'unavailable',
-        label: 'No disponible',
+        value: 'NO DISPONIBLE',
+        label: 'No Disponible',
     },
 ];
 export default function EditDishForm({
