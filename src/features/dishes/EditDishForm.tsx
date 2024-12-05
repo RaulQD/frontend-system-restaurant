@@ -18,16 +18,7 @@ type EditDishFormProps = {
     dishId: DishType['id'];
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const STATUS_AVAILABLE = [
-    {
-        value: 'DISPONIBLE',
-        label: 'Disponible',
-    },
-    {
-        value: 'NO DISPONIBLE',
-        label: 'No Disponible',
-    },
-];
+
 export default function EditDishForm({
     data,
     dishId,
@@ -243,12 +234,12 @@ export default function EditDishForm({
                         <Label htmlFor='available'>available</Label>
                         <select
                             id='available'
-                            className='flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1'>
-                            {STATUS_AVAILABLE.map((status) => (
-                                <option key={status.value} value={status.value}>
-                                    {status.label}
-                                </option>
-                            ))}
+                            className='flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1'
+                            {...register('available', {
+                                required: 'Selecciona una opción.',
+                            })}>
+                            <option value='DISPONIBLE'>Disponible</option>
+                            <option value='NO DISPONIBLE'>No Disponible</option>
                         </select>
                         {errors.price && (
                             <ErrorMessage>{errors.price.message}</ErrorMessage>
