@@ -19,9 +19,12 @@ import { useDishes } from './useDishes';
 import { useState } from 'react';
 import { DishType } from '@/types/dish';
 import EditDishData from './EditDishData';
+import { useDeleteDih } from './useDeletedish';
+import AlertMessageDialog from '@/components/AlertMessageDialog';
 
 export default function TableDishes() {
     const { dishes, isLoadingDishes, error } = useDishes();
+    const { dishDelete } = useDeleteDih();
     const [dishId, setDishId] = useState<number>();
 
     const [isOpen, setIsOpen] = useState(false);
@@ -30,10 +33,7 @@ export default function TableDishes() {
         setDishId(dishId);
         setIsOpen(true);
     };
-    // const handleClose = () => {
-    //     navigate(location.pathname, { replace: true });
-    //     setIsOpen(false);
-    // };
+
     // Verificar si se están cargando los platos
     if (isLoadingDishes) {
         return (
@@ -66,6 +66,11 @@ export default function TableDishes() {
                     </Badge>
                 );
         }
+    };
+
+    //ELEMINAR PLATO
+    const handleDeleteDish = (dishId: DishType['id']) => {
+        dishDelete(dishId);
     };
 
     return (
@@ -120,7 +125,11 @@ export default function TableDishes() {
                                             }>
                                             <Pencil1Icon className='text-lg' />
                                         </Button>
-                                        <Button variant={'ghost'}>
+                                        <Button
+                                            variant={'ghost'}
+                                            onClick={() =>
+                                                handleDeleteDish(dish.id)
+                                            }>
                                             <BiTrash className='text-red-500 text-lg' />
                                         </Button>
                                     </div>
@@ -135,6 +144,16 @@ export default function TableDishes() {
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
                 dishId={dishId!}
+            />
+            <AlertMessageDialog
+                title='Eliminar Plato'
+                description='¿Estás seguro de eliminar este plato?'
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                onConfirm={() => {
+                    handleDeleteDish(dishId!);
+                    setIsOpen(false);
+                }}
             />
         </div>
     );
