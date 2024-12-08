@@ -5,7 +5,7 @@ export type DishType = {
   dishes_name: string;
   dishes_description: string;
   price: number;
-  available?: string;
+  available: 'DISPONIBLE' | 'NO DISPONIBLE';
   image_url?: FileList | null;
   category_name: string;
 }

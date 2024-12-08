@@ -52,6 +52,7 @@ export default function EditDishForm({
         formData.append('dishes_description', data.dishes_description);
         formData.append('price', data.price.toString());
         formData.append('category_name', data.category_name);
+        formData.append('available', data.available);
         //AÑADIR LA IMAGEN SELECCIONADA
         // Añadir imagen al FormData
         if (selectedImage instanceof File) {
@@ -64,8 +65,7 @@ export default function EditDishForm({
             console.error('No se ha seleccionado ninguna imagen');
             return;
         }
-        console.log('Data:', data);
-        console.log('FormData:', data.image_url);
+
         const datadish = {
             dishId: dishId,
             formData: formData,
@@ -241,8 +241,8 @@ export default function EditDishForm({
                             <option value='DISPONIBLE'>Disponible</option>
                             <option value='NO DISPONIBLE'>No Disponible</option>
                         </select>
-                        {errors.price && (
-                            <ErrorMessage>{errors.price.message}</ErrorMessage>
+                        {errors.available && (
+                            <ErrorMessage>{errors.available.message}</ErrorMessage>
                         )}
                     </div>
                     <div className='space-y-2'>
