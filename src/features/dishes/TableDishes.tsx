@@ -27,11 +27,12 @@ export default function TableDishes() {
     const { dishDelete } = useDeleteDih();
     const [dishId, setDishId] = useState<number>();
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const [isDelete, setIsDelete] = useState(false);
 
     const handleEditDish = (dishId: DishType['id']) => {
         setDishId(dishId);
-        setIsOpen(true);
+        setIsEdit(true);
     };
 
     // Verificar si se están cargando los platos
@@ -127,9 +128,10 @@ export default function TableDishes() {
                                         </Button>
                                         <Button
                                             variant={'ghost'}
-                                            onClick={() =>
-                                                handleDeleteDish(dish.id)
-                                            }>
+                                            onClick={() => {
+                                                setDishId(dish.id);
+                                                setIsDelete(true);
+                                            }}>
                                             <BiTrash className='text-red-500 text-lg' />
                                         </Button>
                                     </div>
@@ -141,18 +143,18 @@ export default function TableDishes() {
             </div>
             <PaginationI totalItems={dishes?.pagination.totalDishes || 0} />
             <EditDishData
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
+                isOpen={isEdit}
+                setIsOpen={setIsEdit}
                 dishId={dishId!}
             />
             <AlertMessageDialog
                 title='Eliminar Plato'
                 description='¿Estás seguro de eliminar este plato?'
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
+                isOpen={isDelete}
+                setIsOpen={setIsDelete}
                 onConfirm={() => {
                     handleDeleteDish(dishId!);
-                    setIsOpen(false);
+                    setIsDelete(false);
                 }}
             />
         </div>

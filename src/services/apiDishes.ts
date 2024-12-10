@@ -64,7 +64,6 @@ export const updateDish = async (dishId: number, formData: FormData) => {
 export const deleteDish = async (dishId: DishType['id']) => { 
   try {
     const { data } = await api.delete(`/dishes/${dishId}`);
-    console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {

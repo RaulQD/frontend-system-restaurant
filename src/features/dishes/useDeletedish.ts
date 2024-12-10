@@ -6,7 +6,7 @@ import toast from "react-hot-toast"
 
 export const useDeleteDih = () => {
   const queryClient = useQueryClient()
-  const { data: dishDelete } = useMutation({
+  const { mutate: dishDelete } = useMutation({
     mutationFn: (dishId: DishType['id']) => deleteDish(dishId),
     onError: (error) => {
       toast.error(error.message)
@@ -16,5 +16,5 @@ export const useDeleteDih = () => {
       toast.success(data.message)
     }
   })
-  return dishDelete
+  return { dishDelete }	
 }

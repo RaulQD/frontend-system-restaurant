@@ -31,28 +31,13 @@ console.log(error?.message)
                         Pendiente
                     </Badge>
                 );
-            case 'EN PREPARACIÒN':
+            case 'EN PROCESO':
                 return (
                     <Badge variant='info' className='text-black font-semibold'>
-                        En Preparación
+                        En Proceso
                     </Badge>
                 );
-            case 'SERVIDO':
-                return (
-                    <Badge
-                        variant='success'
-                        className='text-white font-semibold'>
-                        Servido
-                    </Badge>
-                );
-            case 'CANCELADO':
-                return (
-                    <Badge
-                        variant='destructive'
-                        className='text-white font-semibold'>
-                        Cancelado
-                    </Badge>
-                );
+            
             default:
                 return (
                     <Badge
