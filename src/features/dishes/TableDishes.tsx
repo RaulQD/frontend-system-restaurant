@@ -26,14 +26,8 @@ export default function TableDishes() {
     const { dishes, isLoadingDishes, error } = useDishes();
     const { dishDelete } = useDeleteDih();
     const [dishId, setDishId] = useState<number>();
-
     const [isEdit, setIsEdit] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
-
-    const handleEditDish = (dishId: DishType['id']) => {
-        setDishId(dishId);
-        setIsEdit(true);
-    };
 
     // Verificar si se están cargando los platos
     if (isLoadingDishes) {
@@ -69,10 +63,23 @@ export default function TableDishes() {
         }
     };
 
+    const handleEditDish = (dishId: DishType['id']) => {
+        setDishId(dishId);
+        setIsEdit(true);
+    };
+  
     //ELEMINAR PLATO
     const handleDeleteDish = (dishId: DishType['id']) => {
         dishDelete(dishId);
     };
+    const isDishDeleted = (dish: DishType) => {
+        if(dish.available === 'NO DISPONIBLE') {
+            setDishId(dish.id);
+            setIsDelete(true);
+        } else {
+            handleDeleteDish(dish.id);
+        }
+    }
 
     return (
         <div className='mt-6'>
@@ -128,10 +135,7 @@ export default function TableDishes() {
                                         </Button>
                                         <Button
                                             variant={'ghost'}
-                                            onClick={() => {
-                                                setDishId(dish.id);
-                                                setIsDelete(true);
-                                            }}>
+                                            onClick={() =>{}}>
                                             <BiTrash className='text-red-500 text-lg' />
                                         </Button>
                                     </div>
@@ -147,6 +151,7 @@ export default function TableDishes() {
                 setIsOpen={setIsEdit}
                 dishId={dishId!}
             />
+            
             <AlertMessageDialog
                 title='Eliminar Plato'
                 description='¿Estás seguro de eliminar este plato?'

@@ -61,9 +61,20 @@ export const updateDish = async (dishId: number, formData: FormData) => {
   }
 }
 
-export const deleteDish = async (dishId: DishType['id']) => { 
+export const deleteDish = async (dishId: DishType['id']) => {
   try {
-    const { data } = await api.delete(`/dishes/${dishId}`);
+    const { data } = await api.patch(`/dishes/${dishId}/delete`);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message)
+    }
+  }
+}
+
+export const restoredDish = async (dishId: DishType['id']) => {
+  try {
+    const { data } = await api.patch(`/dishes/${dishId}/restore`);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
