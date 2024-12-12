@@ -100,8 +100,8 @@ export default function OrderDetailsKitchen({
                                     <option value='PENDIENTE'>
                                         Pendiente
                                     </option>
-                                    <option value='EN PREPARACIÓN'>
-                                        En preparaciòn
+                                    <option value='EN PREPARACION'>
+                                        En preparacion
                                     </option>
                                     <option value='SERVIDO'>Servido</option>
                                 </select>

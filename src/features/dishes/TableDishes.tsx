@@ -135,7 +135,10 @@ export default function TableDishes() {
                                         </Button>
                                         <Button
                                             variant={'ghost'}
-                                            onClick={() =>{}}>
+                                            onClick={() =>{
+                                                setDishId(dish.id);
+                                                setIsDelete(true);
+                                            }}>
                                             <BiTrash className='text-red-500 text-lg' />
                                         </Button>
                                     </div>
