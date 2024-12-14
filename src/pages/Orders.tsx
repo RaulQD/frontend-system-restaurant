@@ -1,37 +1,27 @@
 import { useDishes } from '@/features/dishes/useDishes';
+import { useTableInfo } from '@/features/manage-table/useTableInfo';
 import FilterOrder from '@/features/order/components/FilterOrder';
 import MenuList from '@/features/order/components/MenuList';
 import OrderList from '@/features/order/components/OrderList';
 import { useCreateOrder } from '@/features/order/useCreateOrder';
-import { useGetOrderActiveForTable } from '@/features/order/useGetOrderActiveForTable';
 import { useUser } from '@/hooks/useUser';
 import { OrderCreateData, OrderItem } from '@/types/order';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function Orders() {
     //CREAR EL ESTADO DE LOS ITEMS DE LA ORDEN
     const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
-    //CREAR EL ESTADO DE LAS SOLICITUDES ESPECIALES
     const [specialRequests, setSpecialRequests] = useState<string>('');
     const navigate = useNavigate();
+    //CREAR EL ESTADO DE LAS SOLICITUDES ESPECIALES
     //OBTENER EL NUMERO DE LA MESA SELECCIONADA DE LA URL
     const { tableId } = useParams<{ tableId: string }>();
     const { user } = useUser();
-    const { createOrders } = useCreateOrder();
     const { dishes } = useDishes();
-    //capturar el id de la orden creada
-    // const [orderId, setOrderId] = useState<number | null>(null);
-    const { activeOrder, isLoading, isError, error } =
-        useGetOrderActiveForTable(Number(tableId));
+    const { createOrders } = useCreateOrder();
+    const { tableById } = useTableInfo(Number(tableId));
 
-    useEffect(() => {
-        if (activeOrder) {
-            setOrderItems(activeOrder?.items);
-        } else {
-            setOrderItems([]); // Si no hay orden activa, limpiar el estado
-        }
-    }, [activeOrder]);
     //4. Crear una función handleCreateOrder que cree una orden
     const handleCreateOrder = () => {
         //VALIDAR SI EL USUARIO TIENE UN ID DE EMPLEADO
@@ -75,6 +65,7 @@ export default function Orders() {
                 image: dish?.image_url,
                 quantity: 1,
                 unit_price: dish?.price,
+                status: 'PENDIENTE',
                 special_requests: specialRequests,
             };
             setOrderItems([...orderItems, item]);
@@ -86,9 +77,7 @@ export default function Orders() {
             <section className='h-[90dvh] xl:flex xl:gap-x-4'>
                 <div className='lg:basis-3/4 overflow-y-auto '>
                     <h1 className='font-outfit text-xl font-medium mb-4'>
-                        {activeOrder?.id_order
-                            ? `Orden Activa de la Mesa ${tableId}`
-                            : `Nueva Orden para la Mesa ${tableId}`}
+                        Crear nueva orden en la mesa {tableById?.num_table}
                     </h1>
                     <div className='flex items-center gap-x-2 flex-nowrap max-w-full overflow-x-auto '>
                         <FilterOrder />
@@ -99,8 +88,7 @@ export default function Orders() {
                 </div>
                 <div className='lg:basis-1/4'>
                     <OrderList
-                        orderItems={orderItems || activeOrder?.items}
-                        orderId={activeOrder?.id_order || null}
+                        orderItems={orderItems}
                         handleCreateOrder={handleCreateOrder}
                     />
                 </div>

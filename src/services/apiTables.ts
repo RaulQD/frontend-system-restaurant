@@ -16,3 +16,17 @@ export const getTablesByRoomName = async (room: string) => {
     }
   }
 }
+
+export const getTableById = async (idTable: Tables['id_table']) => { 
+  try {
+    const { data } = await api.get(`/tables/${idTable}`)
+    console.log(data)
+    return data
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message)
+    } else {
+      throw new Error('Error desconocido al obtener las mesas');
+    }
+  }
+}

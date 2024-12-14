@@ -26,7 +26,7 @@ export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
 
     return (
         <>
-            <Card className='font-outfit ' onClick={handleOrderDetails}>
+            <Card className='font-outfit' onClick={handleOrderDetails}>
                 <CardHeader className='p-4'>
                     <div className='flex items-center justify-between'>
                         <h1 className=' text-sm font-medium'>{order.names}</h1>

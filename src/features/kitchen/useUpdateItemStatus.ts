@@ -11,6 +11,7 @@ export const useUpdateItemStatus = () => {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['orderDetail', data.order_id] })
+      // queryClient.invalidateQueries({ queryKey: ['ordersKitchen'] })
       toast.success(data.message)
       
     }

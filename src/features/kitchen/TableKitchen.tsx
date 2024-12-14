@@ -5,7 +5,6 @@ import { Badge } from '@/components/ui/badge';
 
 export default function TableKitchen() {
     const { orders, isLoading, error } = useGetOrdersForKitchen();
-console.log(error?.message)
 
     if (isLoading) {
         return (

@@ -7,7 +7,7 @@ import { Order, OrderItem } from '@/types/order';
 import { formatCurrency } from '@/utils';
 
 type OrderListProps = {
-    orderId: Order['id_order'] | null;
+    // orderId: Order['id_order'] | null;
     orderItems: OrderItem[];
     handleCreateOrder: () => void;
 };

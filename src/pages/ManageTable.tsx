@@ -3,7 +3,6 @@ import FilterButton from '@/components/FilterButton';
 import Spinner from '@/components/Spinner';
 import CardTable from '@/features/manage-table/components/CardTable';
 import { useTables } from '@/features/manage-table/useTables';
-import { useGetOrderActiveForTable } from '@/features/order/useGetOrderActiveForTable';
 import { getRooms } from '@/services/apiRooms';
 import { Rooms } from '@/types/rooms';
 import { useEffect, useState } from 'react';
@@ -12,15 +11,15 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 export default function ManageTable() {
     const [searchParams, setSearchParams] = useSearchParams();
     //OBTENER EL ID DE LA MESA
-    const [selectedTable, setSelectedTable] = useState<{
-        id_table: number;
-        status: string;
-    } | null>(null);
+    // const [selectedTable, setSelectedTable] = useState<{
+    //     id_table: number;
+    //     status: string;
+    // } | null>(null);
     const [isOpen, setIsOpen] = useState(false);
     const room = searchParams.get('room') || 'comedor principal';
     const navigate = useNavigate();
     const { tables, isLoading, error } = useTables(room);
-    const { activeOrder } = useGetOrderActiveForTable(selectedTable?.id_table || 0);
+    // const { activeOrder } = useGetOrderActiveForTable(selectedTable?.id_table || 0);
 
     useEffect(() => {
         if (!searchParams.has('room')) {
@@ -29,23 +28,23 @@ export default function ManageTable() {
         }
     }, [searchParams, setSearchParams]);
 
-    const handleTableClick = async (table: {
-        id_table: number;
-        status: string;
-    }) => {
-        setSelectedTable(table); // Almacenar la mesa seleccionada
-        if (table.status === 'OCUPADO') {
-            setIsOpen(true);
-        } else {
-            handleRediRectToCreateOrder(table.id_table);
-        }
-    };
+    // const handleTableClick = async (table: {
+    //     id_table: number;
+    //     status: string;
+    // }) => {
+    //     setSelectedTable(table); // Almacenar la mesa seleccionada
+    //     if (table.status === 'OCUPADO') {
+    //         setIsOpen(true);
+    //     } else {
+    //         handleRediRectToCreateOrder(table.id_table);
+    //     }
+    // };
     const handleRedirectToUpdateOrder = () => {
-        if (selectedTable && activeOrder?.id_order) {
-            navigate(`/admin/dashboard/tables/${selectedTable.id_table}/order/${activeOrder?.id_order}`);
-        }else{
-            console.error('No se pudo redirigir: falta información de la orden activa.');
-        }
+        // if (selectedTable) {
+        //     navigate(
+        //         `/admin/dashboard/tables/${selectedTable.id_table}/order/`
+        //     );
+        // }
     };
 
     const handleRediRectToCreateOrder = (tableId: number) => {
@@ -103,7 +102,9 @@ export default function ManageTable() {
                         <li
                             className='cursor-pointer'
                             key={table.id_table}
-                            onClick={() => handleTableClick(table)}>
+                            onClick={() =>
+                                handleRediRectToCreateOrder(table.id_table)
+                            }>
                             <CardTable table={table} />
                         </li>
                     ))}
