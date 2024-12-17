@@ -15,7 +15,7 @@ export const useUser = () => {
 
   // Manejo de errores fuera de la configuración
   useEffect(() => {
-    if (!localStorage.getItem('AUTHENTICATION')) {
+    if (!localStorage.getItem('token')) {
       console.error('Token no encontrado en localStorage');
     }
   }, []);

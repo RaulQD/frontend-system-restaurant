@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import { LoginDataForm, LoginResponse } from "@/types/auth";
+import { LoginDataForm } from "@/types/auth";
 import { EmployeeProfile } from "@/types/auth";
 import { isAxiosError } from "axios";
 
@@ -7,10 +7,12 @@ import { isAxiosError } from "axios";
 
 export const authenticatedUser = async (dataForm: LoginDataForm) => {
   try {
-    const { data } = await api.post<LoginResponse>('/auth/login', dataForm)
-    localStorage.setItem('AUTHENTICATION', data.token)
+    const { data } = await api.post('/auth/login', dataForm)
+    localStorage.setItem('token', data.token)
+    console.log(data)
     return data;
   } catch (error) {
+    console.log(error);
     if (isAxiosError(error) && error.response)
       throw new Error(error.response.data.message)
   }
@@ -30,7 +32,7 @@ export const registerUser = async (formData: FormData) => {
   }
 }
 export const getAuthenticatedUser = async () => {
-  const token = localStorage.getItem('AUTHENTICATION')
+  const token = localStorage.getItem('token')
   if (!token) {
     throw new Error('No token found')
   }

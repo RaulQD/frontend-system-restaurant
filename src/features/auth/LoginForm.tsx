@@ -8,11 +8,11 @@ import { useLogin } from './useLogin';
 import SpinnerMini from '@/components/SpinnerMini';
 
 export default function LoginForm() {
+    
     const initialValues: LoginDataForm = {
         username: '',
         password: '',
     };
-
     const {
         register,
         handleSubmit,
@@ -21,10 +21,10 @@ export default function LoginForm() {
     } = useForm({
         defaultValues: initialValues,
     });
-    const { login, isPending } = useLogin();
+    const { autentication, isPending } = useLogin();
 
     const onSubmit = (data: LoginDataForm) => {
-        login(data, {
+        autentication(data, {
             onSuccess: () => {
                 reset();
             },
