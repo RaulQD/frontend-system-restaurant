@@ -21,7 +21,7 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }: NavbarProps) {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
 
-    const fullName = user?.employee.full_name;
+    const fullName = user?.full_name;
     const nameParts = fullName?.split(' ');
     const firstName = nameParts?.[0] || '';
     const lastName = nameParts?.[2] || '';
@@ -75,7 +75,7 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }: NavbarProps) {
                                     <div className='flex items-start justify-center gap-2 cursor-pointer'>
                                         <Avatar>
                                             <AvatarImage
-                                                src={user?.employee.profile_picture_url}
+                                                src={user?.profile_picture_url}
                                                 alt='Foto de perfil'
                                                 className='cursor-pointer'
                                             />
@@ -88,7 +88,7 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }: NavbarProps) {
                                                {concatName}
                                             </span>
                                             <span className='text-xs text-gray-500'>
-                                                {user?.role.name}
+                                                {user?.role}
                                             </span>
                                         </div>
                                     </div>

@@ -22,12 +22,12 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                 <div className='flex-1 px-3 bg-white space-y-1'>
                     <ul className='space-y-2 pb-2 font-outfit'>
                         <SidebarItems
-                            path='/admin/dashboard'
+                            path='/dashboard'
                             label='Dashboard'
                             Icon={RxDashboard}
                         />
                         <SidebarItems
-                            path='/admin/dashboard/tables'
+                            path='/dashboard/tables'
                             label='Manejo de Mesas'
                             Icon={MdOutlineTableBar}
                         />
@@ -36,12 +36,12 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                             Icon={BiCart}
                             menuItems={[
                                 {
-                                    path: '/admin/dashboard/dishes',
+                                    path: '/dashboard/dishes',
                                     label: 'Platos',
                                 },
 
                                 {
-                                    path: '/admin/dashboard/category',
+                                    path: '/dashboard/category',
                                     label: 'Categorias',
                                 },
                             ]}
@@ -51,7 +51,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                             Icon={BiUser}
                             menuItems={[
                                 {
-                                    path: '/admin/dashboard/personal',
+                                    path: '/dashboard/personal',
                                     label: 'Administrar Personal',
                                 },
                             ]}
@@ -61,11 +61,11 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                             Icon={BiSolidReport}
                             menuItems={[
                                 {
-                                    path: '/admin/dashboard/reports-month',
+                                    path: '/dashboard/reports-month',
                                     label: 'Total ventas por mes',
                                 },
                                 {
-                                    path: '/admin/dashboard/reports-users',
+                                    path: '/dashboard/reports-users',
                                     label: 'Ventas por trabajador',
                                 },
                             ]}
@@ -75,7 +75,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                             Icon={BiDish}
                             menuItems={[
                                 {
-                                    path: '/admin/dashboard/kitchen',
+                                    path: '/dashboard/kitchen',
                                     label: 'Listado de Pedidos',
                                 },
                             ]}
@@ -85,27 +85,14 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                             Icon={BiDish}
                             menuItems={[
                                 {
-                                    path: '/admin/dashboard/order-history',
+                                    path: '/dashboard/order-history',
                                     label: 'Historial de ordenes',
                                 },
                             ]}
                         />
                     </ul>
                 </div>
-                {/*   <div className='px-3'>
-                    <ul className='space-y-2 pb-2 font-outfit'>
-                        <SidebarItems
-                            path='/admin/dashboard'
-                            label='Configuración'
-                            Icon={RxGear}
-                        />
-                        <SidebarItems
-                            path='/auth/login'
-                            label='Cerrar Sesión'
-                            Icon={RxExit}
-                        />
-                    </ul>
-                </div>*/}
+              
             </div>
         </aside>
     );

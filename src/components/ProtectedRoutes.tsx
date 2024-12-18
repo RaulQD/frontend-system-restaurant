@@ -3,10 +3,14 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import Spinner from './Spinner';
 
 type ProtectedRoutesProps = {
+    children: React.ReactElement;
     allowedRoles: string[];
 };
 
-export const ProtectedRoutes = ({ allowedRoles }: ProtectedRoutesProps) => {
+export const ProtectedRoutes = ({
+    children,
+    allowedRoles,
+}: ProtectedRoutesProps) => {
     const { user, isLoading, isError } = useUser();
     const location = useLocation();
 
@@ -21,10 +25,10 @@ export const ProtectedRoutes = ({ allowedRoles }: ProtectedRoutesProps) => {
     if (isError || !user)
         return <Navigate to='/auth/login' state={{ from: location }} replace />;
 
-    if (!allowedRoles.includes(user.role.name))
+    if (!allowedRoles.includes(user.role))
         return (
             <Navigate to='/un-authorized' state={{ from: location }} replace />
         );
 
-    return <Outlet />;
+    return children;
 };

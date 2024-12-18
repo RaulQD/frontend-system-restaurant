@@ -13,6 +13,7 @@ import Kitchen from './pages/Kitchen';
 import Category from './pages/Category';
 import OrderHistory from './pages/OrderHistory';
 import Orders from './pages/Orders';
+import UnAuthorized from './pages/UnAuthorized';
 
 const ROLES = {
     Administrador: 'administrador',
@@ -24,32 +25,66 @@ export default function AppRoutes() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/admin/' element={<Layout />}>
+                <Route path='/' element={<Layout />}>
                     {/* RUTA PARA EL ADMINISTRADOR*/}
+
                     <Route
+                        path='dashboard'
                         element={
                             <ProtectedRoutes
-                                allowedRoles={[ROLES.Administrador]}
-                            />
+                                allowedRoles={[
+                                    ROLES.Administrador,
+                                    ROLES.Mesero,
+                                ]}>
+                                <Dashboard />
+                            </ProtectedRoutes>
+                        }
+                    />
+                    <Route path='dashboard/personal' element={<AdminPanel />} />
+                    <Route
+                        path='dashboard/personal-register'
+                        element={<AddEmployee />}
+                    />
+                    <Route
+                        path='dashboard/dishes/add-dishes'
+                        element={<AddDishes />}
+                    />
+                    <Route path='dashboard/dishes' element={<Dishes />} />
+                    <Route path='dashboard/category' element={<Category />} />
+                    <Route
+                        path='dashboard/tables'
+                        element={
+                            <ProtectedRoutes
+                                allowedRoles={[
+                                    ROLES.Administrador,
+                                    ROLES.Cocinero,
+                                ]}>
+                                <ManageTable />
+                            </ProtectedRoutes>
+                        }
+                    />
+                    <Route
+                        path='dashboard/tables/:tableId/order'
+                        element={<Orders />}
+                    />
+                    <Route
+                        path='dashboard/tables/:tableId/order/:orderId'
+                        element={<Orders />}
+                    />
+                    <Route path='dashboard/kitchen' element={<Kitchen />} />
+                    <Route
+                        path='dashboard/order-history'
+                        element={<OrderHistory />}
+                    />
+                </Route>
+
+                {/* <Route path='/' element={<Layout />}>
+                    <Route
+                        element={
+                            <ProtectedRoutes allowedRoles={[ROLES.Mesero]} />
                         }>
                         <Route path='dashboard' element={<Dashboard />} />
-                        <Route
-                            path='dashboard/personal'
-                            element={<AdminPanel />}
-                        />
-                        <Route
-                            path='dashboard/personal-register'
-                            element={<AddEmployee />}
-                        />
-                        <Route
-                            path='dashboard/dishes/add-dishes'
-                            element={<AddDishes />}
-                        />
-                        <Route path='dashboard/dishes' element={<Dishes />} />
-                        <Route
-                            path='dashboard/category'
-                            element={<Category />}
-                        />
+                      
                         <Route
                             path='dashboard/tables'
                             element={<ManageTable />}
@@ -62,19 +97,15 @@ export default function AppRoutes() {
                             path='dashboard/tables/:tableId/order/:orderId'
                             element={<Orders />}
                         />
-                        <Route path='dashboard/kitchen' element={<Kitchen />} />
-                        <Route
-                            path='dashboard/order-history'
-                            element={<OrderHistory />}
-                        />
                     </Route>
-                </Route>
+                </Route> */}
                 {/* RUTA PARA EL MESERO
                     <Route element={ <ProtectedRoutes allowedRoles={['administrador']} /> }>
                     </Route>
                     RUTA PARA EL COCINERO
                     <Route element={ <ProtectedRoutes allowedRoles={['administrador', 'cocinero']} /> }>
                     </Route>*/}
+                <Route path='/un-authorized' element={<UnAuthorized />} />
                 <Route path='/auth/' element={<AuthLayout />}>
                     <Route path='login' element={<Login />} />
                 </Route>

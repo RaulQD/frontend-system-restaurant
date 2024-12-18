@@ -4,9 +4,7 @@ export type Employee = {
   id_employee: number;
   full_name: string;
   profile_picture_url?: string;
-
 }
-
 
 export type Data = {
   id: number;
@@ -15,8 +13,15 @@ export type Data = {
   role: Rol;
   token: string;
 }
+export type EmployeeProfile = {
+  id: number;
+  username: string;
+  full_name: string;
+  role: string;
+  profile_picture_url?: string;
+}
+
 export type LoginResponse = Pick<Data, 'id' | 'username' | 'employee' | 'role' | 'token'>
-export type EmployeeProfile = Pick<Data, 'id' | 'username' | 'employee' | 'role'>
 
 
 export type LoginDataForm = {

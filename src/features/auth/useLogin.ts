@@ -1,11 +1,9 @@
-import { useAuth } from "@/context/AuthContext";
 import { authenticatedUser } from "@/services/apiAuth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 export const useLogin = () => {
-  const { login } = useAuth();
   const navigate = useNavigate();
   
   const queryClient = useQueryClient();
@@ -20,11 +18,10 @@ export const useLogin = () => {
       const nameParts = fullName?.split(' ');
       const firstName = nameParts![0]
       const lastName = nameParts![2]
-      login(data);
       toast.success(`Bienvenido ${firstName} ${lastName}`);
 
       queryClient.setQueryData(['user'], data);
-      navigate('/admin/dashboard');
+      navigate('/dashboard');
     },
   });
   return { autentication, isPending };
