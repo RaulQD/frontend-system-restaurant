@@ -48,7 +48,7 @@ export default function ManageTable() {
     };
 
     const handleRediRectToCreateOrder = (tableId: number) => {
-        navigate(`/admin/dashboard/tables/${tableId}/order`);
+        navigate(`/dashboard/tables/${tableId}/order`);
     };
 
     if (!tables) {

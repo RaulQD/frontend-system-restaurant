@@ -14,7 +14,7 @@ export const useCreateEmployee = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['employees'] })
       toast.success(data.message)
-      navigarte('/admin/dashboard/personal')
+      navigarte('/dashboard/personal')
     }
   })
   return { createEmployee }

@@ -1,11 +1,10 @@
 import { Button } from '@/components/ui/button';
-import { useLocation, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 
 export default function UnAuthorized() {
   const navigate = useNavigate();
-  const location = useLocation();
   const handleNavigate = () => {
-    navigate('/');
+    navigate(-1);
   }
     return (
         <div>

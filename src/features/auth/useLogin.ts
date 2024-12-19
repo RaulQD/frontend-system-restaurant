@@ -21,7 +21,7 @@ export const useLogin = () => {
       toast.success(`Bienvenido ${firstName} ${lastName}`);
 
       queryClient.setQueryData(['user'], data);
-      navigate('/dashboard');
+      navigate('/dashboard/tables');
     },
   });
   return { autentication, isPending };

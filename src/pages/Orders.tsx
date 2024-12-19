@@ -40,7 +40,7 @@ export default function Orders() {
                     setOrderItems([]); //limpiar los items de la orden
                     setSpecialRequests(''); //limpiar las solicitudes especiales
                     //navegar a la pagina de las mesas
-                    navigate(`/admin/dashboard/tables/`);
+                    navigate(`/dashboard/tables/`);
                 }
             },
         });

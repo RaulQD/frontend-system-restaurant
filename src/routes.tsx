@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './layout/Layout';
 import AuthLayout from './layout/AuthLayout';
-import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import ManageTable from './pages/ManageTable';
 import Dishes from './pages/Dishes';
@@ -29,18 +28,14 @@ export default function AppRoutes() {
                     {/* RUTA PARA EL ADMINISTRADOR*/}
 
                     <Route
-                        path='dashboard'
+                        path='dashboard/personal'
                         element={
                             <ProtectedRoutes
-                                allowedRoles={[
-                                    ROLES.Administrador,
-                                    ROLES.Mesero,
-                                ]}>
-                                <Dashboard />
+                                allowedRoles={[ROLES.Administrador]}>
+                                <AdminPanel />
                             </ProtectedRoutes>
                         }
                     />
-                    <Route path='dashboard/personal' element={<AdminPanel />} />
                     <Route
                         path='dashboard/personal-register'
                         element={<AddEmployee />}
@@ -49,7 +44,15 @@ export default function AppRoutes() {
                         path='dashboard/dishes/add-dishes'
                         element={<AddDishes />}
                     />
-                    <Route path='dashboard/dishes' element={<Dishes />} />
+                    <Route
+                        path='dashboard/dishes'
+                        element={
+                            <ProtectedRoutes
+                                allowedRoles={[ROLES.Administrador]}>
+                                <Dishes />
+                            </ProtectedRoutes>
+                        }
+                    />
                     <Route path='dashboard/category' element={<Category />} />
                     <Route
                         path='dashboard/tables'
@@ -57,7 +60,7 @@ export default function AppRoutes() {
                             <ProtectedRoutes
                                 allowedRoles={[
                                     ROLES.Administrador,
-                                    ROLES.Cocinero,
+                                    ROLES.Mesero,
                                 ]}>
                                 <ManageTable />
                             </ProtectedRoutes>
@@ -71,7 +74,14 @@ export default function AppRoutes() {
                         path='dashboard/tables/:tableId/order/:orderId'
                         element={<Orders />}
                     />
-                    <Route path='dashboard/kitchen' element={<Kitchen />} />
+                    <Route
+                        path='dashboard/kitchen'
+                        element={
+                            <ProtectedRoutes allowedRoles={[ROLES.Cocinero]}>
+                                <Kitchen />
+                            </ProtectedRoutes>
+                        }
+                    />
                     <Route
                         path='dashboard/order-history'
                         element={<OrderHistory />}

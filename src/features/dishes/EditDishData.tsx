@@ -15,9 +15,7 @@ export default function EditDishData({
     setIsOpen,
     dishId,
 }: EditDishDataProps) {
-    // const [isOpen, setIsOpen] = useState(false);
-    // const dishId = queryParams.get('editDish');
-
+    
     const { data } = useQuery({
         queryKey: ['dish', dishId],
         queryFn: () => getDishById(Number(dishId)),

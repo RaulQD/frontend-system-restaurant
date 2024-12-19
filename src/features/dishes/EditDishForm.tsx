@@ -2,7 +2,7 @@ import { ErrorMessage } from '@/components/ErrorMessage';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { getCategories } from '@/services/appCategory';
+import { getCategories } from '@/services/apiCategory';
 import { Category } from '@/types/category';
 import { DishesFormData, DishType } from '@/types/dish';
 import { Cross2Icon, UploadIcon } from '@radix-ui/react-icons';

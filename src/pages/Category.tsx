@@ -1,6 +1,7 @@
 import ResponsiveDialog from '@/components/ResponsiveDialog';
 import { Button } from '@/components/ui/button';
 import Categoryform from '@/features/category/Categoryform';
+import TableCategory from '@/features/category/TableCategory';
 import { useState } from 'react';
 import { BiPlus } from 'react-icons/bi';
 
@@ -27,6 +28,7 @@ export default function Category() {
                     Agregar category
                 </Button>
             </div>
+            <TableCategory />
             <ResponsiveDialog
                 title='Agregar categoria'
                 isOpen={isOpen}

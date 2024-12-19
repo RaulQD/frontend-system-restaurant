@@ -1,7 +1,6 @@
 import { BiCart, BiDish, BiSolidReport, BiUser } from 'react-icons/bi';
 import SidebarDropdown from './SidebarDropdown';
 import SidebarItems from './SidebarItems';
-import { RxDashboard } from 'react-icons/rx';
 import { MdOutlineTableBar } from 'react-icons/md';
 
 type SidebarProps = {
@@ -21,11 +20,6 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
             <div className='flex-1 flex flex-col pt-6 pb-4 overflow-y-auto'>
                 <div className='flex-1 px-3 bg-white space-y-1'>
                     <ul className='space-y-2 pb-2 font-outfit'>
-                        <SidebarItems
-                            path='/dashboard'
-                            label='Dashboard'
-                            Icon={RxDashboard}
-                        />
                         <SidebarItems
                             path='/dashboard/tables'
                             label='Manejo de Mesas'
@@ -92,7 +86,6 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                         />
                     </ul>
                 </div>
-              
             </div>
         </aside>
     );

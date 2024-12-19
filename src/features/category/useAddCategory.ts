@@ -1,4 +1,4 @@
-import { createCategory } from "@/services/appCategory"
+import { createCategory } from "@/services/apiCategory"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 

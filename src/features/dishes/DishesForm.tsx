@@ -3,26 +3,21 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import { getCategories } from '@/services/appCategory';
-import { Category } from '@/types/category';
 import { DishesFormData } from '@/types/dish';
 import { Cross2Icon, UploadIcon } from '@radix-ui/react-icons';
-import { useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { BiUpload } from 'react-icons/bi';
 import { useAddDishes } from './useAddDishes';
 import SpinnerMini from '@/components/SpinnerMini';
 import { useState } from 'react';
+import { useGetCategories } from '../category/useGetCategories';
 
 type DishesFormProps = {
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function DishesForm({ setIsOpen }: DishesFormProps) {
-    const { data: category } = useQuery<Category[]>({
-        queryKey: ['categories'],
-        queryFn: getCategories,
-    });
+    const {categories} = useGetCategories();
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const {
         register,
@@ -205,7 +200,7 @@ export default function DishesForm({ setIsOpen }: DishesFormProps) {
                                 required: 'Selecciona una categoria.',
                             })}>
                             <option value=''>Selecciona una categoria</option>
-                            {category?.map((cat) => (
+                            {categories?.map((cat) => (
                                 <option key={cat.id} value={cat.category_name}>
                                     {cat.category_name}
                                 </option>

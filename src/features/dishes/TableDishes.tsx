@@ -72,14 +72,7 @@ export default function TableDishes() {
     const handleDeleteDish = (dishId: DishType['id']) => {
         dishDelete(dishId);
     };
-    const isDishDeleted = (dish: DishType) => {
-        if(dish.available === 'NO DISPONIBLE') {
-            setDishId(dish.id);
-            setIsDelete(true);
-        } else {
-            handleDeleteDish(dish.id);
-        }
-    }
+ 
 
     return (
         <div className='mt-6'>

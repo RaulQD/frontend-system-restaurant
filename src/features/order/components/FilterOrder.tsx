@@ -1,6 +1,6 @@
 import FilterButton from '@/components/FilterButton';
 import FilterInput from '@/components/FilterInput';
-import { getCategories } from '@/services/appCategory';
+import { getCategories } from '@/services/apiCategory';
 import { Category } from '@/types/category';
 
 export default function FilterOrder() {
