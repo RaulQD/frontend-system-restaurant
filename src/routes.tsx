@@ -77,7 +77,7 @@ export default function AppRoutes() {
                     <Route
                         path='dashboard/kitchen'
                         element={
-                            <ProtectedRoutes allowedRoles={[ROLES.Cocinero]}>
+                            <ProtectedRoutes allowedRoles={[ROLES.Cocinero, ROLES.Administrador]}>
                                 <Kitchen />
                             </ProtectedRoutes>
                         }

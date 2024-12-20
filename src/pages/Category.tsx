@@ -1,6 +1,5 @@
-import ResponsiveDialog from '@/components/ResponsiveDialog';
 import { Button } from '@/components/ui/button';
-import Categoryform from '@/features/category/Categoryform';
+import AddCategory from '@/features/category/AddCategory';
 import TableCategory from '@/features/category/TableCategory';
 import { useState } from 'react';
 import { BiPlus } from 'react-icons/bi';
@@ -29,13 +28,7 @@ export default function Category() {
                 </Button>
             </div>
             <TableCategory />
-            <ResponsiveDialog
-                title='Agregar categoria'
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                description='Agrega un plato al menú de tu restaurante'>
-                <Categoryform setIsOpen={setIsOpen} />
-            </ResponsiveDialog>
+            <AddCategory setIsOpen={setIsOpen} isOpen={isOpen}/>
         </section>
     );
 }
