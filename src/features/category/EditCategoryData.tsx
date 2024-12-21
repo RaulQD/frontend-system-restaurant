@@ -1,8 +1,6 @@
-import ResponsiveDialog from '@/components/ResponsiveDialog';
 import { getCategoryById } from '@/services/apiCategory';
 import { Category } from '@/types/category';
 import { useQuery } from '@tanstack/react-query';
-import Categoryform from './Categoryform';
 import EditCategoryModal from './EditCategoryModal';
 
 type EditCategoryDataProps = {
@@ -21,6 +19,6 @@ export default function EditCategoryData({
         queryFn: () => getCategoryById(Number(categoryId)),
         enabled: !!categoryId,
     });
-
-    if (data) return <EditCategoryModal data={data} />;
+    console.log(data);
+    if (data) return <EditCategoryModal data={data} isEdit={isEdit} setIsEdit={setIsEdit} categoryId={categoryId}/>;
 }

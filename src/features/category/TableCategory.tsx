@@ -37,6 +37,7 @@ export default function TableCategory() {
     const handleEditCategory = (categoryId: Category['id']) => {
         setEditCategoryId(categoryId);
         setIsEdit(true);
+       
     };
 
     return (
