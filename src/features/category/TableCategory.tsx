@@ -14,9 +14,12 @@ import { BiTrash } from 'react-icons/bi';
 import { useState } from 'react';
 import EditCategoryData from './EditCategoryData';
 import { Category } from '@/types/category';
+import { useNavigate } from 'react-router-dom';
+import { set } from 'date-fns';
 
 export default function TableCategory() {
     const { categories, isLoading, error } = useGetCategories();
+    const navigate = useNavigate();
     const [editCategoryId, setEditCategoryId] = useState<number>();
     const [isEdit, setIsEdit] = useState(false);
 
@@ -35,9 +38,7 @@ export default function TableCategory() {
         );
     }
     const handleEditCategory = (categoryId: Category['id']) => {
-        setEditCategoryId(categoryId);
-        setIsEdit(true);
-       
+       navigate(location.pathname + `?editCategory=${categoryId}`);
     };
 
     return (

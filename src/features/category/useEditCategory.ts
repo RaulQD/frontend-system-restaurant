@@ -10,10 +10,9 @@ export const useEditCategory = () => {
     onError: (error) => {
       toast.error(error.message)
     },
-    onSuccess: (data, variables) => {
-      const { categoryId } = variables;
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
-      queryClient.invalidateQueries({ queryKey: ['categoryId', categoryId] });
+      queryClient.setQueryData(['categoryId', data.id], data );
       toast.success(data.message)
     }
   })

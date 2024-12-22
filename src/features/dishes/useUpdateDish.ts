@@ -12,6 +12,7 @@ export const useUpdateDish = () => {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['dishes'] })
+      queryClient.invalidateQueries({ queryKey: ['dishId', data.id] })
       toast.success(data.message)
     }
   })

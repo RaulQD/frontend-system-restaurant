@@ -17,7 +17,7 @@ export default function EditDishData({
 }: EditDishDataProps) {
     
     const { data } = useQuery({
-        queryKey: ['dish', dishId],
+        queryKey: ['dishId', dishId],
         queryFn: () => getDishById(Number(dishId)),
         enabled: !!dishId,
     });

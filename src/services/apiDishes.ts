@@ -46,7 +46,7 @@ export const createDish = async (formData: FormData) => {
   }
 }
 
-export const updateDish = async (dishId: number, formData: FormData) => {
+export const updateDish = async (dishId: DishType['id'], formData: FormData) => {
   try {
     const { data } = await api.put(`/dishes/${dishId}`, formData, {
       headers: {
