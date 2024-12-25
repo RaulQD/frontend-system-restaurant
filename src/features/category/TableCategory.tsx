@@ -14,14 +14,15 @@ import { BiTrash } from 'react-icons/bi';
 import { useState } from 'react';
 import EditCategoryData from './EditCategoryData';
 import { Category } from '@/types/category';
-import { useNavigate } from 'react-router-dom';
-import { set } from 'date-fns';
+import { useDeleteCategory } from './useDeleteCategory';
+import AlertMessageDialog from '../../components/AlertMessageDialog';
 
 export default function TableCategory() {
     const { categories, isLoading, error } = useGetCategories();
-    const navigate = useNavigate();
+    const { categoryDelete } = useDeleteCategory();
     const [editCategoryId, setEditCategoryId] = useState<number>();
     const [isEdit, setIsEdit] = useState(false);
+    const [isDelete, setIsDelete] = useState(false);
 
     if (isLoading) {
         return (
@@ -38,7 +39,11 @@ export default function TableCategory() {
         );
     }
     const handleEditCategory = (categoryId: Category['id']) => {
-       navigate(location.pathname + `?editCategory=${categoryId}`);
+        setEditCategoryId(categoryId);
+        setIsEdit(true);
+    };
+    const handleDeleteCategory = (categoryId: Category['id']) => {
+        categoryDelete(categoryId);
     };
 
     return (
@@ -76,7 +81,7 @@ export default function TableCategory() {
                                         </Button>
                                         <Button
                                             variant={'ghost'}
-                                            onClick={() => {}}>
+                                            onClick={() => setIsDelete(true)}>
                                             <BiTrash className='text-red-500 text-lg' />
                                         </Button>
                                     </div>
@@ -90,6 +95,15 @@ export default function TableCategory() {
                 isEdit={isEdit}
                 setIsEdit={setIsEdit}
                 categoryId={editCategoryId!}
+            />
+            <AlertMessageDialog
+                isOpen={isDelete}
+                setIsOpen={setIsDelete}
+                title='Eliminar categoría '
+                description='¿Estás seguro de eliminar la categoría?'
+                onConfirm={() => {
+                    handleDeleteCategory(editCategoryId!);
+                }}
             />
         </div>
     );

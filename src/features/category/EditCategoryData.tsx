@@ -2,7 +2,6 @@ import { getCategoryById } from '@/services/apiCategory';
 import { Category } from '@/types/category';
 import { useQuery } from '@tanstack/react-query';
 import EditCategoryModal from './EditCategoryModal';
-import { useLocation } from 'react-router-dom';
 
 type EditCategoryDataProps = {
     isEdit: boolean;
@@ -13,11 +12,9 @@ type EditCategoryDataProps = {
 export default function EditCategoryData({
     isEdit,
     setIsEdit,
+    categoryId,
 }: EditCategoryDataProps) {
-    const location = useLocation();
-   const queryParams = new URLSearchParams(location.search);
-    const categoryId = queryParams.get('editCategory')!;
-    console.log(categoryId);
+  
     const { data } = useQuery<Category> ({
         queryKey: ['categoryId', categoryId],
         queryFn: () => getCategoryById(Number(categoryId)),

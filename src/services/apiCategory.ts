@@ -19,7 +19,7 @@ type UpdateCategoryType = {
 
 export const updateCategory = async ({ categoryId, formData }: UpdateCategoryType): Promise<CategoryV2> => {
   try {
-    const { data } = await api.put<CategoryV2>(`/category/${categoryId}`, formData);
+    const { data } = await api.put(`/category/${categoryId}`, formData);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -42,6 +42,17 @@ export const getCategoryById = async (categoryId: Category['id']) => {
 export const createCategory = async (category: CategoryForm) => {
   try {
     const { data } = await api.post('/category', category);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message)
+    }
+  }
+}
+
+export const deleteCategory = async (categoryId: Category['id']) => {
+  try {
+    const { data } = await api.delete(`/category/${categoryId}`);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
