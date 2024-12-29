@@ -3,15 +3,15 @@ import ResponsiveDialog from '@/components/ResponsiveDialog';
 import { Button } from '@/components/ui/button';
 import DishesForm from '@/features/dishes/DishesForm';
 import TableDishes from '@/features/dishes/TableDishes';
-import { useState } from 'react';
 import { BiPlus } from 'react-icons/bi';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Dishes() {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const handleOpenModal = () => {
-        setIsOpen(true);
-    };
+    const navigate = useNavigate();
+    const loacation = useLocation();
+    const queryParams = new URLSearchParams(loacation.search);
+    const modalDishes = queryParams.get('createDish');
+    const open = modalDishes ? true : false;
 
     return (
         <section>
@@ -28,7 +28,9 @@ export default function Dishes() {
                 <Button
                     variant={'principal'}
                     // onClick={() =>navigate('/admin/dashboard/dishes/add-dishes')}
-                    onClick={handleOpenModal}>
+                    onClick={() =>
+                        navigate(location.pathname + '?createDish=true')
+                    }>
                     <BiPlus className='mr-1 text-xl text-white' />
                     Agregar plato
                 </Button>
@@ -39,10 +41,9 @@ export default function Dishes() {
             <TableDishes />
             <ResponsiveDialog
                 title='Agregar plato'
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
+                open={open}
                 description='Agrega un plato al menú de tu restaurante'>
-                <DishesForm setIsOpen={setIsOpen} />
+                <DishesForm />
             </ResponsiveDialog>
         </section>
     );

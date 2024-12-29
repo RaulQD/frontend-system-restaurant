@@ -42,10 +42,14 @@ export const getCategoryById = async (categoryId: Category['id']) => {
 export const createCategory = async (category: CategoryForm) => {
   try {
     const { data } = await api.post('/category', category);
+    console.log(data);
     return data;
   } catch (error) {
+    console.log(error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message)
+    }else {
+      throw new Error('Error inesperado al crear la categoría')
     }
   }
 }

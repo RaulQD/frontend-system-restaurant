@@ -12,11 +12,9 @@ import SpinnerMini from '@/components/SpinnerMini';
 import { useState } from 'react';
 import { useGetCategories } from '../category/useGetCategories';
 
-type DishesFormProps = {
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
 
-export default function DishesForm({ setIsOpen }: DishesFormProps) {
+
+export default function DishesForm() {
     const {categories} = useGetCategories();
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const {
@@ -45,7 +43,7 @@ export default function DishesForm({ setIsOpen }: DishesFormProps) {
         addDish(formData, {
             onSuccess: () => {
                 reset();
-                setIsOpen(false);
+                
                 setSelectedImage(null);
             },
         });

@@ -13,26 +13,26 @@ import {
     DrawerTitle,
 } from '@/components/ui/drawer';
 import { useMediaQuery } from '@/hooks/use-media-query';
+import { useNavigate } from 'react-router-dom';
 
 type ModalProps = {
     children: React.ReactNode;
     title: string;
     description?: string;
-    isOpen: boolean;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    open?: boolean;
 };
 
 export default function ResponsiveDialog({
     children,
     title,
     description,
-    isOpen,
-    setIsOpen,
+    open
 }: ModalProps) {
     const isDesktop = useMediaQuery('(min-width: 768px)');
+    const navigate = useNavigate();
     if (isDesktop) {
         return (
-            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <Dialog open={open} onOpenChange={() => navigate(location.pathname, { replace: true })}>
                 <DialogContent className='sm:max-w-[625px]'>
                     <DialogHeader>
                         <DialogTitle>{title}</DialogTitle>
@@ -46,7 +46,7 @@ export default function ResponsiveDialog({
         );
     }
     return (
-        <Drawer open={isOpen} onOpenChange={setIsOpen}>
+        <Drawer open={open} onOpenChange={() => navigate(location.pathname, { replace: true })}>
             <DrawerContent>
                 <DrawerHeader className='text-left'>
                     <DrawerTitle>{title}</DrawerTitle>

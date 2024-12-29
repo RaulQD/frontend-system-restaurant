@@ -48,9 +48,9 @@ export default function Categoryform({ errors, register }: CategoryFormProps) {
                             required:
                                 'La descripciòn de la categoria es requerido.',
                             minLength: {
-                                value: 10,
+                                value: 20,
                                 message:
-                                    'La descripción debe tener al menos 10 caracteres.',
+                                    'La descripción debe tener al menos 20 caracteres.',
                             },
                         })}
                     />

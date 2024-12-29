@@ -1,15 +1,16 @@
 import { Button } from '@/components/ui/button';
 import AddCategory from '@/features/category/AddCategory';
 import TableCategory from '@/features/category/TableCategory';
-import { useState } from 'react';
 import { BiPlus } from 'react-icons/bi';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Category() {
-    const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate()
+    const loacation = useLocation();
+    const queryParams = new URLSearchParams(loacation.search);
+    const modalCategory = queryParams.get('createCategory');
+    const open = modalCategory ? true : false;
 
-    const handleOpenModal = () => {
-        setIsOpen(true);
-    };
     return (
         <section>
             <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-4'>
@@ -22,13 +23,13 @@ export default function Category() {
                         restaurante.
                     </span>
                 </div>
-                <Button variant={'principal'} onClick={handleOpenModal}>
+                <Button variant={'principal'} onClick={()=> navigate(location.pathname + '?createCategory=true')}>
                     <BiPlus className='mr-1 text-xl text-white' />
                     Agregar category
                 </Button>
             </div>
             <TableCategory />
-            <AddCategory setIsOpen={setIsOpen} isOpen={isOpen}/>
+            <AddCategory open={open} />
         </section>
     );
 }

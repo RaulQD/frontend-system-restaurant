@@ -16,13 +16,17 @@ import EditCategoryData from './EditCategoryData';
 import { Category } from '@/types/category';
 import { useDeleteCategory } from './useDeleteCategory';
 import AlertMessageDialog from '../../components/AlertMessageDialog';
+import { useNavigate } from 'react-router-dom';
 
 export default function TableCategory() {
-    const { categories, isLoading, error } = useGetCategories();
-    const { categoryDelete } = useDeleteCategory();
+    const navigate = useNavigate();
+    
     const [editCategoryId, setEditCategoryId] = useState<number>();
     const [isEdit, setIsEdit] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
+
+    const { categories, isLoading, error } = useGetCategories();
+    const { categoryDelete } = useDeleteCategory();
 
     if (isLoading) {
         return (
@@ -39,8 +43,9 @@ export default function TableCategory() {
         );
     }
     const handleEditCategory = (categoryId: Category['id']) => {
-        setEditCategoryId(categoryId);
+        navigate(location.search + `?categoryId=${categoryId}`);
         setIsEdit(true);
+
     };
     const handleDeleteCategory = (categoryId: Category['id']) => {
         categoryDelete(categoryId);
@@ -81,7 +86,10 @@ export default function TableCategory() {
                                         </Button>
                                         <Button
                                             variant={'ghost'}
-                                            onClick={() => setIsDelete(true)}>
+                                            onClick={() => {
+                                                setEditCategoryId(category.id);
+                                                setIsDelete(true);
+                                            }}>
                                             <BiTrash className='text-red-500 text-lg' />
                                         </Button>
                                     </div>
@@ -94,7 +102,6 @@ export default function TableCategory() {
             <EditCategoryData
                 isEdit={isEdit}
                 setIsEdit={setIsEdit}
-                categoryId={editCategoryId!}
             />
             <AlertMessageDialog
                 isOpen={isDelete}
