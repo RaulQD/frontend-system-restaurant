@@ -9,6 +9,7 @@ type EditDishModalProps = {
 }
 
 export default function EditDishModal({ data, dishId }: EditDishModalProps) {
+    
     return (
         <ResponsiveDialog
             title='Editar plato'
