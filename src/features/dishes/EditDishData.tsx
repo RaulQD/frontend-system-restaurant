@@ -2,34 +2,20 @@ import ResponsiveDialog from '@/components/ResponsiveDialog';
 import { getDishById } from '@/services/apiDishes';
 import { useQuery } from '@tanstack/react-query';
 import EditDishForm from './EditDishForm';
-import { DishType } from '@/types/dish';
+import { DishesFormData, DishType } from '@/types/dish';
+import { useLocation } from 'react-router-dom';
+import EditDishModal from './EditDishModal';
 
-type EditDishDataProps = {
-    isOpen: boolean;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    dishId: DishType['id'];
-};
+export default function EditDishData() {
+    const locationg = useLocation();
+    const queryParams = new URLSearchParams(locationg.search);
+    const dishId = queryParams.get('editDish');
 
-export default function EditDishData({
-    isOpen,
-    setIsOpen,
-    dishId,
-}: EditDishDataProps) {
-    
     const { data } = useQuery({
         queryKey: ['dishId', dishId],
         queryFn: () => getDishById(Number(dishId)),
         enabled: !!dishId,
     });
 
-    if (data)
-        return (
-            <ResponsiveDialog
-                title='Editar plato'
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                description='Aquí puedes editar los datos del plato.'>
-                <EditDishForm data={data} dishId={dishId} setIsOpen ={setIsOpen} />
-            </ResponsiveDialog>
-        );
+    if (data) return <EditDishModal data={data} dishId={Number(dishId)} />;
 }

@@ -20,9 +20,8 @@ import { useNavigate } from 'react-router-dom';
 
 export default function TableCategory() {
     const navigate = useNavigate();
-    
+
     const [editCategoryId, setEditCategoryId] = useState<number>();
-    const [isEdit, setIsEdit] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
 
     const { categories, isLoading, error } = useGetCategories();
@@ -42,11 +41,7 @@ export default function TableCategory() {
             </div>
         );
     }
-    const handleEditCategory = (categoryId: Category['id']) => {
-        navigate(location.search + `?categoryId=${categoryId}`);
-        setIsEdit(true);
 
-    };
     const handleDeleteCategory = (categoryId: Category['id']) => {
         categoryDelete(categoryId);
     };
@@ -80,7 +75,7 @@ export default function TableCategory() {
                                         <Button
                                             variant={'ghost'}
                                             onClick={() =>
-                                                handleEditCategory(category.id)
+                                                navigate(location.pathname + `?editCategory=${category.id}`)
                                             }>
                                             <Pencil1Icon className='text-lg' />
                                         </Button>
@@ -99,10 +94,7 @@ export default function TableCategory() {
                     </TableBody>
                 </Table>
             </div>
-            <EditCategoryData
-                isEdit={isEdit}
-                setIsEdit={setIsEdit}
-            />
+            <EditCategoryData />
             <AlertMessageDialog
                 isOpen={isDelete}
                 setIsOpen={setIsDelete}

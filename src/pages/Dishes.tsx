@@ -1,7 +1,6 @@
 import Filter from '@/components/Filter';
-import ResponsiveDialog from '@/components/ResponsiveDialog';
 import { Button } from '@/components/ui/button';
-import DishesForm from '@/features/dishes/DishesForm';
+import AddDishes from '@/features/dishes/AddDishes';
 import TableDishes from '@/features/dishes/TableDishes';
 import { BiPlus } from 'react-icons/bi';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -27,7 +26,6 @@ export default function Dishes() {
                 </div>
                 <Button
                     variant={'principal'}
-                    // onClick={() =>navigate('/admin/dashboard/dishes/add-dishes')}
                     onClick={() =>
                         navigate(location.pathname + '?createDish=true')
                     }>
@@ -39,12 +37,7 @@ export default function Dishes() {
                 <Filter />
             </div>
             <TableDishes />
-            <ResponsiveDialog
-                title='Agregar plato'
-                open={open}
-                description='Agrega un plato al menú de tu restaurante'>
-                <DishesForm />
-            </ResponsiveDialog>
+            <AddDishes open={open} />
         </section>
     );
 }

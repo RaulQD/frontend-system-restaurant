@@ -14,12 +14,18 @@ type AddCategoryProps = {
 
 export default function AddCategory({ open }: AddCategoryProps) {
     const navigate = useNavigate();
+    const initialValues: CategoryForm = {
+        category_name: '',
+        category_description: '',
+    };
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors },
-    } = useForm<CategoryForm>();
+    } = useForm({
+        defaultValues: initialValues,
+    });
     const { AddCategory, isPending } = useAddCategory();
     const onSubmit = (data: CategoryForm) => {
         AddCategory(data, {
@@ -36,8 +42,14 @@ export default function AddCategory({ open }: AddCategoryProps) {
             description='Agrega un plato al menú de tu restaurante'>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <Categoryform register={register} errors={errors} />
-                <div className='flex items-center justify-end'>
-                    <Button variant={'ghost'} onClick={() => navigate(location.pathname, { replace: true })}>
+                <div className='flex items-center justify-end gap-2'>
+                    <Button
+                        type='button'
+                        variant={'ghost'}
+                        onClick={() => {
+                            reset();
+                            navigate(location.pathname, { replace: true });
+                        }}>
                         Cancelar
                     </Button>
                     <Button variant={'principal'}>

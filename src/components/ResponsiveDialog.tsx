@@ -26,36 +26,37 @@ export default function ResponsiveDialog({
     children,
     title,
     description,
-    open
+    open,
 }: ModalProps) {
-    const isDesktop = useMediaQuery('(min-width: 768px)');
     const navigate = useNavigate();
-    if (isDesktop) {
-        return (
-            <Dialog open={open} onOpenChange={() => navigate(location.pathname, { replace: true })}>
-                <DialogContent className='sm:max-w-[625px]'>
-                    <DialogHeader>
-                        <DialogTitle>{title}</DialogTitle>
-                        {description && (
-                            <DialogDescription>{description}</DialogDescription>
-                        )}
-                    </DialogHeader>
-                    {children}
-                </DialogContent>
-            </Dialog>
-        );
-    }
     return (
-        <Drawer open={open} onOpenChange={() => navigate(location.pathname, { replace: true })}>
-            <DrawerContent>
-                <DrawerHeader className='text-left'>
-                    <DrawerTitle>{title}</DrawerTitle>
+        <Dialog
+            open={open}
+            onOpenChange={() => navigate(location.pathname, { replace: true })}>
+            <DialogContent className='sm:max-w-[625px]'>
+                <DialogHeader>
+                    <DialogTitle>{title}</DialogTitle>
                     {description && (
-                        <DrawerDescription>{description}</DrawerDescription>
+                        <DialogDescription>{description}</DialogDescription>
                     )}
-                </DrawerHeader>
+                </DialogHeader>
                 {children}
-            </DrawerContent>
-        </Drawer>
+            </DialogContent>
+        </Dialog>
     );
+}
+{
+    /*return (
+    <Drawer open={open} onOpenChange={() => navigate(location.pathname, { replace: true })}>
+        <DrawerContent>
+            <DrawerHeader className='text-left'>
+                <DrawerTitle>{title}</DrawerTitle>
+                {description && (
+                    <DrawerDescription>{description}</DrawerDescription>
+                )}
+            </DrawerHeader>
+            {children}
+        </DrawerContent>
+    </Drawer>
+    );*/
 }

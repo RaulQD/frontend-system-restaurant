@@ -6,21 +6,20 @@ import { Button } from '@/components/ui/button';
 import SpinnerMini from '@/components/SpinnerMini';
 import { BiSave } from 'react-icons/bi';
 import { useEditCategory } from './useEditCategory';
-
+import { useNavigate } from 'react-router-dom';
 
 type EditCategoryModalProps = {
     data: CategoryForm;
-    isEdit: boolean;
-    setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;
+    open: boolean;
     categoryId: Category['id'];
 };
 
 export default function EditCategoryModal({
     data,
-    isEdit,
-    setIsEdit,
-    categoryId,
+    open,
+    categoryId
 }: EditCategoryModalProps) {
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -32,18 +31,18 @@ export default function EditCategoryModal({
             category_description: data.category_description,
         },
     });
-    
+
     const { update, isPending } = useEditCategory();
 
     const handleEditCategory = (formData: CategoryForm) => {
-        const data = {
-            categoryId,
+        const categoryData = {
             formData,
-        };
-        update(data, {
+            categoryId,
+        }
+        update(categoryData, {
             onSuccess: () => {
-                setIsEdit(false);
                 reset();
+                navigate(location.pathname, { replace: true });
             },
         });
     };
@@ -51,8 +50,7 @@ export default function EditCategoryModal({
     return (
         <ResponsiveDialog
             title='Editar categoría'
-            isOpen={isEdit}
-            setIsOpen={setIsEdit}
+            open={open}
             description='Aquí puedes editar los datos de la categoría.'>
             <form onSubmit={handleSubmit(handleEditCategory)} noValidate>
                 <Categoryform register={register} errors={errors} />

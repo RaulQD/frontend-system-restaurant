@@ -21,8 +21,10 @@ import { DishType } from '@/types/dish';
 import EditDishData from './EditDishData';
 import { useDeleteDih } from './useDeletedish';
 import AlertMessageDialog from '@/components/AlertMessageDialog';
+import { useNavigate } from 'react-router-dom';
 
 export default function TableDishes() {
+    const navigate = useNavigate();
     const { dishes, isLoadingDishes, error } = useDishes();
     const { dishDelete } = useDeleteDih();
     const [dishId, setDishId] = useState<number>();
@@ -63,16 +65,10 @@ export default function TableDishes() {
         }
     };
 
-    const handleEditDish = (dishId: DishType['id']) => {
-        setDishId(dishId);
-        setIsEdit(true);
-    };
-  
     //ELEMINAR PLATO
     const handleDeleteDish = (dishId: DishType['id']) => {
         dishDelete(dishId);
     };
- 
 
     return (
         <div className='mt-6'>
@@ -80,7 +76,7 @@ export default function TableDishes() {
                 <Table className='w-full divide-y divide-gray-300'>
                     <TableHeader className='bg-slate-200'>
                         <TableRow>
-                            <TableHead className='w-[200px] pl-6'>ID</TableHead>
+                            <TableHead className='w-[200px] pl-4'>ID</TableHead>
                             <TableHead>Nombre del plato</TableHead>
                             <TableHead>Imagen</TableHead>
                             <TableHead>Descripciòn</TableHead>
@@ -122,13 +118,16 @@ export default function TableDishes() {
                                         <Button
                                             variant={'ghost'}
                                             onClick={() =>
-                                                handleEditDish(dish.id)
+                                                navigate(
+                                                    location.pathname +
+                                                        `?editDish=${dish.id}`
+                                                )
                                             }>
                                             <Pencil1Icon className='text-lg' />
                                         </Button>
                                         <Button
                                             variant={'ghost'}
-                                            onClick={() =>{
+                                            onClick={() => {
                                                 setDishId(dish.id);
                                                 setIsDelete(true);
                                             }}>
@@ -142,12 +141,8 @@ export default function TableDishes() {
                 </Table>
             </div>
             <PaginationI totalItems={dishes?.pagination.totalDishes || 0} />
-            <EditDishData
-                isOpen={isEdit}
-                setIsOpen={setIsEdit}
-                dishId={dishId!}
-            />
-            
+            <EditDishData />
+
             <AlertMessageDialog
                 title='Eliminar Plato'
                 description='¿Estás seguro de eliminar este plato?'
