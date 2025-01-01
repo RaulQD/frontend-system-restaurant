@@ -7,6 +7,7 @@ import { useCreateOrder } from '@/features/order/useCreateOrder';
 import { useUser } from '@/hooks/useUser';
 import { OrderCreateData, OrderItem } from '@/types/order';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function Orders() {
@@ -25,8 +26,8 @@ export default function Orders() {
     //4. Crear una función handleCreateOrder que cree una orden
     const handleCreateOrder = () => {
         //VALIDAR SI EL USUARIO TIENE UN ID DE EMPLEADO
-        if (!user?.employee.id_employee) {
-            console.error('No se pudo obtener el id del empleado.');
+        if (!user?.employee?.id_employee) {
+            toast.error('No se puede crear la orden, el usuario no tiene un id de empleado');
             return;
         }
         const orderData: OrderCreateData = {

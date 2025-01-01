@@ -3,15 +3,15 @@ import { Separator } from '@/components/ui/separator';
 import { OrderDetails } from '@/types/order';
 import { useUpdateItemStatus } from '../useUpdateItemStatus';
 import { Badge } from '@/components/ui/badge';
+import { useNavigate } from 'react-router-dom';
 
 type OrderDetailsKitchenProps = {
     orderDetails: OrderDetails;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export default function OrderDetailsKitchen({
     orderDetails,
-    setIsOpen,
 }: OrderDetailsKitchenProps) {
+    const navigate = useNavigate();
     const orderId = orderDetails.id_order;
     const { updateStatus } = useUpdateItemStatus();
 
@@ -79,34 +79,34 @@ export default function OrderDetailsKitchen({
                                 {item.subtotal}
                             </td>
                             <td className='px-3 py-2 text-sm'>
-                             {item.status === 'SERVIDO' ? (
-                                 <Badge variant={'success'}>
-                                        Servido
-                                 </Badge>
-                             ):(
-                                <form>
-                                <select
-                                    defaultValue={item.status}
-                                    className='border border-gray-300 rounded-md text-sm p-1 w-full'
-                                    onChange={(
-                                        e: React.ChangeEvent<HTMLSelectElement>
-                                    ) =>
-                                        handleUpdateStatus(
-                                            orderId,
-                                            item.id_item,
-                                            e.target.value
-                                        )
-                                    }>
-                                    <option value='PENDIENTE'>
-                                        Pendiente
-                                    </option>
-                                    <option value='EN PREPARACION'>
-                                        En preparacion
-                                    </option>
-                                    <option value='SERVIDO'>Servido</option>
-                                </select>
-                            </form>
-                             )}
+                                {item.status === 'SERVIDO' ? (
+                                    <Badge variant={'success'}>Servido</Badge>
+                                ) : (
+                                    <form>
+                                        <select
+                                            defaultValue={item.status}
+                                            className='border border-gray-300 rounded-md text-sm p-1 w-full'
+                                            onChange={(
+                                                e: React.ChangeEvent<HTMLSelectElement>
+                                            ) =>
+                                                handleUpdateStatus(
+                                                    orderId,
+                                                    item.id_item,
+                                                    e.target.value
+                                                )
+                                            }>
+                                            <option value='PENDIENTE'>
+                                                Pendiente
+                                            </option>
+                                            <option value='EN PREPARACION'>
+                                                En preparacion
+                                            </option>
+                                            <option value='SERVIDO'>
+                                                Servido
+                                            </option>
+                                        </select>
+                                    </form>
+                                )}
                             </td>
                         </tr>
                     ))}
@@ -114,7 +114,7 @@ export default function OrderDetailsKitchen({
             </table>
             <Separator className='my-4' />
             <div className='flex items-center justify-end gap-5'>
-                <Button variant={'secondary'} onClick={() => setIsOpen(false)}>
+                <Button variant={'secondary'} onClick={() => navigate(location.pathname, { replace: true })}>
                     Cerrar
                 </Button>
                 <Button variant={'principal'}>Imprimir</Button>

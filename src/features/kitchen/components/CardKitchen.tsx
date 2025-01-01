@@ -19,9 +19,9 @@ export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const orderDetail = queryParams.get('orderDetail');
-    const isOpen = orderDetail === orderDetails?.id_order.toString();
+    const open = orderDetail ? true : false;
     const handleOrderDetails = () => {
-        navigate(`?orderDetail=${order.id_order}`);
+        navigate(location.pathname + `?orderDetail=${order.id_order}`);
     };
 
     return (
@@ -55,17 +55,9 @@ export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
             </Card>
             <ResponsiveDialog
                 title='Detalles del Pedido'
-                isOpen={isOpen}
-                description='Aquí puedes ver el detalle del pedido.'
-                setIsOpen={() =>
-                    navigate(location.pathname, { replace: true })
-                }>
-                <OrderDetailsKitchen
-                    setIsOpen={() =>
-                        navigate(location.pathname, { replace: true })
-                    }
-                    orderDetails={orderDetails!}
-                />
+                open={open}
+                description='Aquí puedes ver el detalle del pedido.'>
+                <OrderDetailsKitchen orderDetails={orderDetails!} />
             </ResponsiveDialog>
         </>
     );
