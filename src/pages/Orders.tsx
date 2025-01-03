@@ -45,7 +45,6 @@ export default function Orders() {
                 }
             },
         });
-        console.log(orderData);
     };
 
     //5. Crear una función handleAddItemToOrder que agregue un item a la orden
