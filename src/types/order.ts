@@ -75,7 +75,6 @@ export type OrderDetails = Pick<Order, 'id_order' | 'table_id' | 'num_table' | '
 export type OrderCreateData = {
   table_id: number; // Mesa a la que pertenece la orden
   employee_id: number; // Empleado que creó la orden
-  items: Pick<Items, 'dish_id' | 'quantity' | 'special_requests'>[]; // Datos mínimos necesarios para crear una orden
 };
 
 

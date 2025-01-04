@@ -8,49 +8,42 @@ import { getRooms } from '@/services/apiRooms';
 import { Rooms } from '@/types/rooms';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useCreateOrder } from '../features/order/useCreateOrder';
+import { useUser } from '@/hooks/useUser';
+import toast from 'react-hot-toast';
+import { OrderCreateData } from '@/types/order';
+import { useMutation } from '@tanstack/react-query';
+import { createOrder } from '@/services/apiOrder';
 
 export default function ManageTable() {
     const [searchParams, setSearchParams] = useSearchParams();
-    //OBTENER EL ID DE LA MESA
-    // const [selectedTable, setSelectedTable] = useState<{
-    //     id_table: number;
-    //     status: string;
-    // } | null>(null);
     const [isOpen, setIsOpen] = useState(false);
+
     const room = searchParams.get('room') || 'comedor principal';
     const navigate = useNavigate();
     const { tables, isLoading, error } = useTables(room);
-    // const { activeOrder } = useGetOrderActiveForTable(selectedTable?.id_table || 0);
-
+    // const { createOrders } = useCreateOrder();
+    const { user } = useUser();
     useEffect(() => {
         if (!searchParams.has('room')) {
             searchParams.set('room', 'comedor principal');
             setSearchParams(searchParams);
         }
     }, [searchParams, setSearchParams]);
+    const handleRedirectToUpdateOrder = () => {};
 
-    // const handleTableClick = async (table: {
-    //     id_table: number;
-    //     status: string;
-    // }) => {
-    //     setSelectedTable(table); // Almacenar la mesa seleccionada
-    //     if (table.status === 'OCUPADO') {
-    //         setIsOpen(true);
-    //     } else {
-    //         handleRediRectToCreateOrder(table.id_table);
-    //     }
-    // };
-    const handleRedirectToUpdateOrder = () => {
-        // if (selectedTable) {
-        //     navigate(
-        //         `/admin/dashboard/tables/${selectedTable.id_table}/order/`
-        //     );
-        // }
-    };
-
-    const handleRediRectToCreateOrder = (tableId: number) => {
-        navigate(`/dashboard/tables/${tableId}/order`);
-    };
+    //CREANDO LA ORDEN
+    const createOrderMutation = useMutation({
+        mutationFn: createOrder,
+        onSuccess: (data) => {
+            navigate(
+                `/dashboard/tables/${data.order.table_id}/order/${data.order.id_order}`
+            );
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        },
+    });
 
     if (!tables) {
         <div className='flex justify-center items-center pt-20'>
@@ -103,9 +96,14 @@ export default function ManageTable() {
                         <li
                             className='cursor-pointer'
                             key={table.id_table}
-                            onClick={() =>
-                                handleRediRectToCreateOrder(table.id_table)
-                            }>
+                            onClick={() => {
+                                if (user?.employee?.id_employee) {
+                                    createOrderMutation.mutate({
+                                        table_id: table.id_table,
+                                        employee_id: user.employee.id_employee,
+                                    });
+                                }
+                            }}>
                             <CardTable table={table} />
                         </li>
                     ))}

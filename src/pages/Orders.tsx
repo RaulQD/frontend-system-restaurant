@@ -33,7 +33,6 @@ export default function Orders() {
         const orderData: OrderCreateData = {
             table_id: Number(tableId),
             employee_id: user.employee.id_employee,
-            items: orderItems,
         };
         createOrders(orderData, {
             onSuccess: (data) => {
