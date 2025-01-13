@@ -28,7 +28,6 @@ export default function TableDishes() {
     const { dishes, isLoadingDishes, error } = useDishes();
     const { dishDelete } = useDeleteDih();
     const [dishId, setDishId] = useState<number>();
-    const [isEdit, setIsEdit] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
 
     // Verificar si se están cargando los platos

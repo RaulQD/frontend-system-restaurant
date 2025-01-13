@@ -41,6 +41,7 @@ export const getOrderById = async (orderId: Order['id_order']) => {
 export const createOrder = async (order: OrderCreateData) => {
   try {
     const { data } = await api.post('/orders', order);
+    console.log(data);
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {

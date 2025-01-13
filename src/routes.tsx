@@ -67,7 +67,7 @@ export default function AppRoutes() {
                         }
                     />
                     <Route
-                        path='dashboard/tables/:tableId/order/:orderId'
+                        path='dashboard/tables/:tableId/order/'
                         element={<Orders />}
                     />
                     {/* <Route

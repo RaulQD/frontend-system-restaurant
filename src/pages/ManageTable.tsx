@@ -8,12 +8,7 @@ import { getRooms } from '@/services/apiRooms';
 import { Rooms } from '@/types/rooms';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useCreateOrder } from '../features/order/useCreateOrder';
-import { useUser } from '@/hooks/useUser';
-import toast from 'react-hot-toast';
-import { OrderCreateData } from '@/types/order';
-import { useMutation } from '@tanstack/react-query';
-import { createOrder } from '@/services/apiOrder';
+import { Tables } from '@/types/tables';
 
 export default function ManageTable() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -22,8 +17,7 @@ export default function ManageTable() {
     const room = searchParams.get('room') || 'comedor principal';
     const navigate = useNavigate();
     const { tables, isLoading, error } = useTables(room);
-    // const { createOrders } = useCreateOrder();
-    const { user } = useUser();
+ 
     useEffect(() => {
         if (!searchParams.has('room')) {
             searchParams.set('room', 'comedor principal');
@@ -32,18 +26,9 @@ export default function ManageTable() {
     }, [searchParams, setSearchParams]);
     const handleRedirectToUpdateOrder = () => {};
 
-    //CREANDO LA ORDEN
-    const createOrderMutation = useMutation({
-        mutationFn: createOrder,
-        onSuccess: (data) => {
-            navigate(
-                `/dashboard/tables/${data.order.table_id}/order/${data.order.id_order}`
-            );
-        },
-        onError: (error) => {
-            toast.error(error.message);
-        },
-    });
+    const handleRedirectToCreateOrder = (tableId: Tables['id_table']) => {
+        navigate(`/dashboard/tables/${tableId}/order/`);
+    };
 
     if (!tables) {
         <div className='flex justify-center items-center pt-20'>
@@ -96,14 +81,9 @@ export default function ManageTable() {
                         <li
                             className='cursor-pointer'
                             key={table.id_table}
-                            onClick={() => {
-                                if (user?.employee?.id_employee) {
-                                    createOrderMutation.mutate({
-                                        table_id: table.id_table,
-                                        employee_id: user.employee.id_employee,
-                                    });
-                                }
-                            }}>
+                            onClick={() =>
+                                handleRedirectToCreateOrder(table.id_table)
+                            }>
                             <CardTable table={table} />
                         </li>
                     ))}

@@ -33,6 +33,7 @@ export default function Orders() {
         const orderData: OrderCreateData = {
             table_id: Number(tableId),
             employee_id: user.employee.id_employee,
+            items: orderItems,
         };
         createOrders(orderData, {
             onSuccess: (data) => {
@@ -48,9 +49,9 @@ export default function Orders() {
 
     //5. Crear una función handleAddItemToOrder que agregue un item a la orden
     const handleAddItemToOrder = (dishId: number) => {
-        //OBTENER LA INFORMACIÓN DEL PLATO
+        console.log('Platos disponibles:', dishes?.results); // Verificar platos disponibles
         const dish = dishes?.results.find((d) => d.id === dishId);
-
+        console.log('Plato encontrado:', dish);
         //VALIDAR SI EL ITEM YA ESTA EN LA ORDEN
         const itemsExists = orderItems.find((item) => item.dish_id === dishId);
         if (itemsExists) {

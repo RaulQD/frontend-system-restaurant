@@ -1,10 +1,13 @@
 import Spinner from '@/components/Spinner';
-import CardKitchen from './components/CardKitchen';
+import CardKitchen from './CardKitchen';
 import { useGetOrdersForKitchen } from './useGetOrdersForKitchen';
 import { Badge } from '@/components/ui/badge';
+import { useNavigate } from 'react-router-dom';
+import EditOrderDetailsData from './EditOrderDetailsData';
 
 export default function TableKitchen() {
     const { orders, isLoading, error } = useGetOrdersForKitchen();
+    const navigate = useNavigate();
 
     if (isLoading) {
         return (
@@ -36,7 +39,7 @@ export default function TableKitchen() {
                         En Proceso
                     </Badge>
                 );
-            
+
             default:
                 return (
                     <Badge
@@ -52,7 +55,15 @@ export default function TableKitchen() {
             <div className='mb-5'>
                 <ul className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 '>
                     {orders?.map((order) => (
-                        <li key={order.id_order} className='cursor-pointer'>
+                        <li
+                            key={order.id_order}
+                            className='cursor-pointer'
+                            onClick={() => {
+                                navigate(
+                                    location.pathname +
+                                        `?orderDetails=${order.id_order}`
+                                );
+                            }}>
                             <CardKitchen
                                 order={order}
                                 badgeStatus={badgeStatus}
@@ -61,6 +72,7 @@ export default function TableKitchen() {
                     ))}
                 </ul>
             </div>
+            <EditOrderDetailsData />
         </>
     );
 }

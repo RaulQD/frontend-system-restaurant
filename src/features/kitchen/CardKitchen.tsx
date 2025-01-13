@@ -2,10 +2,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { OrdersList } from '@/types/order';
 import { ClockIcon, ComponentInstanceIcon } from '@radix-ui/react-icons';
-import { useGetOrderByID } from '../useGetOrderByID';
-import { useLocation, useNavigate } from 'react-router-dom';
-import ResponsiveDialog from '@/components/ResponsiveDialog';
-import OrderDetailsKitchen from './OrderDetailsKitchen';
+
 
 type CardKitchenProps = {
     order: OrdersList;
@@ -13,20 +10,20 @@ type CardKitchenProps = {
 };
 
 export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
-    const { orderDetails } = useGetOrderByID(order.id_order);
+    
 
-    const navigate = useNavigate();
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const orderDetail = queryParams.get('orderDetail');
-    const open = orderDetail ? true : false;
-    const handleOrderDetails = () => {
-        navigate(location.pathname + `?orderDetail=${order.id_order}`);
-    };
+    // const navigate = useNavigate();
+    // const location = useLocation(); 
+    // const queryParams = new URLSearchParams(location.search);
+    // const orderDetail = queryParams.get('orderDetail');
+    // const open = orderDetail ? true : false;
+    // const handleOrderDetails = () => {
+    //     navigate(location.pathname + `?orderDetail=${order.id_order}`);
+    // };
 
     return (
         <>
-            <Card className='font-outfit' onClick={handleOrderDetails}>
+            <Card className='font-outfit'>
                 <CardHeader className='p-4'>
                     <div className='flex items-center justify-between'>
                         <h1 className=' text-sm font-medium'>{order.names}</h1>
@@ -53,12 +50,12 @@ export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
                     </div>
                 </CardContent>
             </Card>
-            <ResponsiveDialog
+            {/* <ResponsiveDialog
                 title='Detalles del Pedido'
                 open={open}
                 description='Aquí puedes ver el detalle del pedido.'>
                 <OrderDetailsKitchen orderDetails={orderDetails!} />
-            </ResponsiveDialog>
+            </ResponsiveDialog> */}
         </>
     );
 }

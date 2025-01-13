@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { OrderDetails } from '@/types/order';
-import { useUpdateItemStatus } from '../useUpdateItemStatus';
+import { useUpdateItemStatus } from './useUpdateItemStatus';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
 

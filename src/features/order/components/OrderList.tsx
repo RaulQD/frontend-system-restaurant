@@ -3,7 +3,7 @@ import CardOrderList from './CardOrderList';
 import { BiCart } from 'react-icons/bi';
 import { useState } from 'react';
 import { Separator } from '@/components/ui/separator';
-import { Order, OrderItem } from '@/types/order';
+import { OrderItem } from '@/types/order';
 import { formatCurrency } from '@/utils';
 
 type OrderListProps = {
@@ -24,7 +24,7 @@ export default function OrderList({
     //calcular el igv
     const IGV = subTotal * (18 / 100);
     const total = subTotal + IGV;
-   
+
     return (
         <>
             <aside
@@ -45,7 +45,7 @@ export default function OrderList({
                 <div className='basis-11/12 overflow-y-auto flex flex-col lg:p-6 bg-white rounded-lg'>
                     <ul className='basis-8/12 max-h-full overflow-y-auto'>
                         {orderItems.map((item) => (
-                            <li key={ item.dish_id} className='mb-3'>
+                            <li key={item.dish_id} className='mb-3'>
                                 <CardOrderList orderdish={item} />
                             </li>
                         ))}
