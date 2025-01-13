@@ -13,3 +13,12 @@ export type CategoryV2 = {
   category_description: string;
   message: string;
 }
+export type PaginationInfo = {
+  page: number;
+  limit: number;
+  totalCategories: number;
+}
+export type CategoryPagination = {
+  results: Category[];
+  pagination: PaginationInfo;
+}

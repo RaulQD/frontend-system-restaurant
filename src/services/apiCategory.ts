@@ -1,10 +1,15 @@
 import api from "@/lib/axios"
-import { Category, CategoryForm, CategoryV2 } from "@/types/category"
+import { Category, CategoryForm, CategoryPagination, CategoryV2 } from "@/types/category"
 import { isAxiosError } from "axios"
 
-export const getCategories = async () => {
+type GetCategoriesAPIType = {
+  keyword?: string;
+  page: number;
+}
+
+export const getCategories = async ({ keyword, page }: GetCategoriesAPIType) => {
   try {
-    const { data } = await api.get('/category')
+    const { data } = await api.get<CategoryPagination>('/category', { params: { keyword, page } });
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -48,7 +53,7 @@ export const createCategory = async (category: CategoryForm) => {
     console.log(error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message)
-    }else {
+    } else {
       throw new Error('Error inesperado al crear la categoría')
     }
   }

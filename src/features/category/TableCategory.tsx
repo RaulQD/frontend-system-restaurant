@@ -17,6 +17,7 @@ import { Category } from '@/types/category';
 import { useDeleteCategory } from './useDeleteCategory';
 import AlertMessageDialog from '../../components/AlertMessageDialog';
 import { useNavigate } from 'react-router-dom';
+import PaginationI from '@/components/PaginationI';
 
 export default function TableCategory() {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ export default function TableCategory() {
     const [editCategoryId, setEditCategoryId] = useState<number>();
     const [isDelete, setIsDelete] = useState(false);
 
-    const { categories, isLoading, error } = useGetCategories();
+    const { categories, isLoading, error} = useGetCategories();
     const { categoryDelete } = useDeleteCategory();
 
     if (isLoading) {
@@ -34,7 +35,7 @@ export default function TableCategory() {
             </div>
         );
     }
-    if (categories?.length === 0) {
+    if (categories?.results.length === 0) {
         return (
             <div className='flex justify-center items-center h-96'>
                 <p className='text-lg text-gray-500'>{error?.message}</p>
@@ -61,7 +62,7 @@ export default function TableCategory() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {categories?.map((category) => (
+                        {categories?.results.map((category) => (
                             <TableRow key={category.id}>
                                 <TableCell className='font-medium pl-6'>
                                     {category.id}
@@ -94,6 +95,7 @@ export default function TableCategory() {
                     </TableBody>
                 </Table>
             </div>
+            <PaginationI totalItems={categories?.pagination.totalCategories || 0}  />
             <EditCategoryData />
             <AlertMessageDialog
                 isOpen={isDelete}
