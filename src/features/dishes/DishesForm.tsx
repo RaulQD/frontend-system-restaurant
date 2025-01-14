@@ -1,14 +1,13 @@
 import { ErrorMessage } from '@/components/ErrorMessage';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 import { DishesFormData } from '@/types/dish';
 import { Cross2Icon, UploadIcon } from '@radix-ui/react-icons';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { BiUpload } from 'react-icons/bi';
-import SpinnerMini from '@/components/SpinnerMini';
-import { useGetCategories } from '../category/useGetCategories';
+import { useQuery } from '@tanstack/react-query';
+import { getCategories } from '@/services/apiCategory';
+import { Category } from '@/types/category';
 
 type DishesFormProps = {
     register: UseFormRegister<DishesFormData>;
@@ -25,7 +24,11 @@ export default function DishesForm({
     selectedImage,
     setSelectedImage,
 }: DishesFormProps) {
-    const { categories } = useGetCategories();
+    const { data: categories } = useQuery<Category[]>({
+        queryKey:['categories'],
+        queryFn: getCategories,
+    })
+        
 
     return (
         <>

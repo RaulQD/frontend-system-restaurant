@@ -6,12 +6,25 @@ type GetCategoriesAPIType = {
   keyword?: string;
   page: number;
 }
-
-export const getCategories = async ({ keyword, page }: GetCategoriesAPIType) => {
+export const getCategories = async () => { 
   try {
-    const { data } = await api.get<CategoryPagination>('/category', { params: { keyword, page } });
+    const { data } = await api.get('/category');
+    console.log(data);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message)
+    }
+  }
+}
+
+export const getCategoriesPagination = async ({ keyword, page }: GetCategoriesAPIType) => {
+  try {
+    const { data } = await api.get<CategoryPagination>('/category/all', { params: { keyword, page } });
+    console.log(data);
     return data
   } catch (error) {
+    console.log(error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message)
     }

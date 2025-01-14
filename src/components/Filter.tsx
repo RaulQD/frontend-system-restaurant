@@ -1,7 +1,7 @@
 import { Category } from '@/types/category';
 import FilterButton from './FilterButton';
-import { getCategories } from '@/services/apiCategory';
 import FilterInput from './FilterInput';
+import { getCategories } from '@/services/apiCategory';
 
 export default function Filter() {
     return (
