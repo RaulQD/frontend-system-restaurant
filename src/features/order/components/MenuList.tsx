@@ -1,6 +1,4 @@
-import ResponsiveDialog from '@/components/ResponsiveDialog';
 import CardDishes from './CardDishes';
-import { useState } from 'react';
 import { useDishes } from '../../dishes/useDishes';
 import Spinner from '@/components/Spinner';
 type MenuListProps = {
@@ -8,7 +6,7 @@ type MenuListProps = {
 };
 
 export default function MenuList({ handleAddItemToOrder }: MenuListProps) {
-    const [isOpen, setIsOpen] = useState(false);
+    
 
     const { dishes, isLoadingDishes, error } = useDishes();
     if (isLoadingDishes) {

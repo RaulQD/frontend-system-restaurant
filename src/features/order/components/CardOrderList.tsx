@@ -1,14 +1,14 @@
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
-import {  OrderItem } from '@/types/order';
+import { OrderItem } from '@/types/order';
 import { formatCurrency } from '../../../utils/formatCurrency';
+import { Badge } from '@/components/ui/badge';
 
 type CardOrderListProps = {
     orderdish: OrderItem;
 };
 
 export default function CardOrderList({ orderdish }: CardOrderListProps) {
-
-   const totalQuantityItems = (orderdish.unit_price || 0) * orderdish.quantity;
+    const totalQuantityItems = (orderdish.unit_price || 0) * orderdish.quantity;
 
     return (
         <Card>
@@ -28,7 +28,14 @@ export default function CardOrderList({ orderdish }: CardOrderListProps) {
                                 x{orderdish.quantity}
                             </span>
                         </div>
-                        <span className='font-medium'>{formatCurrency(totalQuantityItems)}</span>
+                        <div className='flex flex-col items-end gap-1'>
+                            <span className='font-medium'>
+                                {formatCurrency(totalQuantityItems)}
+                            </span>
+                            <Badge color='success' className='text-[0.5rem]'>
+                                {orderdish.status}
+                            </Badge>
+                        </div>
                     </div>
                 </div>
             </CardContent>

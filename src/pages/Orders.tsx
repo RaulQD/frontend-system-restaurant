@@ -3,6 +3,7 @@ import { useTableInfo } from '@/features/manage-table/useTableInfo';
 import FilterOrder from '@/features/order/components/FilterOrder';
 import MenuList from '@/features/order/components/MenuList';
 import OrderList from '@/features/order/components/OrderList';
+import { useAddItemToOrder } from '@/features/order/useAddItemToOrder';
 import { useCreateOrder } from '@/features/order/useCreateOrder';
 import { useUser } from '@/hooks/useUser';
 import { OrderCreateData, OrderItem } from '@/types/order';
@@ -15,19 +16,21 @@ export default function Orders() {
     const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
     const [specialRequests, setSpecialRequests] = useState<string>('');
     const navigate = useNavigate();
-    //CREAR EL ESTADO DE LAS SOLICITUDES ESPECIALES
     //OBTENER EL NUMERO DE LA MESA SELECCIONADA DE LA URL
     const { tableId } = useParams<{ tableId: string }>();
     const { user } = useUser();
     const { dishes } = useDishes();
     const { createOrders } = useCreateOrder();
+    const { addItemToOrder } = useAddItemToOrder();
     const { tableById } = useTableInfo(Number(tableId));
 
     //4. Crear una función handleCreateOrder que cree una orden
     const handleCreateOrder = () => {
         //VALIDAR SI EL USUARIO TIENE UN ID DE EMPLEADO
         if (!user?.employee?.id_employee) {
-            toast.error('No se puede crear la orden, el usuario no tiene un id de empleado');
+            toast.error(
+                'No se puede crear la orden, el usuario no tiene un id de empleado'
+            );
             return;
         }
         const orderData: OrderCreateData = {
@@ -46,31 +49,34 @@ export default function Orders() {
             },
         });
     };
+    const handleAddItemToOrder = (dishId: number) => {
+        
+    };
 
     //5. Crear una función handleAddItemToOrder que agregue un item a la orden
-    const handleAddItemToOrder = (dishId: number) => {
-        console.log('Platos disponibles:', dishes?.results); // Verificar platos disponibles
-        const dish = dishes?.results.find((d) => d.id === dishId);
-        console.log('Plato encontrado:', dish);
-        //VALIDAR SI EL ITEM YA ESTA EN LA ORDEN
-        const itemsExists = orderItems.find((item) => item.dish_id === dishId);
-        if (itemsExists) {
-            itemsExists.quantity += 1;
-            setOrderItems([...orderItems]);
-        } else {
-            //AGREGAR EL ITEM A LA ORDEN
-            const item: OrderItem = {
-                dish_id: dishId,
-                dishes_name: dish?.dishes_name,
-                image: dish?.image_url,
-                quantity: 1,
-                unit_price: dish?.price,
-                status: 'PENDIENTE',
-                special_requests: specialRequests,
-            };
-            setOrderItems([...orderItems, item]);
-        }
-    };
+    // const handleAddItemToOrder = (dishId: number) => {
+    //     console.log('Platos disponibles:', dishes?.results); // Verificar platos disponibles
+    //     const dish = dishes?.results.find((d) => d.id === dishId);
+    //     console.log('Plato encontrado:', dish);
+    //     //VALIDAR SI EL ITEM YA ESTA EN LA ORDEN
+    //     const itemsExists = orderItems.find((item) => item.dish_id === dishId);
+    //     if (itemsExists) {
+    //         itemsExists.quantity += 1;
+    //         setOrderItems([...orderItems]);
+    //     } else {
+    //         //AGREGAR EL ITEM A LA ORDEN
+    //         const item: OrderItem = {
+    //             dish_id: dishId,
+    //             dishes_name: dish?.dishes_name,
+    //             image: dish?.image_url,
+    //             quantity: 1,
+    //             unit_price: dish?.price,
+    //             status: 'PENDIENTE',
+    //             special_requests: specialRequests,
+    //         };
+    //         setOrderItems([...orderItems, item]);
+    //     }
+    // };
 
     return (
         <>
