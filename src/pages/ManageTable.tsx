@@ -24,6 +24,7 @@ export default function ManageTable() {
             setSearchParams(searchParams);
         }
     }, [searchParams, setSearchParams]);
+    
     const handleRedirectToUpdateOrder = () => {};
 
     const handleRedirectToCreateOrder = (tableId: Tables['id_table']) => {

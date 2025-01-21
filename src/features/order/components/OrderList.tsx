@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { OrderItem } from '@/types/order';
 import { formatCurrency } from '@/utils';
+import { useGetOrderDetailsItems } from '../useGetOrderDetailsItems';
 
 type OrderListProps = {
     // orderId: Order['id_order'] | null;
@@ -16,6 +17,7 @@ export default function OrderList({
     handleCreateOrder,
     orderItems,
 }: OrderListProps) {
+    
     const [showCart, setShowCart] = useState(false);
     const subTotal = orderItems.reduce(
         (acc, items) => acc + items.quantity * (items.unit_price || 0),

@@ -12,7 +12,17 @@ export const getOrdersForKitchen = async () => {
     }
   }
 }
-
+export const getOrderDetailsById = async (orderId: Order['id_order']) => {
+  try {
+    const { data } = await api.get(`/orders/${orderId}/items`);
+    console.log(data);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
+}
 export const getOrderActiveForTable = async (tableId: number) => {
   try {
     const { data } = await api.get(`/orders/tables/${tableId}/order`);

@@ -6,7 +6,7 @@ export const useGetOrderActiveForTable = (tableId: number) => {
   const { data: activeOrder, isLoading, isError, error } = useQuery<Order>({
     queryKey: ['orderDetails', tableId],
     queryFn: () => getOrderActiveForTable(tableId),
-    enabled: !!tableId // only fetch when tableId is defined
+    enabled: !!tableId 
   })
   return { activeOrder, isLoading, isError, error }
 }
