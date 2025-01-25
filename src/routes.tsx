@@ -6,13 +6,13 @@ import ManageTable from './pages/ManageTable';
 import Dishes from './pages/Dishes';
 import AdminPanel from './pages/AdminPanel';
 import AddEmployee from './features/admin-personal/AddEmployee';
-import AddDishes from './features/dishes/AddDishes';
 import { ProtectedRoutes } from './components/ProtectedRoutes';
 import Kitchen from './pages/Kitchen';
 import Category from './pages/Category';
 import OrderHistory from './pages/OrderHistory';
 import Orders from './pages/Orders';
 import UnAuthorized from './pages/UnAuthorized';
+import UpdateOrder from './pages/UpdateOrder';
 
 const ROLES = {
     Administrador: 'administrador',
@@ -40,10 +40,10 @@ export default function AppRoutes() {
                         path='dashboard/personal-register'
                         element={<AddEmployee />}
                     />
-                    <Route
+                    {/* <Route
                         path='dashboard/dishes/add-dishes'
                         element={<AddDishes />}
-                    />
+                    /> */}
                     <Route
                         path='dashboard/dishes'
                         element={
@@ -70,14 +70,18 @@ export default function AppRoutes() {
                         path='dashboard/tables/:tableId/order/'
                         element={<Orders />}
                     />
-                    {/* <Route
+                    <Route
                         path='dashboard/tables/:tableId/order/:orderId'
-                        element={<Orders />}
-                    /> */}
+                        element={<UpdateOrder />}
+                    />
                     <Route
                         path='dashboard/kitchen'
                         element={
-                            <ProtectedRoutes allowedRoles={[ROLES.Cocinero, ROLES.Administrador]}>
+                            <ProtectedRoutes
+                                allowedRoles={[
+                                    ROLES.Cocinero,
+                                    ROLES.Administrador,
+                                ]}>
                                 <Kitchen />
                             </ProtectedRoutes>
                         }

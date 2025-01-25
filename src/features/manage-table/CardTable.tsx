@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import Restaurant from '../../../assets/restaurante.svg';
+import Restaurant from '../../assets/restaurante.svg';
 import { FaUsers } from 'react-icons/fa';
 import { Tables } from '@/types/tables';
 

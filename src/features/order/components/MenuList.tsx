@@ -39,13 +39,7 @@ export default function MenuList({ handleAddItemToOrder }: MenuListProps) {
                     ))}
                 </ul>
             </section>
-            {/* <ResponsiveDialog
-                title='pollo a la brasa'
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                description='Agrega un plato al menú de tu restaurante'>
-                <p>Contenido del plato</p>
-            </ResponsiveDialog> */}
+            
         </>
     );
 }

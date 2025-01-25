@@ -1,4 +1,5 @@
 import api from "@/lib/axios";
+import { DishType } from "@/types/dish";
 import { Order, OrderCreateData } from "@/types/order";
 import { isAxiosError } from "axios";
 
@@ -23,7 +24,7 @@ export const getOrderDetailsById = async (orderId: Order['id_order']) => {
     }
   }
 }
-export const getOrderActiveForTable = async (tableId: number) => {
+export const getOrderByTableId = async (tableId: number) => {
   try {
     const { data } = await api.get(`/orders/tables/${tableId}/order`);
     return data;
@@ -60,17 +61,16 @@ export const createOrder = async (order: OrderCreateData) => {
   }
 }
 
-
-type OrderItemData = {
-  orderId: number;
-  dishId: number;
+type AddItemsToOrder = {
+  orderId: Order['id_order'];
+  dishId: DishType['id'];
   quantity: number;
-  price: number;
+  special_requests: string;
 }
 
-export const addItemsToOrder = async (orderItemdata: OrderItemData) => {
+export const addItemsToOrder = async (orderItemsData: AddItemsToOrder) => {
   try {
-    const { data } = await api.post(`/orders/add-item`, orderItemdata);
+    const { data } = await api.post(`/orders/${orderItemsData.orderId}/add-item`, orderItemsData);
     console.log(data);
     return data;
   } catch (error) {
@@ -79,7 +79,6 @@ export const addItemsToOrder = async (orderItemdata: OrderItemData) => {
     }
   }
 }
-
 export const getItemsByOrder = async (orderId: number) => {
   try {
     const { data } = await api.get(`/orders/${orderId}/items`);

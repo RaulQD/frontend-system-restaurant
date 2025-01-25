@@ -1,47 +1,10 @@
-import AlertMessageDialog from '@/components/AlertMessageDialog';
-import FilterButton from '@/components/FilterButton';
-import Spinner from '@/components/Spinner';
 
-import CardTable from '@/features/manage-table/components/CardTable';
-import { useTables } from '@/features/manage-table/useTables';
-import { getRooms } from '@/services/apiRooms';
+import TableList from '@/features/manage-table/TableList';
+import FilterButton from '@/components/FilterButton';
 import { Rooms } from '@/types/rooms';
-import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Tables } from '@/types/tables';
+import { getRooms } from '@/services/apiRooms';
 
 export default function ManageTable() {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const [isOpen, setIsOpen] = useState(false);
-
-    const room = searchParams.get('room') || 'comedor principal';
-    const navigate = useNavigate();
-    const { tables, isLoading, error } = useTables(room);
- 
-    useEffect(() => {
-        if (!searchParams.has('room')) {
-            searchParams.set('room', 'comedor principal');
-            setSearchParams(searchParams);
-        }
-    }, [searchParams, setSearchParams]);
-    
-    const handleRedirectToUpdateOrder = () => {};
-
-    const handleRedirectToCreateOrder = (tableId: Tables['id_table']) => {
-        navigate(`/dashboard/tables/${tableId}/order/`);
-    };
-
-    if (!tables) {
-        <div className='flex justify-center items-center pt-20'>
-            <p className='text-lg'>{error?.message}</p>
-        </div>;
-    }
-    if (isLoading) {
-        <div className='flex justify-center items-center pt-40'>
-            <Spinner />
-        </div>;
-    }
-
     return (
         <section>
             <div>
@@ -76,27 +39,7 @@ export default function ManageTable() {
                     />
                 </div>
             </div>
-            <div className='mt-10'>
-                <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-10 gap-y-5'>
-                    {tables?.map((table) => (
-                        <li
-                            className='cursor-pointer'
-                            key={table.id_table}
-                            onClick={() =>
-                                handleRedirectToCreateOrder(table.id_table)
-                            }>
-                            <CardTable table={table} />
-                        </li>
-                    ))}
-                </ul>
-            </div>
-            <AlertMessageDialog
-                title='Actualizar Orden'
-                description='Esta mesa ya tiene una orden activa. ¿Desea actualizarla?.'
-                onConfirm={() => handleRedirectToUpdateOrder()}
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-            />
+            <TableList />
         </section>
     );
 }

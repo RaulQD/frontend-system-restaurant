@@ -25,10 +25,10 @@ export default function CardOrderList({ orderdish }: CardOrderListProps) {
                                 {orderdish.dishes_name}
                             </CardTitle>
                             <span className='text-gray-500 text-sm'>
-                                x{orderdish.quantity}
+                                x {orderdish.quantity}
                             </span>
                         </div>
-                        <div className='flex flex-col items-end gap-1'>
+                        <div className='flex flex-col items-start lg:items-end gap-1'>
                             <span className='font-medium'>
                                 {formatCurrency(totalQuantityItems)}
                             </span>

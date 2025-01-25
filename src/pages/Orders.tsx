@@ -49,34 +49,39 @@ export default function Orders() {
             },
         });
     };
-    const handleAddItemToOrder = (dishId: number) => {
-        
-    };
-
-    //5. Crear una función handleAddItemToOrder que agregue un item a la orden
     // const handleAddItemToOrder = (dishId: number) => {
-    //     console.log('Platos disponibles:', dishes?.results); // Verificar platos disponibles
-    //     const dish = dishes?.results.find((d) => d.id === dishId);
-    //     console.log('Plato encontrado:', dish);
-    //     //VALIDAR SI EL ITEM YA ESTA EN LA ORDEN
-    //     const itemsExists = orderItems.find((item) => item.dish_id === dishId);
-    //     if (itemsExists) {
-    //         itemsExists.quantity += 1;
-    //         setOrderItems([...orderItems]);
-    //     } else {
-    //         //AGREGAR EL ITEM A LA ORDEN
-    //         const item: OrderItem = {
-    //             dish_id: dishId,
-    //             dishes_name: dish?.dishes_name,
-    //             image: dish?.image_url,
-    //             quantity: 1,
-    //             unit_price: dish?.price,
-    //             status: 'PENDIENTE',
-    //             special_requests: specialRequests,
-    //         };
-    //         setOrderItems([...orderItems, item]);
-    //     }
+    //     addItemToOrder({
+    //         orderId: Number(tableId),
+    //         dishId,
+    //         quantity: 1,
+    //         special_requests: specialRequests,
+    //     });
     // };
+
+  //  5. Crear una función handleAddItemToOrder que agregue un item a la orden
+    const handleAddItemToOrder = (dishId: number) => {
+        console.log('Platos disponibles:', dishes?.results); // Verificar platos disponibles
+        const dish = dishes?.results.find((d) => d.id === dishId);
+        console.log('Plato encontrado:', dish);
+        //VALIDAR SI EL ITEM YA ESTA EN LA ORDEN
+        const itemsExists = orderItems.find((item) => item.dish_id === dishId);
+        if (itemsExists) {
+            itemsExists.quantity += 1;
+            setOrderItems([...orderItems]);
+        } else {
+            //AGREGAR EL ITEM A LA ORDEN
+            const item: OrderItem = {
+                dish_id: dishId,
+                dishes_name: dish?.dishes_name,
+                image: dish?.image_url,
+                quantity: 1,
+                unit_price: dish?.price,
+                status: 'PENDIENTE',
+                special_requests: specialRequests,
+            };
+            setOrderItems([...orderItems, item]);
+        }
+    };
 
     return (
         <>
