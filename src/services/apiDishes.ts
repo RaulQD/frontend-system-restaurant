@@ -36,8 +36,10 @@ export const createDish = async (formData: FormData) => {
         'Content-Type': 'multipart/form-data'
       }
     });
+
     return data;
   } catch (error) {
+    console.log(error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message)
     } else {

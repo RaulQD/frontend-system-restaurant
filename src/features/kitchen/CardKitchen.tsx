@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { OrdersList } from '@/types/order';
@@ -6,20 +7,37 @@ import { ClockIcon, ComponentInstanceIcon } from '@radix-ui/react-icons';
 
 type CardKitchenProps = {
     order: OrdersList;
-    badgeStatus: (status: string) => JSX.Element;
 };
 
-export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
+export default function CardKitchen({ order }: CardKitchenProps) {
     
+    const statusOrder = (status: string) => {
+        switch (status) {
+            case 'PENDIENTE':
+                return (
+                    <Badge
+                        variant='warning'
+                        className='text-white font-semibold'>
+                        Pendiente
+                    </Badge>
+                );
+            case 'EN PROCESO':
+                return (
+                    <Badge variant='info' className='text-black font-semibold'>
+                        En Proceso
+                    </Badge>
+                );
 
-    // const navigate = useNavigate();
-    // const location = useLocation(); 
-    // const queryParams = new URLSearchParams(location.search);
-    // const orderDetail = queryParams.get('orderDetail');
-    // const open = orderDetail ? true : false;
-    // const handleOrderDetails = () => {
-    //     navigate(location.pathname + `?orderDetail=${order.id_order}`);
-    // };
+            default:
+                return (
+                    <Badge
+                        variant='secondary'
+                        className='text-white font-semibold'>
+                        Desconocido
+                    </Badge>
+                );
+        }
+    };
 
     return (
         <>
@@ -28,7 +46,7 @@ export default function CardKitchen({ order, badgeStatus }: CardKitchenProps) {
                     <div className='flex items-center justify-between'>
                         <h1 className=' text-sm font-medium'>{order.names}</h1>
 
-                        <span> {badgeStatus(order.order_status)}</span>
+                        <span> {statusOrder(order.order_status)}</span>
                     </div>
                 </CardHeader>
                 <CardContent className='px-4 pb-4'>

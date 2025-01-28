@@ -12,15 +12,15 @@ export type Items = {
   id_item: number;
   dish_id: number;
   dishes_name?: string;
-  image?: string;
+  image_url?: string;
   unit_price?: number;
-  subtotal: number;
+  subtotal: number; 
   status: string;
   special_requests?: string;
   quantity: number;
 }
 
-export type OrderItem = Pick<Items, 'dish_id' | 'dishes_name' | 'image' | 'unit_price' | 'quantity' | 'status'| 'special_requests'>;
+export type OrderItem = Pick<Items, 'dish_id' | 'dishes_name' | 'image_url' | 'unit_price' | 'quantity' | 'status'| 'special_requests'>;
 
 export type Order = {
   id_order: number;

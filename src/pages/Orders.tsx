@@ -60,9 +60,7 @@ export default function Orders() {
 
   //  5. Crear una función handleAddItemToOrder que agregue un item a la orden
     const handleAddItemToOrder = (dishId: number) => {
-        console.log('Platos disponibles:', dishes?.results); // Verificar platos disponibles
         const dish = dishes?.results.find((d) => d.id === dishId);
-        console.log('Plato encontrado:', dish);
         //VALIDAR SI EL ITEM YA ESTA EN LA ORDEN
         const itemsExists = orderItems.find((item) => item.dish_id === dishId);
         if (itemsExists) {
@@ -73,7 +71,7 @@ export default function Orders() {
             const item: OrderItem = {
                 dish_id: dishId,
                 dishes_name: dish?.dishes_name,
-                image: dish?.image_url,
+                image_url: dish?.image_url,
                 quantity: 1,
                 unit_price: dish?.price,
                 status: 'PENDIENTE',
@@ -86,7 +84,7 @@ export default function Orders() {
     return (
         <>
             <section className='h-[90dvh] xl:flex xl:gap-x-4'>
-                <div className='lg:basis-3/4 overflow-y-auto '>
+                <div className='lg:basis-2/3 overflow-y-auto '>
                     <h1 className='font-outfit text-xl font-medium mb-4'>
                         Crear nueva orden en la mesa {tableById?.num_table}
                     </h1>
@@ -97,7 +95,7 @@ export default function Orders() {
                         <MenuList handleAddItemToOrder={handleAddItemToOrder} />
                     </div>
                 </div>
-                <div className='lg:basis-1/4'>
+                <div className='lg:basis-1/3'>
                     <OrderList
                         orderItems={orderItems}
                         handleCreateOrder={handleCreateOrder}

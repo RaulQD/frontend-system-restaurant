@@ -5,7 +5,6 @@ import { isAxiosError } from 'axios';
 
 export const getTablesByRoomName = async (room: string) => {
   try {
-    // const encodedRoom = encodeURIComponent(room)
     const { data } = await api.get<Tables[]>('/tables/findTablesByRoom', { params: { room } })
     return data
   } catch (error) {
@@ -20,7 +19,6 @@ export const getTablesByRoomName = async (room: string) => {
 export const getTableById = async (idTable: Tables['id_table']) => { 
   try {
     const { data } = await api.get(`/tables/${idTable}`)
-    console.log(data)
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {

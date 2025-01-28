@@ -29,7 +29,7 @@ export default function MenuList({ handleAddItemToOrder }: MenuListProps) {
                 <h1 className='font-medium font-outfit text-xl'>
                     Elije tu plato
                 </h1>
-                <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-6'>
+                <ul className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-4 mt-6'>
                     {dishes?.results.map((dish) => (
                         <li
                             key={dish.id}

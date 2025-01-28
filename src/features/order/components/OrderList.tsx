@@ -3,21 +3,18 @@ import CardOrderList from './CardOrderList';
 import { BiCart } from 'react-icons/bi';
 import { useState } from 'react';
 import { Separator } from '@/components/ui/separator';
-import { OrderItem } from '@/types/order';
+import {  OrderItem } from '@/types/order';
 import { formatCurrency } from '@/utils';
-import { useGetOrderDetailsItems } from '../useGetOrderDetailsItems';
 
 type OrderListProps = {
-    // orderId: Order['id_order'] | null;
-    orderItems: OrderItem[];
-    handleCreateOrder: () => void;
+    orderItems: OrderItem[] ;
+    handleCreateOrder?: () => void;
 };
 
 export default function OrderList({
     handleCreateOrder,
     orderItems,
 }: OrderListProps) {
-    
     const [showCart, setShowCart] = useState(false);
     const subTotal = orderItems.reduce(
         (acc, items) => acc + items.quantity * (items.unit_price || 0),
@@ -30,7 +27,7 @@ export default function OrderList({
     return (
         <>
             <aside
-                className={`fixed xl:static right-0 p-5 xl:p-0 flex flex-col gap-y-8 2xl:gap-y-4 h-full bg-white z-50 w-[90%] sm:w-[70%] lg:w-[50%] xl:w-full transition-all font-outfit',
+                className={`fixed xl:static right-0 p-5 xl:p-0 flex flex-col gap-y-8 2xl:gap-y-4 h-full bg-white z-50 w-[90%] sm:w-[70%] lg:w-[60%] xl:w-full transition-all font-outfit',
                     ${showCart ? 'top-0 delay-300' : '-top-full'}`}>
                 <div className='pt-0 px-0 lg:pt-6 lg:px-6 basis-1/12'>
                     <div className='flex flex-col gap-y-2 font-outfit mb-4'>
@@ -48,7 +45,7 @@ export default function OrderList({
                     <ul className='basis-8/12 max-h-full overflow-y-auto'>
                         {orderItems.map((item) => (
                             <li key={item.dish_id} className='mb-3'>
-                                <CardOrderList orderdish={item} />
+                                <CardOrderList orderItem={item} />
                             </li>
                         ))}
                     </ul>
@@ -75,7 +72,9 @@ export default function OrderList({
                                 </span>
                             </li>
                         </ul>
-                        <Button variant={'secondary'} className='w-full'>
+                        <Button
+                            variant={'secondary'}
+                            className='w-full hover:tracking-widest transition-all'>
                             Cancelar
                         </Button>
                         <Button
@@ -83,6 +82,11 @@ export default function OrderList({
                             className='w-full hover:tracking-widest transition-all'
                             onClick={handleCreateOrder}>
                             Confirmar Orden
+                        </Button>
+                        <Button
+                            variant={'default'}
+                            className='w-full hover:tracking-widest transition-all'>
+                            Realizar Pago
                         </Button>
                     </section>
                 </div>

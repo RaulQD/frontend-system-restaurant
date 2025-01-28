@@ -34,13 +34,13 @@ export default function DishesForm({
         <>
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 my-5 font-outfit'>
                 <div className='w-full col-span-3 row-span-2'>
-                    <div className='border-2 border-dashed rounded-lg p-4 '>
+                    <div className='border-2 border-dashed rounded-lg p-4 flex justify-center items-center'>
                         {selectedImage ? (
                             <div className='relative'>
                                 <img
                                     src={selectedImage}
                                     alt='Imagen seleccionada'
-                                    className='w-full h-auto rounded-lg'
+                                    className='w-auto h-48 rounded-lg'
                                 />
                                 {/* Opción para eliminar la imagen seleccionada */}
                                 <button
@@ -115,9 +115,9 @@ export default function DishesForm({
                         {...register('dishes_description', {
                             required: 'Ingresa la descripción del plato.',
                             minLength: {
-                                value: 5,
+                                value: 20,
                                 message:
-                                    'La descripción debe tener al menos 5 caracteres.',
+                                    'La descripción debe tener al menos 20 caracteres.',
                             },
                             maxLength: {
                                 value: 100,

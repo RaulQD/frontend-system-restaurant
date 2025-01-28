@@ -31,7 +31,6 @@ export default function AddDishes({ open }: AddDishesProps) {
         formData.append('dishes_description', data.dishes_description);
         formData.append('price', data.price.toString());
         formData.append('category_name', data.category_name);
-
         //AÑADIR LA IMAGEN SELECCIONADA
         if (data.image_url && data.image_url[0]) {
             formData.append('image_url', data.image_url[0]);
@@ -66,7 +65,7 @@ export default function AddDishes({ open }: AddDishesProps) {
             open={open}
             description='Agrega un plato al menú de tu restaurante'>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <DishesForm register={register} errors={errors} handleImageChange={handleImageChange} selectedImage ={selectedImage} setSelectedImage={setSelectedImage}/>
+                <DishesForm register={register} errors={errors} handleImageChange={handleImageChange} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>
                 <div className='flex items-center justify-end gap-2'>
                     <Button
                         type='button'

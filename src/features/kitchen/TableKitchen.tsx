@@ -1,7 +1,6 @@
 import Spinner from '@/components/Spinner';
 import CardKitchen from './CardKitchen';
 import { useGetOrdersForKitchen } from './useGetOrdersForKitchen';
-import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
 import EditOrderDetailsData from './EditOrderDetailsData';
 
@@ -23,33 +22,7 @@ export default function TableKitchen() {
             </div>
         );
     }
-    const badgeStatus = (status: string) => {
-        switch (status) {
-            case 'PENDIENTE':
-                return (
-                    <Badge
-                        variant='warning'
-                        className='text-white font-semibold'>
-                        Pendiente
-                    </Badge>
-                );
-            case 'EN PROCESO':
-                return (
-                    <Badge variant='info' className='text-black font-semibold'>
-                        En Proceso
-                    </Badge>
-                );
 
-            default:
-                return (
-                    <Badge
-                        variant='secondary'
-                        className='text-white font-semibold'>
-                        Desconocido
-                    </Badge>
-                );
-        }
-    };
     return (
         <>
             <div className='mb-5'>
@@ -64,10 +37,7 @@ export default function TableKitchen() {
                                         `?orderDetails=${order.id_order}`
                                 );
                             }}>
-                            <CardKitchen
-                                order={order}
-                                badgeStatus={badgeStatus}
-                            />
+                            <CardKitchen order={order} />
                         </li>
                     ))}
                 </ul>

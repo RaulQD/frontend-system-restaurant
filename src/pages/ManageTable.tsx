@@ -1,4 +1,3 @@
-
 import TableList from '@/features/manage-table/TableList';
 import FilterButton from '@/components/FilterButton';
 import { Rooms } from '@/types/rooms';
@@ -38,8 +37,10 @@ export default function ManageTable() {
                         useSelectOnMobile={false}
                     />
                 </div>
+                <div className='mt-10'>
+                    <TableList />
+                </div>
             </div>
-            <TableList />
         </section>
     );
 }

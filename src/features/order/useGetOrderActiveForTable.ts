@@ -4,9 +4,10 @@ import { useQuery } from "@tanstack/react-query"
 
 export const useGetOrderActiveForTable = (tableId: number) => {
   const { data: activeOrder, isLoading, isError, error } = useQuery<Order>({
-    queryKey: ['orderDetails', tableId],
+    queryKey: ['activeOrder', tableId],
     queryFn: () => getOrderByTableId(tableId),
-    enabled: !!tableId 
+    retry: false,
+    enabled: !!tableId
   })
   return { activeOrder, isLoading, isError, error }
 }
