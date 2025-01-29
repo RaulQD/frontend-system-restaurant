@@ -1,5 +1,5 @@
 import { useUser } from '@/hooks/useUser';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import Spinner from './Spinner';
 
 type ProtectedRoutesProps = {
