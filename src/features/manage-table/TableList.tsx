@@ -5,17 +5,11 @@ import CardTable from './CardTable';
 import Spinner from '@/components/Spinner';
 import { Tables } from '@/types/tables';
 import { useGetOrderActiveForTable } from '../order/useGetOrderActiveForTable';
-import AlertMessageDialog from '@/components/AlertMessageDialog';
 
 export default function TableList() {
     const [selectedTable, setSelectedTable] = useState<Tables['id_table']>();
-
-    const [isOpen, setIsOpen] = useState(false);
-    const {
-        activeOrder,
-        isLoading: isOrderLoading,
-        error: orderError,
-    } = useGetOrderActiveForTable(selectedTable || 0);
+    const { activeOrder, isLoading: isOrderLoading } =
+        useGetOrderActiveForTable(selectedTable || 0);
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
 
@@ -45,7 +39,7 @@ export default function TableList() {
                 `/dashboard/tables/${selectedTable}/order/${activeOrder?.id_order}`
             );
         }
-    }, [activeOrder, selectedTable,navigate]);
+    }, [activeOrder, selectedTable, navigate]);
     if (!tables?.length) {
         return (
             <div className='flex justify-center items-center pt-20'>

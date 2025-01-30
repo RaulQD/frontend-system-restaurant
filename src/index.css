@@ -73,20 +73,3 @@
         @apply bg-background text-foreground;
     }
 }
-/* ::-webkit-scrollbar {
-    width: 0.5rem;
-    border-radius: 0.75rem;
-    background-color: initial;
-} */
-
-/* 
-::-webkit-scrollbar-thumb {
-    background-color: #ffe6d5;
-    border-radius: 0.75rem;
-}
-
-::-webkit-scrollbar-thumb:hover,
-::-webkit-scrollbar-thumb:active {
-    background-color: #feccaa;
-} */
-

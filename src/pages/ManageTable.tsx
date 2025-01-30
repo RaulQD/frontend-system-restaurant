@@ -4,14 +4,28 @@ import { Rooms } from '@/types/rooms';
 import { getRooms } from '@/services/apiRooms';
 
 export default function ManageTable() {
+    // OBTENER LA FECHA ACTUAL DEL SISTEMA
+    const getCurrentDate = () => {
+        const date = new Date();
+        return date.toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long', // "enero", "febrero", etc.
+            day: 'numeric',
+        });
+    };
     return (
         <section>
             <div>
                 <div className='flex flex-col md:flex-row items-start justify-between gap-6'>
                     <div>
-                        <h1 className='font-outfit text-xl font-medium'>
-                            Gestionar Mesas
-                        </h1>
+                        <div>
+                            <h1 className='font-outfit text-2xl font-medium'>
+                                Gestionar Mesas
+                            </h1>
+                            <span className='font-outfit text-gray-400 text-sm'>
+                                {getCurrentDate()}
+                            </span>
+                        </div>
                         <div className='flex items-center justify-start gap-4 mt-2'>
                             <div className='flex items-center justify-center gap-3'>
                                 <span className='bg-blue-300 w-2 h-2 py-1 px-1 block rounded-full'></span>

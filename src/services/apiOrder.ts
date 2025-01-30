@@ -1,6 +1,5 @@
 import api from "@/lib/axios";
-import { DishType } from "@/types/dish";
-import { Order, OrderCreateData } from "@/types/order";
+import { AddItemToOrderData, Order, OrderCreateData } from "@/types/order";
 import { isAxiosError } from "axios";
 
 export const getOrdersForKitchen = async () => {
@@ -60,19 +59,13 @@ export const createOrder = async (order: OrderCreateData) => {
     }
   }
 }
-
-type AddItemsToOrder = {
-  orderId: Order['id_order'];
-  dishId: DishType['id'];
-  quantity: number;
-  special_requests: string;
-}
-
-export const addItemsToOrder = async (orderItemsData: AddItemsToOrder) => {
+export const addItemsToOrder = async (orderItems: AddItemToOrderData) => {
   try {
-    const { data } = await api.post(`/orders/${orderItemsData.orderId}/add-item`, orderItemsData);
+    const { data } = await api.patch(`/orders/${orderItems.order_id}/add-item`, orderItems);
+    console.log(data);
     return data;
   } catch (error) {
+    console.log(error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }

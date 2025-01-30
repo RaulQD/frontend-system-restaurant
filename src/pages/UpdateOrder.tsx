@@ -2,18 +2,31 @@ import { useTableInfo } from '@/features/manage-table/useTableInfo';
 import FilterOrder from '@/features/order/components/FilterOrder';
 import MenuList from '@/features/order/components/MenuList';
 import OrderList from '@/features/order/components/OrderList';
+import { useAddItemToOrder } from '@/features/order/useAddItemToOrder';
 import { useGetOrderActiveForTable } from '@/features/order/useGetOrderActiveForTable';
 import { useParams } from 'react-router-dom';
 
 export default function UpdateOrder() {
     const { tableId } = useParams<{ tableId: string }>();
     const { tableById } = useTableInfo(Number(tableId));
+    const { addItemToOrder } = useAddItemToOrder();
     const {
         activeOrder,
         isLoading: isOrderLoading,
         error: orderError,
     } = useGetOrderActiveForTable(Number(tableId));
-    const handleAddItemToOrder = (dishId: number) => {};
+    const handleAddItemToOrder = (
+        dishId: number,
+        quantity: number = 1,
+        specialRequests?: string
+    ) => {
+        addItemToOrder({
+            order_id: activeOrder?.id_order || 0,
+            dish_id: dishId,
+            quantity,
+            special_requests: specialRequests || '',
+        });
+    };
 
     return (
         <>

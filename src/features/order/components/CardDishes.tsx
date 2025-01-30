@@ -5,18 +5,17 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import NotImage from '@/assets/not-image-found.png';
-import { Button } from '@/components/ui/button';
-import { MinusIcon, PlusIcon } from '@radix-ui/react-icons';
 import { DishesType } from '@/types/dish';
 import { formatCurrency } from '@/utils/formatCurrency';
 
 type DishProps = {
     dish: DishesType;
+    isSelected: (dishId: number) => boolean;
 };
 
-export default function CardDishes({ dish }: DishProps) {
+export default function CardDishes({ dish,isSelected }: DishProps) {
     return (
-        <Card className='cursor-pointer'>
+        <Card className={`${isSelected(dish.id) ? 'opacity-50 border-2 border-teal-300': ''} cursor-pointer`}>
             <CardContent className='p-4'>
                 <div className='flex justify-start gap-2'>
                     <img

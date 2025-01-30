@@ -13,10 +13,18 @@ export default function CardTable({ table }: CardTableProps) {
             className={
                 table.status === 'DISPONIBLE' ? 'bg-blue-100' : 'bg-red-100'
             }>
-            <CardHeader>
-                <CardTitle className='text-blue-500 font-normal font-outfit'>
+            <CardHeader className='relative'>
+                <CardTitle className='text-blue-500 font-normal font-outfit mt-4 text-center'>
                     Mesa #{table.num_table}
                 </CardTitle>
+                <div
+                    className={` ${
+                        table.status === 'DISPONIBLE'
+                            ? 'bg-blue-500'
+                            : 'bg-red-500'
+                    } absolute -top-2 left-0 rounded-ss-xl p-1`}>
+                    <h1 className='text-white lowercase'>{table.status}</h1>
+                </div>
             </CardHeader>
             <CardContent>
                 <div>

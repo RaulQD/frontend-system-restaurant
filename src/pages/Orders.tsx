@@ -3,7 +3,6 @@ import { useTableInfo } from '@/features/manage-table/useTableInfo';
 import FilterOrder from '@/features/order/components/FilterOrder';
 import MenuList from '@/features/order/components/MenuList';
 import OrderList from '@/features/order/components/OrderList';
-import { useAddItemToOrder } from '@/features/order/useAddItemToOrder';
 import { useCreateOrder } from '@/features/order/useCreateOrder';
 import { useUser } from '@/hooks/useUser';
 import { OrderCreateData, OrderItem } from '@/types/order';
@@ -14,17 +13,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 export default function Orders() {
     //CREAR EL ESTADO DE LOS ITEMS DE LA ORDEN
     const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
-    const [specialRequests, setSpecialRequests] = useState<string>('');
     const navigate = useNavigate();
     //OBTENER EL NUMERO DE LA MESA SELECCIONADA DE LA URL
     const { tableId } = useParams<{ tableId: string }>();
     const { user } = useUser();
     const { dishes } = useDishes();
     const { createOrders } = useCreateOrder();
-    const { addItemToOrder } = useAddItemToOrder();
     const { tableById } = useTableInfo(Number(tableId));
 
-    //4. Crear una función handleCreateOrder que cree una orden
+    //Crear una función handleCreateOrder que cree una orden
     const handleCreateOrder = () => {
         //VALIDAR SI EL USUARIO TIENE UN ID DE EMPLEADO
         if (!user?.employee?.id_employee) {
@@ -42,42 +39,46 @@ export default function Orders() {
             onSuccess: (data) => {
                 if (data?.order?.id_order) {
                     setOrderItems([]); //limpiar los items de la orden
-                    setSpecialRequests(''); //limpiar las solicitudes especiales
-                    //navegar a la pagina de las mesas
-                    navigate(`/dashboard/tables/`);
+                    navigate(`/dashboard/tables/`); //navegar a la pagina de las mesas
                 }
             },
         });
     };
-    // const handleAddItemToOrder = (dishId: number) => {
-    //     addItemToOrder({
-    //         orderId: Number(tableId),
-    //         dishId,
-    //         quantity: 1,
-    //         special_requests: specialRequests,
-    //     });
-    // };
+    //Crear una función handleAddItemToOrder que agregue un item a la orden
 
-  //  5. Crear una función handleAddItemToOrder que agregue un item a la orden
-    const handleAddItemToOrder = (dishId: number) => {
+    const handleAddItemToOrder = (
+        dishId: number,
+        quantity: number = 1,
+        specialRequests: string = ''
+    ) => {
         const dish = dishes?.results.find((d) => d.id === dishId);
-        //VALIDAR SI EL ITEM YA ESTA EN LA ORDEN
-        const itemsExists = orderItems.find((item) => item.dish_id === dishId);
-        if (itemsExists) {
-            itemsExists.quantity += 1;
-            setOrderItems([...orderItems]);
+        if (!dish) return; // Si no se encuentra el platillo, salir.
+        //CLONAR EL ARRAY DE LOS ITEMS DE LA ORDEN
+        //BUSCAR SI EL ITEM EXISTE EN LA ORDEN
+        const itemExists = orderItems.findIndex(
+            (item) => item.dish_id === dishId
+        );
+        console.log(itemExists);
+        if (itemExists !== -1) {
+            const updatedOrderItems = [...orderItems];
+            updatedOrderItems[itemExists] = {
+                ...updatedOrderItems[itemExists],
+                quantity: updatedOrderItems[itemExists].quantity + quantity,
+                special_requests: specialRequests,
+            };
+            setOrderItems(updatedOrderItems);
         } else {
-            //AGREGAR EL ITEM A LA ORDEN
-            const item: OrderItem = {
+            console.log('no existe');
+            const newItem: OrderItem = {
                 dish_id: dishId,
-                dishes_name: dish?.dishes_name,
-                image_url: dish?.image_url,
-                quantity: 1,
-                unit_price: dish?.price,
+                dishes_name: dish.dishes_name,
+                image_url: dish.image_url,
+                quantity,
+                unit_price: dish.price,
                 status: 'PENDIENTE',
                 special_requests: specialRequests,
             };
-            setOrderItems([...orderItems, item]);
+            setOrderItems([...orderItems, newItem]);
         }
     };
 

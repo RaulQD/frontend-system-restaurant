@@ -72,7 +72,15 @@ export default function AppRoutes() {
                     />
                     <Route
                         path='dashboard/tables/:tableId/order/:orderId'
-                        element={<UpdateOrder />}
+                        element={
+                            <ProtectedRoutes
+                                allowedRoles={[
+                                    ROLES.Mesero,
+                                    ROLES.Administrador,
+                                ]}>
+                                <UpdateOrder />
+                            </ProtectedRoutes>
+                        }
                     />
                     <Route
                         path='dashboard/kitchen'

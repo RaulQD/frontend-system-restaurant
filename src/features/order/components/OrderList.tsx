@@ -49,7 +49,6 @@ export default function OrderList({
                             </li>
                         ))}
                     </ul>
-                    <Separator orientation='horizontal' />
                     <section className='basis-4/12 flex flex-col justify-between gap-y-2 pt-4'>
                         <ul className='space-y-1 2xl:space-y-3'>
                             <li className='flex items-center justify-between'>
@@ -65,6 +64,7 @@ export default function OrderList({
                                     {formatCurrency(IGV)}
                                 </span>
                             </li>
+                            <Separator orientation='horizontal' />
                             <li className='flex items-center justify-between'>
                                 <p className='text-gray-500'>Total</p>
                                 <span className='text-lg font-bold'>
