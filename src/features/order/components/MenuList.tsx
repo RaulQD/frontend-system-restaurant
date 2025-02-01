@@ -1,18 +1,17 @@
 import CardDishes from './CardDishes';
 import { useDishes } from '../../dishes/useDishes';
 import Spinner from '@/components/Spinner';
-import { useState } from 'react';
+import { Order } from '@/types/order';
+import { useAddItemToOrder } from '../useAddItemToOrder';
 type MenuListProps = {
-    handleAddItemToOrder: (
-        dishId: number,
-        quantity: number,
-        specialRequests?: string
-    ) => void;
+    // handleAddItemToOrder: (dishId: number, quantity: number) => void;
+    orderId: Order['id_order'];
 };
 
-export default function MenuList({ handleAddItemToOrder }: MenuListProps) {
-    const [selectedDish, setSelectedDish] = useState<number[]>([]);
+export default function MenuList({ orderId }: MenuListProps) {
     const { dishes, isLoadingDishes, error } = useDishes();
+    const { addItemToOrder } = useAddItemToOrder();
+
     if (isLoadingDishes) {
         return (
             <div className='flex justify-center items-center h-96'>
@@ -27,22 +26,12 @@ export default function MenuList({ handleAddItemToOrder }: MenuListProps) {
             </div>
         );
     }
-    const onAddItem = (
-        dishId: number,
-        quantity: number = 1,
-        specialRequests: string = ''
-    ) => {
-        // Si el plato ya está seleccionado, deseleccionarlo
-        if (selectedDish.includes(dishId)) {
-            setSelectedDish(selectedDish.filter((id) => id !== dishId));
-        } else {
-            handleAddItemToOrder(dishId, quantity, specialRequests);
-            setSelectedDish([...selectedDish, dishId]); // Selecciona el nuevo plato
-        }
-    };
-    //SELECCIONAR EL PLATO Y CAMBIAR DE COLOR AL SELECCIONARLO
-    const isSelected = (dishId: number): boolean => {
-        return selectedDish.includes(dishId);
+    const onAddItem = (dishId: number, quantity: number = 1) => {
+        addItemToOrder({
+            order_id: orderId,
+            dish_id: dishId,
+            quantity,
+        });
     };
 
     return (
@@ -53,10 +42,8 @@ export default function MenuList({ handleAddItemToOrder }: MenuListProps) {
                 </h1>
                 <ul className='grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-4 mt-6'>
                     {dishes?.results.map((dish) => (
-                        <li
-                            key={dish.id}
-                            onClick={() => onAddItem(dish.id, 1, '')}>
-                            <CardDishes dish={dish} isSelected={isSelected} />
+                        <li key={dish.id} onClick={() => onAddItem(dish.id, 1)}>
+                            <CardDishes dish={dish} />
                         </li>
                     ))}
                 </ul>

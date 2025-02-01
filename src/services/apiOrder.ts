@@ -71,16 +71,37 @@ export const addItemsToOrder = async (orderItems: AddItemToOrderData) => {
     }
   }
 }
-export const getItemsByOrder = async (orderId: number) => {
+// export const increaseItemQuantity = async (orderId: number, dishId: number) => {
+//   try {
+//     const { data } = await api.patch(`/orders/${orderId}/item/${dishId}/increase-quantity`);
+//   } catch (error) {
+
+//   }
+// }
+
+
+export const decreaseItemQuantity = async (orderId: number, dishId: number, quantity: number) => {
   try {
-    const { data } = await api.get(`/orders/${orderId}/items`);
+    const { data } = await api.patch(`/orders/${orderId}/decrease-quantity`, { dishId, quantity });
+    console.log(data);
     return data;
   } catch (error) {
+    console.log(error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }
   }
 }
+// export const getItemsByOrder = async (orderId: number) => {
+//   try {
+//     const { data } = await api.get(`/orders/${orderId}/items`);
+//     return data;
+//   } catch (error) {
+//     if (isAxiosError(error) && error.response) {
+//       throw new Error(error.response.data.message);
+//     }
+//   }
+// }
 export const updateStatusOrder = async (orderId: number, order_status: string) => {
   try {
     const { data } = await api.patch(`/orders/${orderId}/status`, { order_status });

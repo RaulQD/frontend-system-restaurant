@@ -1,6 +1,3 @@
-import { getItemsByOrder } from "@/services/apiOrder"
-import { Items } from "@/types/order"
-import { useQuery } from "@tanstack/react-query"
 
 
 // export const useOrderItems = (orderId?: number) => {

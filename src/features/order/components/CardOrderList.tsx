@@ -7,9 +7,13 @@ import { Button } from '@/components/ui/button';
 
 type CardOrderListProps = {
     orderItem: OrderItem;
+    handleDecreaseQuantity: (dishId: number) => void;
 };
 
-export default function CardOrderList({ orderItem }: CardOrderListProps) {
+export default function CardOrderList({
+    orderItem,
+    handleDecreaseQuantity,
+}: CardOrderListProps) {
     const totalQuantityItems = (orderItem.unit_price || 0) * orderItem.quantity;
     //OBTENER LOS COLORES DEPENDIENDO DEL ESTADO DE LA ORDEN CON SWITCH
     const statusOrderItemsColor = (status: string) => {
@@ -30,6 +34,14 @@ export default function CardOrderList({ orderItem }: CardOrderListProps) {
                         En preparación
                     </Badge>
                 );
+            case 'SERVIDO':
+                return (
+                    <Badge
+                        variant='success'
+                        className='text-white font-semibold'>
+                        Servido
+                    </Badge>
+                );
             default:
                 return 'primary';
         }
@@ -44,9 +56,9 @@ export default function CardOrderList({ orderItem }: CardOrderListProps) {
                         alt={orderItem.dishes_name}
                         className='h-14 w-14 rounded-xl md:h-12 md:w-12 sm:h-10 sm:w-10'
                     />
-                    <div className='w-full flex xl:flex-row  items-center xl:items-center justify-between '>
-                        <div>
-                            <div className='flex flex-col sm:flex-row sm:items-center lg:justify-between sm:gap-1'>
+                    <div className='w-full flex flex-row items-center justify-between '>
+                        <div className='flex flex-col justify-between'>
+                            <div className='flex items-center justify-between gap-1'>
                                 <CardTitle className='font-normal text-gray-600 line-clamp-1 '>
                                     {orderItem.dishes_name}
                                 </CardTitle>
@@ -54,11 +66,22 @@ export default function CardOrderList({ orderItem }: CardOrderListProps) {
                                     (x {orderItem.quantity})
                                 </span>
                             </div>
-                           <div className='flex justify-start items-center gap-2 mt-1'>
-                                <Button variant={'principal'} size={'sm'}> - </Button>
+                            <div className='flex justify-start items-center gap-4 mt-1'>
+                                <Button
+                                    variant={'principal'}
+                                    size={'sm'}
+                                    onClick={() =>
+                                        handleDecreaseQuantity(
+                                            orderItem.dish_id
+                                        )
+                                    }>
+                                    -
+                                </Button>
                                 <span>{orderItem.quantity}</span>
-                                <Button variant={'principal'} size={'sm'}> + </Button>
-                           </div>
+                                <Button variant={'principal'} size={'sm'}>
+                                    +
+                                </Button>
+                            </div>
                         </div>
                         <div className='flex flex-col items-end gap-1'>
                             <span>

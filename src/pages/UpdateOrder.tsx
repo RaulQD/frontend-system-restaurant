@@ -5,26 +5,32 @@ import OrderList from '@/features/order/components/OrderList';
 import { useAddItemToOrder } from '@/features/order/useAddItemToOrder';
 import { useGetOrderActiveForTable } from '@/features/order/useGetOrderActiveForTable';
 import { useParams } from 'react-router-dom';
+import { useDecreaseQuantity } from '@/features/order/useDecreaseQuantity';
 
 export default function UpdateOrder() {
     const { tableId } = useParams<{ tableId: string }>();
     const { tableById } = useTableInfo(Number(tableId));
     const { addItemToOrder } = useAddItemToOrder();
+    const { decreaseQuantity } = useDecreaseQuantity();
     const {
         activeOrder,
         isLoading: isOrderLoading,
         error: orderError,
     } = useGetOrderActiveForTable(Number(tableId));
-    const handleAddItemToOrder = (
-        dishId: number,
-        quantity: number = 1,
-        specialRequests?: string
-    ) => {
+    const handleAddItemToOrder = (dishId: number, quantity: number = 1) => {
+        if (!activeOrder?.id_order) return;
         addItemToOrder({
             order_id: activeOrder?.id_order || 0,
             dish_id: dishId,
             quantity,
-            special_requests: specialRequests || '',
+        });
+    };
+    const handleDecreaseQuantity = (dishId: number) => {
+        if (!activeOrder?.id_order) return;
+        decreaseQuantity({
+            orderId: activeOrder.id_order || 0,
+            dishId,
+            quantity: 1,
         });
     };
 
@@ -43,7 +49,10 @@ export default function UpdateOrder() {
                     </div>
                 </div>
                 <div className='lg:basis-1/3'>
-                    <OrderList orderItems={activeOrder?.items || []} />
+                    <OrderList
+                        orderItems={activeOrder?.items || []}
+                        handleDecreaseQuantity={handleDecreaseQuantity}
+                    />
                 </div>
             </section>
         </>

@@ -18,11 +18,11 @@ export type Items = {
   unit_price?: number;
   subtotal: number;
   status: string;
-  special_requests?: string;
+
   quantity: number;
 }
 
-export type OrderItem = Pick<Items, 'dish_id' | 'dishes_name' | 'image_url' | 'unit_price' | 'quantity' | 'status' | 'special_requests'>;
+export type OrderItem = Pick<Items, 'dish_id' | 'dishes_name' | 'image_url' | 'unit_price' | 'quantity' | 'status'>;
 
 
 export type OrderDetails = Pick<Order, 'id_order' | 'table_id' | 'num_table' | 'employee_id' | 'names' | 'order_status' | 'created_at' | 'items'>;
@@ -30,7 +30,7 @@ export type OrderDetails = Pick<Order, 'id_order' | 'table_id' | 'num_table' | '
 export type OrderCreateData = {
   table_id: number; // Mesa a la que pertenece la orden
   employee_id: number; // Empleado que creó la orden
-  items: OrderItem[]; // Items de la orden
+
 };
 
 // Para listar órdenes en un panel
@@ -48,5 +48,4 @@ export type AddItemToOrderData = {
   order_id: number; // Identificador de la orden
   dish_id: number; // Identificador del plato
   quantity: number; // Cantidad del plato
-  special_requests?: string; // Observaciones del plato
 };

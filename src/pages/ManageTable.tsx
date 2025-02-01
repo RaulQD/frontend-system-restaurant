@@ -13,6 +13,7 @@ export default function ManageTable() {
             day: 'numeric',
         });
     };
+  
     return (
         <section>
             <div>

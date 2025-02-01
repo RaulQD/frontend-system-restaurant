@@ -10,12 +10,11 @@ import { formatCurrency } from '@/utils/formatCurrency';
 
 type DishProps = {
     dish: DishesType;
-    isSelected: (dishId: number) => boolean;
 };
 
-export default function CardDishes({ dish,isSelected }: DishProps) {
+export default function CardDishes({ dish }: DishProps) {
     return (
-        <Card className={`${isSelected(dish.id) ? 'opacity-50 border-2 border-teal-300': ''} cursor-pointer`}>
+        <Card className='cursor-pointer'>
             <CardContent className='p-4'>
                 <div className='flex justify-start gap-2'>
                     <img
@@ -32,7 +31,7 @@ export default function CardDishes({ dish,isSelected }: DishProps) {
                                 {formatCurrency(dish.price)}
                             </span>
                         </CardTitle>
-                        <CardDescription className='text-sm text-gray-500 line-clamp-2 '>
+                        <CardDescription className='text-sm text-gray-500 max-w-max'>
                             {dish.dishes_description}
                         </CardDescription>
                     </div>

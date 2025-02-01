@@ -7,7 +7,8 @@ export const useGetOrderActiveForTable = (tableId: number) => {
     queryKey: ['activeOrder', tableId],
     queryFn: () => getOrderByTableId(tableId),
     retry: false,
-    enabled: !!tableId
+    enabled: !!tableId,
   })
+
   return { activeOrder, isLoading, isError, error }
 }

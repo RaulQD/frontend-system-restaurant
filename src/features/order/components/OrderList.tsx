@@ -3,23 +3,24 @@ import CardOrderList from './CardOrderList';
 import { BiCart } from 'react-icons/bi';
 import { useState } from 'react';
 import { Separator } from '@/components/ui/separator';
-import {  OrderItem } from '@/types/order';
+import { Order, OrderItem } from '@/types/order';
 import { formatCurrency } from '@/utils';
 
 type OrderListProps = {
-    orderItems: OrderItem[] ;
-    handleCreateOrder?: () => void;
+    activeOrder: Order | undefined;
+    handleDecreaseQuantity: (dishId: number) => void;
 };
 
 export default function OrderList({
-    handleCreateOrder,
-    orderItems,
+    activeOrder,
+    handleDecreaseQuantity,
 }: OrderListProps) {
     const [showCart, setShowCart] = useState(false);
-    const subTotal = orderItems.reduce(
-        (acc, items) => acc + items.quantity * (items.unit_price || 0),
-        0
-    );
+    const subTotal =
+        activeOrder?.items.reduce(
+            (acc, items) => acc + items.quantity * (items.unit_price || 0),
+            0
+        ) || 0;
     //calcular el igv
     const IGV = subTotal * (18 / 100);
     const total = subTotal + IGV;
@@ -43,9 +44,14 @@ export default function OrderList({
 
                 <div className='basis-11/12 overflow-y-auto flex flex-col lg:p-6 bg-white rounded-lg'>
                     <ul className='basis-8/12 max-h-full overflow-y-auto'>
-                        {orderItems.map((item) => (
+                        {activeOrder?.items.map((item) => (
                             <li key={item.dish_id} className='mb-3'>
-                                <CardOrderList orderItem={item} />
+                                <CardOrderList
+                                    orderItem={item}
+                                    handleDecreaseQuantity={
+                                        handleDecreaseQuantity
+                                    }
+                                />
                             </li>
                         ))}
                     </ul>
@@ -79,9 +85,8 @@ export default function OrderList({
                         </Button>
                         <Button
                             variant={'principal'}
-                            className='w-full hover:tracking-widest transition-all'
-                            onClick={handleCreateOrder}>
-                            Confirmar Orden
+                            className='w-full hover:tracking-widest transition-all'>
+                            Enviar a cocina
                         </Button>
                         <Button
                             variant={'default'}

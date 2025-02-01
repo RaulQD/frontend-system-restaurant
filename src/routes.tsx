@@ -67,11 +67,19 @@ export default function AppRoutes() {
                         }
                     />
                     <Route
-                        path='dashboard/tables/:tableId/order/'
-                        element={<Orders />}
-                    />
-                    <Route
                         path='dashboard/tables/:tableId/order/:orderId'
+                        element={
+                            <ProtectedRoutes
+                                allowedRoles={[
+                                    ROLES.Mesero,
+                                    ROLES.Administrador,
+                                ]}>
+                                <Orders />
+                            </ProtectedRoutes>
+                        }
+                    />
+                    {/* <Route
+                        path='dashboard/tables/:tableId/order/:orderId/update'
                         element={
                             <ProtectedRoutes
                                 allowedRoles={[
@@ -81,7 +89,7 @@ export default function AppRoutes() {
                                 <UpdateOrder />
                             </ProtectedRoutes>
                         }
-                    />
+                    /> */}
                     <Route
                         path='dashboard/kitchen'
                         element={
