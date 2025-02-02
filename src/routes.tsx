@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Layout from './layout/Layout';
 import AuthLayout from './layout/AuthLayout';
 import Login from './pages/Login';
@@ -13,6 +13,7 @@ import OrderHistory from './pages/OrderHistory';
 import Orders from './pages/Orders';
 import UnAuthorized from './pages/UnAuthorized';
 import UpdateOrder from './pages/UpdateOrder';
+import { useUser } from './hooks/useUser';
 
 const ROLES = {
     Administrador: 'administrador',
@@ -21,14 +22,32 @@ const ROLES = {
 };
 
 export default function AppRoutes() {
+    const { user } = useUser();
+    const getDefaultRoutes = () => {
+        if (!user) return '/auth/login';
+        switch (user.role) {
+            case ROLES.Administrador:
+                return '/dashboard/personal';
+            case ROLES.Cocinero:
+                return '/dashboard/kitchen';
+            case ROLES.Mesero:
+                return '/dashboard/tables';
+            default:
+                return '/un-authorized';
+        }
+    };
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<Layout />}>
+                <Route
+                    path='/'
+                    element={<Navigate to={getDefaultRoutes()} replace />}
+                />
+                <Route path='dashboard' element={<Layout />}>
                     {/* RUTA PARA EL ADMINISTRADOR*/}
 
                     <Route
-                        path='dashboard/personal'
+                        path='empleados'
                         element={
                             <ProtectedRoutes
                                 allowedRoles={[ROLES.Administrador]}>
@@ -37,15 +56,16 @@ export default function AppRoutes() {
                         }
                     />
                     <Route
-                        path='dashboard/personal-register'
-                        element={<AddEmployee />}
+                        path='empleados/registrar-empleado'
+                        element={
+                            <ProtectedRoutes
+                                allowedRoles={[ROLES.Administrador]}>
+                                <AddEmployee />
+                            </ProtectedRoutes>
+                        }
                     />
-                    {/* <Route
-                        path='dashboard/dishes/add-dishes'
-                        element={<AddDishes />}
-                    /> */}
                     <Route
-                        path='dashboard/dishes'
+                        path='dishes'
                         element={
                             <ProtectedRoutes
                                 allowedRoles={[ROLES.Administrador]}>
@@ -53,9 +73,17 @@ export default function AppRoutes() {
                             </ProtectedRoutes>
                         }
                     />
-                    <Route path='dashboard/category' element={<Category />} />
                     <Route
-                        path='dashboard/tables'
+                        path='category'
+                        element={
+                            <ProtectedRoutes
+                                allowedRoles={[ROLES.Administrador]}>
+                                <Category />
+                            </ProtectedRoutes>
+                        }
+                    />
+                    <Route
+                        path='tables'
                         element={
                             <ProtectedRoutes
                                 allowedRoles={[
@@ -67,7 +95,7 @@ export default function AppRoutes() {
                         }
                     />
                     <Route
-                        path='dashboard/tables/:tableId/order/:orderId'
+                        path='tables/:tableId/order/:orderId'
                         element={
                             <ProtectedRoutes
                                 allowedRoles={[
@@ -78,20 +106,9 @@ export default function AppRoutes() {
                             </ProtectedRoutes>
                         }
                     />
-                    {/* <Route
-                        path='dashboard/tables/:tableId/order/:orderId/update'
-                        element={
-                            <ProtectedRoutes
-                                allowedRoles={[
-                                    ROLES.Mesero,
-                                    ROLES.Administrador,
-                                ]}>
-                                <UpdateOrder />
-                            </ProtectedRoutes>
-                        }
-                    /> */}
+
                     <Route
-                        path='dashboard/kitchen'
+                        path='kitchen'
                         element={
                             <ProtectedRoutes
                                 allowedRoles={[
@@ -102,39 +119,9 @@ export default function AppRoutes() {
                             </ProtectedRoutes>
                         }
                     />
-                    <Route
-                        path='dashboard/order-history'
-                        element={<OrderHistory />}
-                    />
+                    <Route path='order-history' element={<OrderHistory />} />
                 </Route>
 
-                {/* <Route path='/' element={<Layout />}>
-                    <Route
-                        element={
-                            <ProtectedRoutes allowedRoles={[ROLES.Mesero]} />
-                        }>
-                        <Route path='dashboard' element={<Dashboard />} />
-                      
-                        <Route
-                            path='dashboard/tables'
-                            element={<ManageTable />}
-                        />
-                        <Route
-                            path='dashboard/tables/:tableId/order'
-                            element={<Orders />}
-                        />
-                        <Route
-                            path='dashboard/tables/:tableId/order/:orderId'
-                            element={<Orders />}
-                        />
-                    </Route>
-                </Route> */}
-                {/* RUTA PARA EL MESERO
-                    <Route element={ <ProtectedRoutes allowedRoles={['administrador']} /> }>
-                    </Route>
-                    RUTA PARA EL COCINERO
-                    <Route element={ <ProtectedRoutes allowedRoles={['administrador', 'cocinero']} /> }>
-                    </Route>*/}
                 <Route path='/un-authorized' element={<UnAuthorized />} />
                 <Route path='/auth/' element={<AuthLayout />}>
                     <Route path='login' element={<Login />} />

@@ -64,7 +64,7 @@ export default function EmployeeForm() {
         }
     };
     const redirectToEmployees = () => {
-        navigate('/admin/dashboard/personal');
+        navigate('/dashboard/empleados/registrar-empleado');
     };
     return (
         <>

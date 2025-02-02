@@ -31,6 +31,11 @@ export const ProtectedRoutes = ({
     if (isError || !user)
         return <Navigate to='/auth/login' state={{ from: location }} replace />;
 
+    // //USUARIO ADMINISTRADOR TIENE ACCESO A TODAS LAS RUTAS
+    // if (user.role === 'administrador') {
+    //     return children;
+    // }
+
     if (!allowedRoles.includes(user.role)) {
         return (
             <Navigate to='/un-authorized' state={{ from: location }} replace />

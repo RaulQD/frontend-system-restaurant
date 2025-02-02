@@ -8,13 +8,19 @@ import { useNavigate } from 'react-router-dom';
 type OrderDetailsKitchenProps = {
     orderDetails: OrderDetails;
 };
+const status = [
+    { value: 'PENDIENTE', label: 'Pendiente' },
+    { value: 'EN PREPARACION', label: 'En preparacion' },
+    { value: 'LISTO PARA SERVIR', label: 'Listo para servir' },
+    { value: 'SERVIDO', label: 'Servido' },
+];
+
 export default function OrderDetailsKitchen({
     orderDetails,
 }: OrderDetailsKitchenProps) {
     const navigate = useNavigate();
     const orderId = orderDetails.id_order;
     const { updateStatus } = useUpdateItemStatus();
-
     const handleUpdateStatus = (
         orderId: number,
         itemId: number,
@@ -95,15 +101,13 @@ export default function OrderDetailsKitchen({
                                                     e.target.value
                                                 )
                                             }>
-                                            <option value='PENDIENTE'>
-                                                Pendiente
-                                            </option>
-                                            <option value='EN PREPARACION'>
-                                                En preparacion
-                                            </option>
-                                            <option value='SERVIDO'>
-                                                Servido
-                                            </option>
+                                                 {status.map((status) => (
+                                                <option
+                                                    key={status.value}
+                                                    value={status.value}>
+                                                    {status.label}
+                                                </option>
+                                            ))}
                                         </select>
                                     </form>
                                 )}
@@ -114,7 +118,11 @@ export default function OrderDetailsKitchen({
             </table>
             <Separator className='my-4' />
             <div className='flex items-center justify-end gap-5'>
-                <Button variant={'secondary'} onClick={() => navigate(location.pathname, { replace: true })}>
+                <Button
+                    variant={'secondary'}
+                    onClick={() =>
+                        navigate(location.pathname, { replace: true })
+                    }>
                     Cerrar
                 </Button>
                 <Button variant={'principal'}>Imprimir</Button>

@@ -45,7 +45,7 @@ export default function OrderList({
                 <div className='basis-11/12 overflow-y-auto flex flex-col lg:p-6 bg-white rounded-lg'>
                     <ul className='basis-8/12 max-h-full overflow-y-auto'>
                         {activeOrder?.items.map((item) => (
-                            <li key={item.dish_id} className='mb-3'>
+                            <li key={item.id_item} className='mb-3'>
                                 <CardOrderList
                                     orderItem={item}
                                     handleDecreaseQuantity={

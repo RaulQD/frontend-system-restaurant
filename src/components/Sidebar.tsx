@@ -2,6 +2,7 @@ import { BiCart, BiDish, BiSolidReport, BiUser } from 'react-icons/bi';
 import SidebarDropdown from './SidebarDropdown';
 import SidebarItems from './SidebarItems';
 import { MdOutlineTableBar } from 'react-icons/md';
+import { useUser } from '@/hooks/useUser';
 
 type SidebarProps = {
     sidebarOpen: boolean;
@@ -9,6 +10,7 @@ type SidebarProps = {
 };
 
 export default function Sidebar({ sidebarOpen }: SidebarProps) {
+    const { user } = useUser();
     return (
         <aside
             id='sidebar'
@@ -20,32 +22,37 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
             <div className='flex-1 flex flex-col pt-6 pb-4 overflow-y-auto'>
                 <div className='flex-1 px-3 bg-white space-y-1'>
                     <ul className='space-y-2 pb-2 font-outfit'>
-                        <SidebarItems
-                            path='/dashboard/tables'
-                            label='Manejo de Mesas'
-                            Icon={MdOutlineTableBar}
-                        />
-                        <SidebarDropdown
-                            label='Ventas'
-                            Icon={BiCart}
-                            menuItems={[
-                                {
-                                    path: '/dashboard/dishes',
-                                    label: 'Platos',
-                                },
+                        {user?.role === 'mesero' && (
+                            <SidebarItems
+                                path='/dashboard/tables'
+                                label='Manejo de Mesas'
+                                Icon={MdOutlineTableBar}
+                            />
+                        )}
+                        {user?.role === 'administrador' && (
+                            <SidebarDropdown
+                                label='Ventas'
+                                Icon={BiCart}
+                                menuItems={[
+                                    {
+                                        path: '/dashboard/dishes',
+                                        label: 'Platos',
+                                    },
 
-                                {
-                                    path: '/dashboard/category',
-                                    label: 'Categorias',
-                                },
-                            ]}
-                        />
+                                    {
+                                        path: '/dashboard/category',
+                                        label: 'Categorias',
+                                    },
+                                ]}
+                            />
+                        )}
+
                         <SidebarDropdown
                             label='Personal'
                             Icon={BiUser}
                             menuItems={[
                                 {
-                                    path: '/dashboard/personal',
+                                    path: '/dashboard/empleados',
                                     label: 'Administrar Personal',
                                 },
                             ]}
@@ -64,16 +71,19 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                 },
                             ]}
                         />
-                        <SidebarDropdown
-                            label='Cocina'
-                            Icon={BiDish}
-                            menuItems={[
-                                {
-                                    path: '/dashboard/kitchen',
-                                    label: 'Listado de Pedidos',
-                                },
-                            ]}
-                        />
+                        {user?.role === 'cocinero' && (
+                            <SidebarDropdown
+                                label='Cocina'
+                                Icon={BiDish}
+                                menuItems={[
+                                    {
+                                        path: '/dashboard/kitchen',
+                                        label: 'Listado de Pedidos',
+                                    },
+                                ]}
+                            />
+                        )}
+
                         <SidebarDropdown
                             label='Ordenes'
                             Icon={BiDish}

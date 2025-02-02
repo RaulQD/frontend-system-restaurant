@@ -4,13 +4,11 @@ import { Separator } from '@/components/ui/separator';
 import { OrdersList } from '@/types/order';
 import { ClockIcon, ComponentInstanceIcon } from '@radix-ui/react-icons';
 
-
 type CardKitchenProps = {
     order: OrdersList;
 };
 
 export default function CardKitchen({ order }: CardKitchenProps) {
-    
     const statusOrder = (status: string) => {
         switch (status) {
             case 'PENDIENTE':
@@ -27,7 +25,12 @@ export default function CardKitchen({ order }: CardKitchenProps) {
                         En Proceso
                     </Badge>
                 );
-
+            case 'LISTO PARA SERVIR':
+                return (
+                    <Badge variant='info' className='text-black font-semibold'>
+                        En Proceso
+                    </Badge>
+                );
             default:
                 return (
                     <Badge
@@ -68,12 +71,7 @@ export default function CardKitchen({ order }: CardKitchenProps) {
                     </div>
                 </CardContent>
             </Card>
-            {/* <ResponsiveDialog
-                title='Detalles del Pedido'
-                open={open}
-                description='Aquí puedes ver el detalle del pedido.'>
-                <OrderDetailsKitchen orderDetails={orderDetails!} />
-            </ResponsiveDialog> */}
+        
         </>
     );
 }
