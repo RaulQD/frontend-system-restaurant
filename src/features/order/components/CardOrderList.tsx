@@ -29,11 +29,17 @@ export default function CardOrderList({
             case 'EN PREPARACION':
                 return (
                     <Badge
-                        variant='secondary'
+                        variant='info'
                         className='text-black font-semibold'>
                         En preparación
                     </Badge>
                 );
+                case 'LISTO PARA SERVIR':
+                    return (
+                        <Badge variant='muted' className='text-black font-semibold'>
+                            Listo para servir
+                        </Badge>
+                    )
             case 'SERVIDO':
                 return (
                     <Badge

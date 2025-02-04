@@ -7,7 +7,7 @@ export const useGetOrdersForKitchen = () => {
     queryKey: ['ordersKitchen'],
     queryFn: getOrdersForKitchen,
     retry: false,
-    refetchOnWindowFocus: false,
+    refetchInterval: 5000,
   })
   return { orders, isLoading, isError, error }
 }

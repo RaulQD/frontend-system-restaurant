@@ -59,6 +59,12 @@ export default {
 					DEFAULT: 'hsl(var(--principal))',
 					foreground: 'hsl(var(--principal-foreground))'	 
 				},
+				payment:{
+					DEFAULT: 'hsl(var(--payment))',
+					foreground: 'hsl(var(--payment-foreground))'
+				},
+				
+
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',

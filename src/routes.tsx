@@ -12,7 +12,6 @@ import Category from './pages/Category';
 import OrderHistory from './pages/OrderHistory';
 import Orders from './pages/Orders';
 import UnAuthorized from './pages/UnAuthorized';
-import UpdateOrder from './pages/UpdateOrder';
 import { useUser } from './hooks/useUser';
 
 const ROLES = {
@@ -44,8 +43,6 @@ export default function AppRoutes() {
                     element={<Navigate to={getDefaultRoutes()} replace />}
                 />
                 <Route path='dashboard' element={<Layout />}>
-                    {/* RUTA PARA EL ADMINISTRADOR*/}
-
                     <Route
                         path='empleados'
                         element={
@@ -109,6 +106,7 @@ export default function AppRoutes() {
 
                     <Route
                         path='kitchen'
+                        index
                         element={
                             <ProtectedRoutes
                                 allowedRoles={[

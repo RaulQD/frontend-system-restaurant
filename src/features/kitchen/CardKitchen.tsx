@@ -27,8 +27,22 @@ export default function CardKitchen({ order }: CardKitchenProps) {
                 );
             case 'LISTO PARA SERVIR':
                 return (
-                    <Badge variant='info' className='text-black font-semibold'>
-                        En Proceso
+                    <Badge variant='served' className='text-black font-semibold'>
+                        Listo para Servir
+                    </Badge>
+                );
+            case 'LISTO PARA PAGAR':
+                return (
+                    <Badge variant='payment' className='text-white font-semibold '>
+                        Listo para Pagar
+                    </Badge>
+                );
+            case 'COMPLETADO':
+                return (
+                    <Badge
+                        variant='success'
+                        className='text-white font-semibold'>
+                        Completado
                     </Badge>
                 );
             default:
@@ -59,19 +73,18 @@ export default function CardKitchen({ order }: CardKitchenProps) {
                             <ClockIcon className='w-3 h-3 text-gray-500' />
                             <p className='text-sm text-gray-500'>
                                 {new Date(order.created_at).toLocaleString()}
-                                {/* 12:30pm, 8 de agosto, 2024 */}
                             </p>
                         </div>
                         <div className='flex items-center justify-start gap-2'>
                             <ComponentInstanceIcon className='w-3 h-3 text-gray-500' />
                             <p className='text-sm font-normal text-gray-500'>
-                                Pedido #123 - Mesa {order.num_table}
+                                Pedido # {order.id_order} - Mesa{' '}
+                                {order.num_table}
                             </p>
                         </div>
                     </div>
                 </CardContent>
             </Card>
-        
         </>
     );
 }

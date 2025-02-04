@@ -55,18 +55,6 @@ export default function TableList() {
             });
         }
     };
-
-
-    // const handleTableClick = (
-    //     tableId: Tables['id_table'],
-    //     tableStatus: Tables['status']
-    // ) => {
-    //     if (tableStatus === 'OCUPADO') {
-    //         setSelectedTable(tableId);
-    //     } else {
-    //         navigate(`/dashboard/tables/${tableId}/order/`);
-    //     }
-    // };
     useEffect(() => {
         if (activeOrder && selectedTable) {
             navigate(

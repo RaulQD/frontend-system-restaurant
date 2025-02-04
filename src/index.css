@@ -12,6 +12,12 @@
         --popover-foreground: 222.2 84% 4.9%;
         --success: 120 58% 45.1%;
         --success-foreground: 222.2 47.4% 11.2%;
+        --recieved: 195, 53%, 79%;
+        --recieved-foreground: 0, 0%, 0%;
+        --preparation: 39, 100%, 50%;
+        --preparation-foreground: 0, 0%, 0%;
+        --payment: 142.1 70.6% 45.3%;
+        --payment-foreground: 222.2 47.4% 11.2%;
         --warning: 40 100% 50%;
         --warning-foreground: 222.2 47.4% 11.2%;
         --info: 190 90% 50%;

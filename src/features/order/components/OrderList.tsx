@@ -3,8 +3,11 @@ import CardOrderList from './CardOrderList';
 import { BiCart } from 'react-icons/bi';
 import { useState } from 'react';
 import { Separator } from '@/components/ui/separator';
-import { Order, OrderItem } from '@/types/order';
+import { Order } from '@/types/order';
 import { formatCurrency } from '@/utils';
+import { useSendOrderToKitchen } from '../useSendOrderToKitchen';
+import { useCancelOrder } from '../useCancelOrder';
+import { useNavigate } from 'react-router-dom';
 
 type OrderListProps = {
     activeOrder: Order | undefined;
@@ -15,7 +18,10 @@ export default function OrderList({
     activeOrder,
     handleDecreaseQuantity,
 }: OrderListProps) {
+    const navigate = useNavigate();
     const [showCart, setShowCart] = useState(false);
+    const { sendOrder } = useSendOrderToKitchen();
+    const { cancellationOrder } = useCancelOrder();
     const subTotal =
         activeOrder?.items.reduce(
             (acc, items) => acc + items.quantity * (items.unit_price || 0),
@@ -24,6 +30,18 @@ export default function OrderList({
     //calcular el igv
     const IGV = subTotal * (18 / 100);
     const total = subTotal + IGV;
+    const handleSendOrder = () => {
+        if (!activeOrder?.id_order) return;
+        sendOrder(activeOrder?.id_order);
+    };
+    const handleCancelOrder = () => {
+        if (!activeOrder?.id_order) return;
+        cancellationOrder(activeOrder?.id_order, {
+            onSuccess: () => {
+                navigate('/dashboard/tables');
+            },
+        });
+    };
 
     return (
         <>
@@ -79,13 +97,15 @@ export default function OrderList({
                             </li>
                         </ul>
                         <Button
-                            variant={'secondary'}
-                            className='w-full hover:tracking-widest transition-all'>
+                            variant='muted'
+                            className='w-full hover:tracking-widest transition-all text-black'
+                            onClick={() => handleCancelOrder()}>
                             Cancelar
                         </Button>
                         <Button
                             variant={'principal'}
-                            className='w-full hover:tracking-widest transition-all'>
+                            className='w-full hover:tracking-widest transition-all'
+                            onClick={() => handleSendOrder()}>
                             Enviar a cocina
                         </Button>
                         <Button

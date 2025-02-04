@@ -92,16 +92,6 @@ export const decreaseItemQuantity = async (orderId: number, dishId: number, quan
     }
   }
 }
-// export const getItemsByOrder = async (orderId: number) => {
-//   try {
-//     const { data } = await api.get(`/orders/${orderId}/items`);
-//     return data;
-//   } catch (error) {
-//     if (isAxiosError(error) && error.response) {
-//       throw new Error(error.response.data.message);
-//     }
-//   }
-// }
 export const updateStatusOrder = async (orderId: number, order_status: string) => {
   try {
     const { data } = await api.patch(`/orders/${orderId}/status`, { order_status });
@@ -123,10 +113,21 @@ export const updateStatusItem = async (orderId: number, itemId: number, status: 
   }
 }
 
+export const sendOrderToKitchen = async (orderId: number) => { 
+  try {
+    const { data } = await api.patch(`/orders/${orderId}/send-to-kitchen`);
+    console.log(data);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
+}
 
 export const cancelOrder = async (orderId: number) => {
   try {
-    const { data } = await api.patch(`/orders/${orderId}`);
+    const { data } = await api.patch(`/orders/${orderId}/cancel`);
     console.log(data);
     return data;
   } catch (error) {
