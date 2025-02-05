@@ -1,19 +1,10 @@
-import { useDishes } from '@/features/dishes/useDishes';
 import { useTableInfo } from '@/features/manage-table/useTableInfo';
 import FilterOrder from '@/features/order/components/FilterOrder';
 import MenuList from '@/features/order/components/MenuList';
 import OrderList from '@/features/order/components/OrderList';
-import { useAddItemToOrder } from '@/features/order/useAddItemToOrder';
-import { useCreateOrder } from '@/features/order/useCreateOrder';
 import { useDecreaseQuantity } from '@/features/order/useDecreaseQuantity';
 import { useGetOrderActiveForTable } from '@/features/order/useGetOrderActiveForTable';
-import { useUser } from '@/hooks/useUser';
-import { Order, OrderCreateData, OrderItem } from '@/types/order';
-import { useState } from 'react';
-import toast from 'react-hot-toast';
-import { useNavigate, useParams } from 'react-router-dom';
-import { decreaseItemQuantity } from '../services/apiOrder';
-
+import { useParams } from 'react-router-dom';
 export default function Orders() {
     //OBTENER EL NUMERO DE LA MESA SELECCIONADA DE LA URL
     const { tableId } = useParams<{ tableId: string }>();
@@ -22,26 +13,14 @@ export default function Orders() {
     const { decreaseQuantity } = useDecreaseQuantity();
     const orderId = activeOrder?.id_order || 0;
 
-    const handleDecreaseQuantity = (dishId: number) => {
+
+    //INHABILITAR EL BOTON DE DISMINUIR Y AUMENTAR LA CANTIDAD DE PLATOS CUANDO LA ORDEN ESTA EN ESTADO DE SERVIDO, LISTO PARA SERVIR O EN PREPARACION, SI ESTA EN ESTADO PENDIENTE SE HABILITA
+    
+    const handleDecreaseQuantity = (itemId: number) => {
         if(!orderId) return;
-        decreaseQuantity({ orderId, dishId, quantity: 1 });
+        decreaseQuantity({ orderId, itemId, quantity: 1 });
     };
-    // const handleDecreaseQuantity = (dishId: number) => {
-    //     const itemExists = orderItems.findIndex(item => item.dish_id === dishId);
-    //     if(itemExists !== -1){
-    //         const updateOrderItems = [...orderItems];
-    //         if(updateOrderItems[itemExists].quantity > 1){
-    //             updateOrderItems[itemExists] = {
-    //                 ...updateOrderItems[itemExists],
-    //                 quantity: updateOrderItems[itemExists].quantity - 1
-    //             }
-    //             setOrderItems(updateOrderItems);
-    //         }else{
-    //             const newOrderItems = updateOrderItems.filter(item => item.dish_id !== dishId);
-    //             setOrderItems(newOrderItems);
-    //         }
-    //     }
-    // }
+  
 
     return (
         <>

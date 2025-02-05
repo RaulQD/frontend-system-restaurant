@@ -7,7 +7,7 @@ export const useDecreaseQuantity = () => {
   const { tableId } = useParams();
   const queryClient = useQueryClient();
   const { mutate: decreaseQuantity } = useMutation({
-    mutationFn: ({ orderId, dishId, quantity }: { orderId: number, dishId: number, quantity: number }) => decreaseItemQuantity(orderId, dishId, quantity),
+    mutationFn: ({ orderId, itemId, quantity }: { orderId: number, itemId: number, quantity: number }) => decreaseItemQuantity(orderId, itemId, quantity),
     onError: (error) => {
       toast.error(error.message);
     },

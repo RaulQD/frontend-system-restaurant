@@ -8,6 +8,7 @@ import { formatCurrency } from '@/utils';
 import { useSendOrderToKitchen } from '../useSendOrderToKitchen';
 import { useCancelOrder } from '../useCancelOrder';
 import { useNavigate } from 'react-router-dom';
+import OrderSummaryData from './OrderSummaryData';
 
 type OrderListProps = {
     activeOrder: Order | undefined;
@@ -43,6 +44,22 @@ export default function OrderList({
         });
     };
 
+    //DESAHABILITAR EL BOTON DISMINUIR Y AUMENTAR LA CANTIDAD DE PLATOS CUANDO LA ORDEN ESTA EN ESTADO DE SERVIDO, LISTO PARA SERVIR O EN PREPARACION, SI ESTA EN ESTADO PENDIENTE SE HABILITA
+    const handleDisableButton = (status: string) => {
+        switch (status) {
+            case 'PENDIENTE':
+                return false;
+            case 'EN PREPARACION':
+                return true;
+            case 'LISTO PARA SERVIR':
+                return true;
+            case 'SERVIDO':
+                return true;
+            default:
+                return false;
+        }
+    }
+
     return (
         <>
             <aside
@@ -69,6 +86,7 @@ export default function OrderList({
                                     handleDecreaseQuantity={
                                         handleDecreaseQuantity
                                     }
+                                    handleDisableButton={handleDisableButton}
                                 />
                             </li>
                         ))}
@@ -110,8 +128,10 @@ export default function OrderList({
                         </Button>
                         <Button
                             variant={'default'}
-                            className='w-full hover:tracking-widest transition-all'>
-                            Realizar Pago
+                            className='w-full hover:tracking-widest transition-all'
+                            onClick={() => navigate(location.pathname + `?orderSummary=${activeOrder?.id_order}`)}
+                            >
+                            Confirmar Pago
                         </Button>
                     </section>
                 </div>
@@ -131,6 +151,7 @@ export default function OrderList({
                 }`}
                 onClick={() => setShowCart(false)} // Cerrar el sidebar al hacer click fuera
             />
+            <OrderSummaryData/>
         </>
     );
 }

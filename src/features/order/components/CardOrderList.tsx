@@ -8,11 +8,13 @@ import { Button } from '@/components/ui/button';
 type CardOrderListProps = {
     orderItem: OrderItem;
     handleDecreaseQuantity: (dishId: number) => void;
+    handleDisableButton: (status: string) => boolean;
 };
 
 export default function CardOrderList({
     orderItem,
     handleDecreaseQuantity,
+    handleDisableButton,
 }: CardOrderListProps) {
     const totalQuantityItems = (orderItem.unit_price || 0) * orderItem.quantity;
     //OBTENER LOS COLORES DEPENDIENDO DEL ESTADO DE LA ORDEN CON SWITCH
@@ -28,18 +30,16 @@ export default function CardOrderList({
                 );
             case 'EN PREPARACION':
                 return (
-                    <Badge
-                        variant='info'
-                        className='text-black font-semibold'>
+                    <Badge variant='info' className='text-black font-semibold'>
                         En preparación
                     </Badge>
                 );
-                case 'LISTO PARA SERVIR':
-                    return (
-                        <Badge variant='muted' className='text-black font-semibold'>
-                            Listo para servir
-                        </Badge>
-                    )
+            case 'LISTO PARA SERVIR':
+                return (
+                    <Badge variant='muted' className='text-black font-semibold'>
+                        Listo para servir
+                    </Badge>
+                );
             case 'SERVIDO':
                 return (
                     <Badge
@@ -52,6 +52,20 @@ export default function CardOrderList({
                 return 'primary';
         }
     };
+    //INHABILITAR EL BOTON DE DISMINUIR Y AUMENTAR LA CANTIDAD DE PLATOS
+    // const handleDisableButton = (status: string) => {
+    //     switch (status) {
+    //         case 'PENDIENTE':
+    //             return false;
+    //         case 'EN PREPARACION':
+    //             return true;
+    //         case 'LISTO PARA SERVIR':
+    //             return true;
+    //         case 'SERVIDO':
+    //             return true;
+    //         default:
+    //             return false;
+    // }
 
     return (
         <Card>
@@ -76,15 +90,27 @@ export default function CardOrderList({
                                 <Button
                                     variant={'principal'}
                                     size={'sm'}
+                                    className={
+                                        handleDisableButton(orderItem.status)
+                                            ? 'pointer-events-none opacity-50'
+                                            : ''
+                                    }
                                     onClick={() =>
                                         handleDecreaseQuantity(
-                                            orderItem.dish_id
+                                            orderItem.id_item
                                         )
                                     }>
                                     -
                                 </Button>
                                 <span>{orderItem.quantity}</span>
-                                <Button variant={'principal'} size={'sm'}>
+                                <Button
+                                    variant={'principal'}
+                                    size={'sm'}
+                                    className={
+                                        handleDisableButton(orderItem.status)
+                                            ? 'pointer-events-none opacity-50'
+                                            : ''
+                                    }>
                                     +
                                 </Button>
                             </div>

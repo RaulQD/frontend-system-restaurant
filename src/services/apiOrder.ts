@@ -40,7 +40,6 @@ export const getOrderById = async (orderId: Order['id_order']) => {
   try {
     const { data } = await api.get(`/orders/${orderId}`);
     return data
-    return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
@@ -80,9 +79,9 @@ export const addItemsToOrder = async (orderItems: AddItemToOrderData) => {
 // }
 
 
-export const decreaseItemQuantity = async (orderId: number, dishId: number, quantity: number) => {
+export const decreaseItemQuantity = async (orderId: number, itemId: number, quantity: number) => {
   try {
-    const { data } = await api.patch(`/orders/${orderId}/decrease-quantity`, { dishId, quantity });
+    const { data } = await api.patch(`/orders/${orderId}/decrease-quantity`, { itemId, quantity });
     console.log(data);
     return data;
   } catch (error) {
@@ -136,3 +135,16 @@ export const cancelOrder = async (orderId: number) => {
     }
   }
 } 
+
+export const getOrderSummary = async (orderId: number) => { 
+  try {
+    const { data } = await api.get(`/orders/${orderId}/summary`);
+    console.log(data);
+    return data
+  } catch (error) {
+    console.log(error);
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
+}

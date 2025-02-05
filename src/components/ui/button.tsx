@@ -22,6 +22,7 @@ const buttonVariants = cva(
                 principal:
                     'bg-principal text-principal-foreground shadow-sm hover:bg-principal/90',
                 muted: 'border-gray-300 bg-gray-100 text-gray-500',
+                disabled: 'bg-gray-100 text-gray-500 disabled:border-gray-300',
             },
             size: {
                 default: 'h-9 px-4 py-2',

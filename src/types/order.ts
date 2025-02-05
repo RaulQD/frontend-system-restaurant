@@ -12,17 +12,17 @@ export type Order = {
 
 export type Items = {
   id_item: number;
+  order_id: number;
   dish_id: number;
   dishes_name?: string;
   image_url?: string;
   unit_price?: number;
   subtotal: number;
   status: string;
-
   quantity: number;
 }
 
-export type OrderItem = Pick<Items, 'dish_id' | 'dishes_name' | 'image_url' | 'unit_price' | 'quantity' | 'status'>;
+export type OrderItem = Pick<Items, 'id_item' | 'dish_id' | 'dishes_name' | 'image_url' | 'unit_price' | 'quantity' | 'status' |'subtotal'>;
 
 
 export type OrderDetails = Pick<Order, 'id_order' | 'table_id' | 'num_table' | 'employee_id' | 'names' | 'order_status' | 'created_at' | 'items'>;
@@ -49,3 +49,8 @@ export type AddItemToOrderData = {
   dish_id: number; // Identificador del plato
   quantity: number; // Cantidad del plato
 };
+
+export type OrderSummary = {
+  orderId: number; // Identificador de la orden
+  orderItems: OrderItem[]; // Items de la orden
+}
