@@ -9,13 +9,11 @@ type GetOrdersAPIType = {
   status: string;
   startDate?: string;
   endDate?: string;
-
 }
 
 export const getOrders = async ({ page, keyword, status, startDate, endDate }: GetOrdersAPIType) => {
   try {
     const { data } = await api.get<OrderResponseType>('/orders', { params: { page, keyword, status, startDate, endDate } });
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error);
@@ -38,7 +36,6 @@ export const getOrdersForKitchen = async () => {
 export const getOrderDetailsById = async (orderId: Order['id_order']) => {
   try {
     const { data } = await api.get(`/orders/${orderId}/items`);
-    console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -49,7 +46,6 @@ export const getOrderDetailsById = async (orderId: Order['id_order']) => {
 export const getOrderByTableId = async (tableId: number) => {
   try {
     const { data } = await api.get(`/orders/active/${tableId}/`);
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error);
@@ -84,7 +80,6 @@ export const createOrder = async (order: OrderCreateData) => {
 export const addItemsToOrder = async (orderItems: AddItemToOrderData) => {
   try {
     const { data } = await api.patch(`/orders/${orderItems.order_id}/add-item`, orderItems);
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error);
@@ -105,7 +100,6 @@ export const addItemsToOrder = async (orderItems: AddItemToOrderData) => {
 export const decreaseItemQuantity = async (orderId: number, itemId: number, quantity: number) => {
   try {
     const { data } = await api.patch(`/orders/${orderId}/decrease-quantity`, { itemId, quantity });
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error);
@@ -138,7 +132,6 @@ export const updateStatusItem = async (orderId: number, itemId: number, status: 
 export const sendOrderToKitchen = async (orderId: number) => {
   try {
     const { data } = await api.patch(`/orders/${orderId}/send-to-kitchen`);
-    console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -150,7 +143,6 @@ export const sendOrderToKitchen = async (orderId: number) => {
 export const cancelOrder = async (orderId: number) => {
   try {
     const { data } = await api.patch(`/orders/${orderId}/cancel`);
-    console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -162,7 +154,6 @@ export const cancelOrder = async (orderId: number) => {
 export const getOrderSummary = async (orderId: number) => {
   try {
     const { data } = await api.get(`/orders/${orderId}/summary`);
-    console.log(data);
     return data
   } catch (error) {
     console.log(error);

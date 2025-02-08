@@ -53,16 +53,16 @@ export default function OrderDetailsKitchen({
                             <th className='px-3 py-2 text-left text-sm font-semibold'>
                                 #
                             </th>
-                            <th className='px-3 py-2 text-left text-sm font-semibold'>
+                            <th className='px-3 py-2 text-center text-sm font-semibold'>
                                 Productos
                             </th>
-                            <th className='px-3 py-2 text-left text-sm font-semibold'>
+                            <th className='px-3 py-2 text-center text-sm font-semibold'>
                                 Cantidad
                             </th>
-                            <th className='px-3 py-2 text-left text-sm font-semibold'>
+                            <th className='px-3 py-2 text-center text-sm font-semibold'>
                                 Subtotal
                             </th>
-                            <th className='px-3 py-2 text-left text-sm font-semibold'>
+                            <th className='px-3 py-2 text-center text-sm font-semibold'>
                                 Estado
                             </th>
                         </tr>
@@ -77,16 +77,16 @@ export default function OrderDetailsKitchen({
                                 <td className='px-3 py-2 text-sm'>
                                     {item.id_item}
                                 </td>
-                                <td className='px-3 py-2 text-sm'>
+                                <td className='px-3 py-2 text-sm text-center'>
                                     {item.dishes_name}
                                 </td>
-                                <td className='px-3 py-2 text-sm'>
+                                <td className='px-3 py-2 text-sm text-center'>
                                     {item.quantity}
                                 </td>
-                                <td className='px-3 py-2 text-sm'>
+                                <td className='px-3 py-2 text-sm text-center'>
                                     {formatCurrency(item.subtotal)}
                                 </td>
-                                <td className='px-3 py-2 text-sm'>
+                                <td className='px-3 py-2 text-sm text-center'>
                                     {item.status === 'SERVIDO' ? (
                                         <Badge variant={'success'}>
                                             Servido

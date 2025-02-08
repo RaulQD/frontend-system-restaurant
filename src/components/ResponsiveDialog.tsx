@@ -13,6 +13,7 @@ type ModalProps = {
     title: string;
     description?: string;
     open?: boolean;
+    size?: 'sm' | 'md' | 'lg' | 'xl';
 };
 
 export default function ResponsiveDialog({
@@ -20,13 +21,20 @@ export default function ResponsiveDialog({
     title,
     description,
     open,
+    size = 'md',
 }: ModalProps) {
     const navigate = useNavigate();
+    const widthClass = {
+        sm: "sm:max-w-[400px]",
+        md: "sm:max-w-[600px]",
+        lg: "sm:max-w-[900px]",
+        xl: "sm:max-w-[1200px]",
+    }[size];
     return (
         <Dialog
             open={open}
             onOpenChange={() => navigate(location.pathname, { replace: true })}>
-            <DialogContent className='sm:max-w-[625px]'>
+            <DialogContent className={`${widthClass}`}>
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>
                     {description && (
@@ -37,19 +45,5 @@ export default function ResponsiveDialog({
             </DialogContent>
         </Dialog>
     );
-}
-{
-    /*return (
-    <Drawer open={open} onOpenChange={() => navigate(location.pathname, { replace: true })}>
-        <DrawerContent>
-            <DrawerHeader className='text-left'>
-                <DrawerTitle>{title}</DrawerTitle>
-                {description && (
-                    <DrawerDescription>{description}</DrawerDescription>
-                )}
-            </DrawerHeader>
-            {children}
-        </DrawerContent>
-    </Drawer>
-    );*/
+
 }

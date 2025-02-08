@@ -14,7 +14,6 @@ export default function EditOrderDetailsData() {
             <EditOrderDetailsModal
                 open={open}
                 orderDetails={orderDetails}
-                orderId={Number(orderId)}
             />
         );
 }

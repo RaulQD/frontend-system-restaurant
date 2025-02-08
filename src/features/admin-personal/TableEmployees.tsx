@@ -25,23 +25,9 @@ import {
     Pencil2Icon,
     TrashIcon,
 } from '@radix-ui/react-icons';
-import ResponsiveDialog from '@/components/ResponsiveDialog';
-import { useState } from 'react';
-
 
 export default function TableEmployees() {
     const { employees, isLoading, error } = useEmployees();
-    const [isOpen, setIsOpen] = useState(false);
-    // const location = useLocation();
-    // const navigate = useNavigate();
-    // const queryParams = new URLSearchParams(location.search);
-    // const showDetailsEmployee = queryParams.get('showDetailsEmployee');
-    // const show = showDetailsEmployee === employee.id.toString();
-
-    // const handleShowDetails = () => {
-    //     queryParams.set('showDetailsEmployee', employee.id.toString());
-    //     navigate(`${location.pathname}?${queryParams.toString()}`);
-    // };
 
     if (isLoading) {
         return (
@@ -110,8 +96,8 @@ export default function TableEmployees() {
                                 <TableHead>Apellidos</TableHead>
                                 <TableHead>Salary</TableHead>
                                 <TableHead>Fecha de Inicio</TableHead>
-                                <TableHead>Estado</TableHead>
                                 <TableHead>Role</TableHead>
+                                <TableHead>Estado</TableHead>
                                 <TableHead className='text-right'>
                                     Acciones
                                 </TableHead>
@@ -145,10 +131,12 @@ export default function TableEmployees() {
                                               ).toLocaleDateString()
                                             : 'N/A'}
                                     </TableCell>
+                                    <TableCell className='capitalize'>
+                                        {employee.role.name}
+                                    </TableCell>
                                     <TableCell>
                                         {badgeStatus(employee.status)}
                                     </TableCell>
-                                    <TableCell>{employee.role.name}</TableCell>
                                     <TableCell className='flex items-end justify-end'>
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
@@ -173,7 +161,7 @@ export default function TableEmployees() {
                                                     <DropdownMenuItem
                                                         className='cursor-pointer text-yellow-600'
                                                         onClick={() =>
-                                                            setIsOpen(true)
+                                                            console.log('ver')
                                                         }>
                                                         <EyeOpenIcon className='w-4 h-4 mr-2' />
                                                         Ver
@@ -200,13 +188,6 @@ export default function TableEmployees() {
                 <PaginationI
                     totalItems={employees?.pagination.totalEmployees || 0}
                 />
-                {/* <ResponsiveDialog
-                    title='Detalle del Empleado'
-                    isOpen={isOpen}
-                    description='Información del empleado'
-                    setIsOpen={setIsOpen}>
-                    <p>Contenido del dialog</p>
-                </ResponsiveDialog> */}
             </div>
         </>
     );

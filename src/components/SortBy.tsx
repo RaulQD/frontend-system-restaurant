@@ -7,7 +7,30 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useSearchParams } from 'react-router-dom';
+
+const sortByOptions = [
+    { key: 'today', label: 'Hoy', value: 'today' },
+    { key: 'yesterday', label: 'Ayer', value: 'yesterday' },
+    { key: 'thisWeek', label: 'Esta semana', value: 'thisWeek' },
+    { key: 'thisMonth', label: 'Este mes', value: 'thisMonth' },
+];
+
 export default function SortBy() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const currentFilter = searchParams.get('sortBy') || '';
+
+    const handleSortBy = (value: string ) =>{
+        if (value.trim() === '') {
+            searchParams.delete('sortBy');
+            setSearchParams(searchParams);
+            return;
+        } else {
+            searchParams.set('sortBy', value);
+            setSearchParams(searchParams);
+        }
+    }
+
     return (
         <div className=''>
             <Select>

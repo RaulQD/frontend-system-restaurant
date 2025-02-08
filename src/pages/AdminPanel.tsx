@@ -11,10 +11,13 @@ import { useNavigate } from 'react-router-dom';
 
 export default function AdminPanel() {
     const navigate = useNavigate();
-    // const [isOpen, setIsOpen] = useState(false);
-    // const handleOpenModal = () => {
-    //     setIsOpen(true);
-    // };
+    const statusOptions = [
+        { key: 'all', label: 'Todos', value: 'todos' },
+        { key: 'active', label: 'Activos', value: 'activo' },
+        { key: 'vacation', label: 'En Vacaciones', value: 'en vacaciones' },
+        { key: 'inactive', label: 'No Activo', value: 'no activo' },
+        { key: 'suspended', label: 'Suspendido', value: 'suspendido' },
+    ];
 
     return (
         <section className=''>
@@ -38,7 +41,7 @@ export default function AdminPanel() {
             </div>
             <div className='mt-14'>
                 <div className='flex flex-col items-start gap-4 xl:flex-row xl:items-center xl:justify-between'>
-                    <FilterButtonStatus />
+                    <FilterButtonStatus statusOptions={statusOptions}/>
                     <div className='flex flex-col md:flex-row md:items-center md:justify-end gap-2'>
                         <FilterInput filterValue='keyword' placeholder='Buscar empleado'/>
                         <SortBy />

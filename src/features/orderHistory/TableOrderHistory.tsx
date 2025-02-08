@@ -24,20 +24,18 @@ import {
 import { MdBorderVertical } from 'react-icons/md';
 import { useState } from 'react';
 import AlertMessageDialog from '@/components/AlertMessageDialog';
+import { useLocation, useNavigate } from 'react-router-dom';
+import OrderHistoryData from './OrderHistoryData';
 
 export default function TableOrderHistory() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+
     const [isDelete, setIsDelete] = useState(false);
     const [idOrder, setIdOrder] = useState<number>();
     const { orders, isLoadingOrders, isErrorsOrders, error } =
         useOrderHistory();
-
-    if (isLoadingOrders) {
-        return (
-            <div className='flex justify-center items-center h-96'>
-                <Spinner />
-            </div>
-        );
-    }
     const getDateToOrder = (date: Date) => {
         const orderDate = new Date(date);
         return orderDate.toLocaleDateString('es-PE', {
@@ -48,6 +46,10 @@ export default function TableOrderHistory() {
             minute: 'numeric',
             second: 'numeric',
         });
+    };
+    const handleOpenModal = (orderId: number) => {
+        searchParams.set('orderDetails', String(orderId));
+        navigate(`${location.pathname}?${searchParams.toString()}`);
     };
     const statusOrder = (status: string) => {
         switch (status) {
@@ -81,6 +83,21 @@ export default function TableOrderHistory() {
     const handleDeleteOrder = (dishId: number) => {
         console.log('Eliminar plato', dishId);
     };
+
+    if (isLoadingOrders) {
+        return (
+            <div className='flex justify-center items-center h-96'>
+                <Spinner />
+            </div>
+        );
+    }
+    if (isErrorsOrders) {
+        return (
+            <div className='flex justify-center items-center h-96'>
+                <span className='text-red-500'>{error?.message}</span>
+            </div>
+        );
+    }
     return (
         <div className='mt-6'>
             <div className='overflow-x-auto shadow-sm ring-1 ring-black ring-opacity-5 md:rounded-lg'>
@@ -134,7 +151,9 @@ export default function TableOrderHistory() {
                                             <DropdownMenuContent align='end'>
                                                 <DropdownMenuItem
                                                     onClick={() =>
-                                                        alert('Ver Detalles')
+                                                        handleOpenModal(
+                                                            order.id_order
+                                                        )
                                                     }>
                                                     Ver Detalles
                                                 </DropdownMenuItem>
@@ -157,6 +176,7 @@ export default function TableOrderHistory() {
                 </Table>
             </div>
             <PaginationI totalItems={orders?.pagination.totalOrders!} />
+            <OrderHistoryData />
             <AlertMessageDialog
                 title='Eliminar Plato'
                 description='¿Estás seguro de eliminar este plato?'

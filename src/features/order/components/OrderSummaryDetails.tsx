@@ -85,14 +85,6 @@ export default function OrderSummaryDetails({
         });
     };
 
-    // if (isLodingPayment) {
-    //     return (
-    //         <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-60'>
-    //             <Spinner />
-    //         </div>
-    //     );
-    // }
-
     return (
         <>
             <div className='w-full max-h-40 overflow-y-auto'>

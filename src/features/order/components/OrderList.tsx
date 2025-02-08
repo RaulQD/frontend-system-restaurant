@@ -33,21 +33,7 @@ export default function OrderList({
         const basePrice = subTotal / 1.18;
         const igv = subTotal - basePrice;
         return { basePrice, igv };
-    }
-
-    const handleSendOrder = () => {
-        if (!activeOrder?.id_order) return;
-        sendOrder(activeOrder?.id_order);
     };
-    const handleCancelOrder = () => {
-        if (!activeOrder?.id_order) return;
-        cancellationOrder(activeOrder?.id_order, {
-            onSuccess: () => {
-                navigate('/dashboard/tables');
-            },
-        });
-    };
-
     //DESAHABILITAR EL BOTON DISMINUIR Y AUMENTAR LA CANTIDAD DE PLATOS CUANDO LA ORDEN ESTA EN ESTADO DE SERVIDO, LISTO PARA SERVIR O EN PREPARACION, SI ESTA EN ESTADO PENDIENTE SE HABILITA
     const handleDisableButton = (status: string) => {
         switch (status) {
@@ -62,7 +48,20 @@ export default function OrderList({
             default:
                 return false;
         }
-    }
+    };
+    const handleSendOrder = () => {
+        if (!activeOrder?.id_order) return;
+        sendOrder(activeOrder?.id_order);
+    };
+    const handleCancelOrder = () => {
+        if (!activeOrder?.id_order) return;
+      
+        cancellationOrder(activeOrder?.id_order, {
+            onSuccess: () => {
+                navigate('/dashboard/tables');
+            },
+        });
+    };
 
     return (
         <>
@@ -100,7 +99,9 @@ export default function OrderList({
                             <li className='flex items-center justify-between'>
                                 <p className='text-gray-500'>Subtotal</p>
                                 <span className='text-lg font-bold'>
-                                    {formatCurrency(desglosarIGV(subTotal).basePrice)}
+                                    {formatCurrency(
+                                        desglosarIGV(subTotal).basePrice
+                                    )}
                                 </span>
                             </li>
                             <li className='flex items-center justify-between'>
@@ -132,8 +133,11 @@ export default function OrderList({
                         <Button
                             variant={'default'}
                             className='w-full hover:tracking-widest transition-all'
-                            onClick={() => navigate(location.pathname + `?orderSummary=true`)}
-                            >
+                            onClick={() =>
+                                navigate(
+                                    location.pathname + `?orderSummary=true`
+                                )
+                            }>
                             Confirmar Pago
                         </Button>
                     </section>
@@ -154,7 +158,7 @@ export default function OrderList({
                 }`}
                 onClick={() => setShowCart(false)} // Cerrar el sidebar al hacer click fuera
             />
-            <OrderSummaryData/>
+            <OrderSummaryData />
         </>
     );
 }

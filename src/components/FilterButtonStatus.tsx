@@ -2,15 +2,15 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button } from './ui/button';
 
-const statusOptions = [
-    { key: 'all', label: 'Todos', value: 'todos' },
-    { key: 'active', label: 'Activos', value: 'activo' },
-    { key: 'vacation', label: 'En Vacaciones', value: 'en vacaciones' },
-    { key: 'inactive', label: 'No Activo', value: 'no activo' },
-    { key: 'suspended', label: 'Suspendido', value: 'suspendido' },
-];
+type StatusOptionProps = {
+    statusOptions: {
+        key: string;
+        label: string;
+        value: string;
+    }[];
+};
 
-export default function FilterButtonStatus() {
+export default function FilterButtonStatus({ statusOptions }: StatusOptionProps) {
     const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {

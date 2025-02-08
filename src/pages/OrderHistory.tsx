@@ -1,6 +1,14 @@
+import FilterButtonStatus from '@/components/FilterButtonStatus';
+import FilterInput from '@/components/FilterInput';
 import TableOrderHistory from '@/features/orderHistory/TableOrderHistory';
 
 export default function OrderHistory() {
+    const statusOptions = [
+        { key: 'all', label: 'Todos', value: 'todos' },
+        { key: 'completed', label: 'Completados', value: 'completado' },
+        { key: 'cancelled', label: 'Cancelados', value: 'cancelado' },
+    ];
+
     return (
         <>
             <section>
@@ -13,6 +21,15 @@ export default function OrderHistory() {
                             Aquí puedes ver el historial de ordenes realizadas
                             en tu restaurante.
                         </span>
+                    </div>
+                </div>
+                <div className='mt-14 '>
+                    <div className='flex flex-col items-start gap-4 xl:flex-row xl:items-center xl:justify-between'>
+                        <FilterButtonStatus statusOptions={statusOptions}/>
+                        <FilterInput
+                            filterValue='keyword'
+                            placeholder='Buscar orden'
+                        />
                     </div>
                 </div>
                 <TableOrderHistory />
