@@ -14,7 +14,7 @@ export default function PaymentModal({
     return (
         <ResponsiveDialog
             open={open}
-            title='Pago'
+            title='Resumen de la orden'
             description='Aquí puedes realizar el pago de tu pedido'>
             <OrderSummaryDetails orderSummary={orderSummary} />
         </ResponsiveDialog>

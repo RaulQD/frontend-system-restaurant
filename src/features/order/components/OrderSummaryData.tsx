@@ -8,7 +8,6 @@ export default function OrderSummaryData() {
     const orderId = queryParam.get('orderSummary');
     const open = orderId ? true : false;
     const { orderSummary, isLoading, isError, error } = useGetOrderSummary();
-    console.log(orderSummary);
     if (isLoading) {
         return <div>Loading...</div>;
     }

@@ -3,7 +3,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { useSearchParams } from 'react-router-dom';
 
-export default function FilterInput({ filterValue }: { filterValue: string }) {
+export default function FilterInput({ filterValue, placeholder }: { filterValue: string; placeholder: string }) {
     const [searchParams, setSearchParams] = useSearchParams();
     const currentFilter = searchParams.get(filterValue) || '';
 
@@ -23,7 +23,7 @@ export default function FilterInput({ filterValue }: { filterValue: string }) {
             <Input
                 type='text'
                 id='search'
-                placeholder='Buscar empleados'
+                placeholder={placeholder}
                 className='pl-10 bg-white outline-none'
                 value={currentFilter}
                 onChange={(e) => handleInputSearch(e.target.value)}

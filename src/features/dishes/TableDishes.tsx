@@ -75,8 +75,8 @@ export default function TableDishes() {
                 <Table className='w-full divide-y divide-gray-300'>
                     <TableHeader className='bg-slate-200'>
                         <TableRow>
-                            <TableHead className='w-[150px] pl-4'>ID</TableHead>
-                            <TableHead>Nombre del plato</TableHead>
+                            <TableHead className='w-[100px] pl-4'>ID</TableHead>
+                            <TableHead>Plato</TableHead>
                             <TableHead>Imagen</TableHead>
                             <TableHead>Descripciòn</TableHead>
                             <TableHead>Precio</TableHead>

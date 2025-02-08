@@ -28,9 +28,13 @@ export default function OrderList({
             (acc, items) => acc + items.quantity * (items.unit_price || 0),
             0
         ) || 0;
-    //calcular el igv
-    const IGV = subTotal * (18 / 100);
-    const total = subTotal + IGV;
+    //función para calcular el igv
+    const desglosarIGV = (subTotal: number) => {
+        const basePrice = subTotal / 1.18;
+        const igv = subTotal - basePrice;
+        return { basePrice, igv };
+    }
+
     const handleSendOrder = () => {
         if (!activeOrder?.id_order) return;
         sendOrder(activeOrder?.id_order);
@@ -96,21 +100,20 @@ export default function OrderList({
                             <li className='flex items-center justify-between'>
                                 <p className='text-gray-500'>Subtotal</p>
                                 <span className='text-lg font-bold'>
-                                    {formatCurrency(subTotal)}
+                                    {formatCurrency(desglosarIGV(subTotal).basePrice)}
                                 </span>
                             </li>
                             <li className='flex items-center justify-between'>
                                 <p className='text-gray-500'>IGV(18%)</p>
                                 <span className='text-lg font-bold'>
-                                    {' '}
-                                    {formatCurrency(IGV)}
+                                    {formatCurrency(desglosarIGV(subTotal).igv)}
                                 </span>
                             </li>
                             <Separator orientation='horizontal' />
                             <li className='flex items-center justify-between'>
                                 <p className='text-gray-500'>Total</p>
                                 <span className='text-lg font-bold'>
-                                    {formatCurrency(total)}
+                                    {formatCurrency(subTotal)}
                                 </span>
                             </li>
                         </ul>
@@ -129,7 +132,7 @@ export default function OrderList({
                         <Button
                             variant={'default'}
                             className='w-full hover:tracking-widest transition-all'
-                            onClick={() => navigate(location.pathname + `?orderSummary=${activeOrder?.id_order}`)}
+                            onClick={() => navigate(location.pathname + `?orderSummary=true`)}
                             >
                             Confirmar Pago
                         </Button>

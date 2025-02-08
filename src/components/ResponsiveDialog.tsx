@@ -5,14 +5,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-import {
-    Drawer,
-    DrawerContent,
-    DrawerDescription,
-    DrawerHeader,
-    DrawerTitle,
-} from '@/components/ui/drawer';
-import { useMediaQuery } from '@/hooks/use-media-query';
+
 import { useNavigate } from 'react-router-dom';
 
 type ModalProps = {

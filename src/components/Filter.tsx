@@ -14,7 +14,7 @@ export default function Filter() {
                 getLabel={(category) => category.category_name}
                 showAllButton={true}
             />
-            <FilterInput filterValue='keyword' />
+            <FilterInput filterValue='keyword' placeholder='Buscar Plato' />
         </div>
     );
 }

@@ -1,6 +1,29 @@
 import api from "@/lib/axios";
-import { AddItemToOrderData, Order, OrderCreateData } from "@/types/order";
+import { Employee } from "@/types/employee";
+import { AddItemToOrderData, Order, OrderCreateData, OrderResponseType, PaymentResponse } from "@/types/order";
 import { isAxiosError } from "axios";
+
+type GetOrdersAPIType = {
+  page: number;
+  keyword?: string;
+  status: string;
+  startDate?: string;
+  endDate?: string;
+
+}
+
+export const getOrders = async ({ page, keyword, status, startDate, endDate }: GetOrdersAPIType) => {
+  try {
+    const { data } = await api.get<OrderResponseType>('/orders', { params: { page, keyword, status, startDate, endDate } });
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
+}
 
 export const getOrdersForKitchen = async () => {
   try {
@@ -112,7 +135,7 @@ export const updateStatusItem = async (orderId: number, itemId: number, status: 
   }
 }
 
-export const sendOrderToKitchen = async (orderId: number) => { 
+export const sendOrderToKitchen = async (orderId: number) => {
   try {
     const { data } = await api.patch(`/orders/${orderId}/send-to-kitchen`);
     console.log(data);
@@ -134,15 +157,28 @@ export const cancelOrder = async (orderId: number) => {
       throw new Error(error.response.data.message);
     }
   }
-} 
+}
 
-export const getOrderSummary = async (orderId: number) => { 
+export const getOrderSummary = async (orderId: number) => {
   try {
     const { data } = await api.get(`/orders/${orderId}/summary`);
     console.log(data);
     return data
   } catch (error) {
     console.log(error);
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
+}
+
+
+export const processPaymentOrder = async (orderId: number, amount_received: number, employee_id: Employee['id']) => {
+  try {
+    const { data } = await api.post<PaymentResponse>(`/orders/${orderId}/payment`, { amount_received, employee_id });
+    console.log(data);
+    return data;
+  } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }

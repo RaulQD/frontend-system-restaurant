@@ -4,6 +4,7 @@ import { OrderDetails } from '@/types/order';
 import { useUpdateItemStatus } from './useUpdateItemStatus';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
+import { formatCurrency } from '../../utils/formatCurrency';
 
 type OrderDetailsKitchenProps = {
     orderDetails: OrderDetails;
@@ -45,77 +46,81 @@ export default function OrderDetailsKitchen({
                     Mesa: {orderDetails.num_table}
                 </p>
             </div>
-            <table className='w-full border-collapse'>
-                <thead>
-                    <tr className='bg-gray-200'>
-                        <th className='px-3 py-2 text-left text-sm font-semibold'>
-                            #
-                        </th>
-                        <th className='px-3 py-2 text-left text-sm font-semibold'>
-                            Productos
-                        </th>
-                        <th className='px-3 py-2 text-left text-sm font-semibold'>
-                            Cantidad
-                        </th>
-                        <th className='px-3 py-2 text-left text-sm font-semibold'>
-                            Subtotal
-                        </th>
-                        <th className='px-3 py-2 text-left text-sm font-semibold'>
-                            Estado
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {orderDetails.items.map((item, index) => (
-                        <tr
-                            key={item.id_item}
-                            className={`${
-                                index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
-                            }`}>
-                            <td className='px-3 py-2 text-sm'>
-                                {item.id_item}
-                            </td>
-                            <td className='px-3 py-2 text-sm'>
-                                {item.dishes_name}
-                            </td>
-                            <td className='px-3 py-2 text-sm'>
-                                {item.quantity}
-                            </td>
-                            <td className='px-3 py-2 text-sm'>
-                                {item.subtotal}
-                            </td>
-                            <td className='px-3 py-2 text-sm'>
-                                {item.status === 'SERVIDO' ? (
-                                    <Badge variant={'success'}>Servido</Badge>
-                                ) : (
-                                    <form>
-                                        <select
-                                            defaultValue={item.status}
-                                            className='border border-gray-300 rounded-md text-sm p-1 w-full'
-                                            onChange={(
-                                                e: React.ChangeEvent<HTMLSelectElement>
-                                            ) =>
-                                                handleUpdateStatus(
-                                                    orderId,
-                                                    item.id_item,
-                                                    e.target.value
-                                                )
-                                            }>
-                                                 {status.map((status) => (
-                                                <option
-                                                    key={status.value}
-                                                    value={status.value}>
-                                                    {status.label}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </form>
-                                )}
-                            </td>
+            <div className='w-full max-h-60 overflow-y-auto'>
+                <table className='w-full border-collapse'>
+                    <thead>
+                        <tr className='bg-gray-200'>
+                            <th className='px-3 py-2 text-left text-sm font-semibold'>
+                                #
+                            </th>
+                            <th className='px-3 py-2 text-left text-sm font-semibold'>
+                                Productos
+                            </th>
+                            <th className='px-3 py-2 text-left text-sm font-semibold'>
+                                Cantidad
+                            </th>
+                            <th className='px-3 py-2 text-left text-sm font-semibold'>
+                                Subtotal
+                            </th>
+                            <th className='px-3 py-2 text-left text-sm font-semibold'>
+                                Estado
+                            </th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {orderDetails.items.map((item, index) => (
+                            <tr
+                                key={item.id_item}
+                                className={`${
+                                    index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+                                }`}>
+                                <td className='px-3 py-2 text-sm'>
+                                    {item.id_item}
+                                </td>
+                                <td className='px-3 py-2 text-sm'>
+                                    {item.dishes_name}
+                                </td>
+                                <td className='px-3 py-2 text-sm'>
+                                    {item.quantity}
+                                </td>
+                                <td className='px-3 py-2 text-sm'>
+                                    {formatCurrency(item.subtotal)}
+                                </td>
+                                <td className='px-3 py-2 text-sm'>
+                                    {item.status === 'SERVIDO' ? (
+                                        <Badge variant={'success'}>
+                                            Servido
+                                        </Badge>
+                                    ) : (
+                                        <form>
+                                            <select
+                                                defaultValue={item.status}
+                                                className='border border-gray-300 rounded-md text-sm p-1 w-full'
+                                                onChange={(
+                                                    e: React.ChangeEvent<HTMLSelectElement>
+                                                ) =>
+                                                    handleUpdateStatus(
+                                                        orderId,
+                                                        item.id_item,
+                                                        e.target.value
+                                                    )
+                                                }>
+                                                {status.map((status) => (
+                                                    <option
+                                                        key={status.value}
+                                                        value={status.value}>
+                                                        {status.label}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </form>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
             <Separator className='my-4' />
             <div className='flex items-center justify-end gap-5'>
                 <Button

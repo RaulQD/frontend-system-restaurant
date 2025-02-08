@@ -16,7 +16,7 @@ export default function CardOrderList({
     handleDecreaseQuantity,
     handleDisableButton,
 }: CardOrderListProps) {
-    const totalQuantityItems = (orderItem.unit_price || 0) * orderItem.quantity;
+    const totalQuantityItems = orderItem.unit_price * orderItem.quantity;
     //OBTENER LOS COLORES DEPENDIENDO DEL ESTADO DE LA ORDEN CON SWITCH
     const statusOrderItemsColor = (status: string) => {
         switch (status) {
@@ -48,24 +48,19 @@ export default function CardOrderList({
                         Servido
                     </Badge>
                 );
+            case 'COMPLETADO':
+                return (
+                    <Badge
+                        variant='success'
+                        className='text-white font-semibold'>
+                        Completado
+                    </Badge>
+                );
             default:
                 return 'primary';
         }
     };
-    //INHABILITAR EL BOTON DE DISMINUIR Y AUMENTAR LA CANTIDAD DE PLATOS
-    // const handleDisableButton = (status: string) => {
-    //     switch (status) {
-    //         case 'PENDIENTE':
-    //             return false;
-    //         case 'EN PREPARACION':
-    //             return true;
-    //         case 'LISTO PARA SERVIR':
-    //             return true;
-    //         case 'SERVIDO':
-    //             return true;
-    //         default:
-    //             return false;
-    // }
+
 
     return (
         <Card>
@@ -90,11 +85,7 @@ export default function CardOrderList({
                                 <Button
                                     variant={'principal'}
                                     size={'sm'}
-                                    className={
-                                        handleDisableButton(orderItem.status)
-                                            ? 'pointer-events-none opacity-50'
-                                            : ''
-                                    }
+                                    className={ orderItem.status === 'PENDIENTE' ? '' : 'pointer-events-none opacity-50' }
                                     onClick={() =>
                                         handleDecreaseQuantity(
                                             orderItem.id_item

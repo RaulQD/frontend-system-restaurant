@@ -40,7 +40,7 @@ export default function AdminPanel() {
                 <div className='flex flex-col items-start gap-4 xl:flex-row xl:items-center xl:justify-between'>
                     <FilterButtonStatus />
                     <div className='flex flex-col md:flex-row md:items-center md:justify-end gap-2'>
-                        <FilterInput filterValue='keyword' />
+                        <FilterInput filterValue='keyword' placeholder='Buscar empleado'/>
                         <SortBy />
                     </div>
                 </div>

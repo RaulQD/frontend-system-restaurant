@@ -1,3 +1,6 @@
+import { Employee } from "./employee";
+import { Tables } from "./tables";
+
 export type Order = {
   id_order: number;
   employee_id: number;
@@ -16,13 +19,13 @@ export type Items = {
   dish_id: number;
   dishes_name?: string;
   image_url?: string;
-  unit_price?: number;
+  unit_price: number;
   subtotal: number;
   status: string;
   quantity: number;
 }
 
-export type OrderItem = Pick<Items, 'id_item' | 'dish_id' | 'dishes_name' | 'image_url' | 'unit_price' | 'quantity' | 'status' |'subtotal'>;
+export type OrderItem = Pick<Items, 'id_item' | 'dish_id' | 'dishes_name' | 'image_url' | 'unit_price' | 'quantity' | 'status' | 'subtotal'>;
 
 
 export type OrderDetails = Pick<Order, 'id_order' | 'table_id' | 'num_table' | 'employee_id' | 'names' | 'order_status' | 'created_at' | 'items'>;
@@ -53,4 +56,35 @@ export type AddItemToOrderData = {
 export type OrderSummary = {
   orderId: number; // Identificador de la orden
   orderItems: OrderItem[]; // Items de la orden
+}
+
+export type PaymentResponse = {
+  message: string;
+  status: boolean;
+  payment: {
+    order_id: number;
+    total_paid: number;
+    amount_received: number;
+    change_amount: number;
+    employe_name: string;
+  };
+}
+export type PaginationInfoType = {
+  page: number;
+  limit: number;
+  totalOrders: number;
+}
+export type OrderResult = {
+  id_order: number;
+  employee: Employee;
+  tables: Tables;
+  order_status: string;
+  total: number;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export type OrderResponseType = {
+  results: OrderResult[]
+  pagination: PaginationInfoType;
 }

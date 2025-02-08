@@ -27,8 +27,6 @@ import {
 } from '@radix-ui/react-icons';
 import ResponsiveDialog from '@/components/ResponsiveDialog';
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Employee } from '@/types/employee';
 
 
 export default function TableEmployees() {
@@ -202,13 +200,13 @@ export default function TableEmployees() {
                 <PaginationI
                     totalItems={employees?.pagination.totalEmployees || 0}
                 />
-                <ResponsiveDialog
+                {/* <ResponsiveDialog
                     title='Detalle del Empleado'
                     isOpen={isOpen}
                     description='Información del empleado'
                     setIsOpen={setIsOpen}>
                     <p>Contenido del dialog</p>
-                </ResponsiveDialog>
+                </ResponsiveDialog> */}
             </div>
         </>
     );
