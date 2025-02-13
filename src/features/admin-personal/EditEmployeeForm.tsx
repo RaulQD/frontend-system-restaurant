@@ -1,29 +1,69 @@
+import { Employee, EmployeeFormData } from '@/types/employee';
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useUpdatedEmployee } from './useUpdatedEmployee';
+import { Separator } from '@/components/ui/separator';
+import { Cross2Icon, UploadIcon } from '@radix-ui/react-icons';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { ErrorMessage } from '@/components/ErrorMessage';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import SpinnerMini from '@/components/SpinnerMini';
+import {
+    Select,
+    SelectContent,
+    SelectValue,
+    SelectTrigger,
+    SelectItem,
+} from '@/components/ui/select';
 
-import { Separator } from '@/components/ui/separator';
-import { EmployeeFormData } from '@/types/employee';
-import { Cross2Icon, UploadIcon } from '@radix-ui/react-icons';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { useCreateEmployee } from './useCreateEmployee';
+type EditEmployeeProps = {
+    data: EmployeeFormData;
+    employeeId: Employee['id'];
+};
 
-
-
-export default function EmployeeForm() {
+export default function EditEmployeeForm({
+    data,
+    employeeId,
+}: EditEmployeeProps) {
     const navigate = useNavigate();
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [selectedImage, setSelectedImage] = useState<string | File | null>(
+        typeof data.profile_picture_url === 'string'
+            ? data.profile_picture_url
+            : null
+    );
+    const statusOption = [
+        { key: 'active', value: 'activo', label: 'Activo' },
+        { key: 'inactive', value: 'no activo', label: 'No Activo' },
+        { key: 'suspended', value: 'suspendido', label: 'Suspendido' },
+        { key: 'vacation', value: 'en vacaciones', label: 'Vacaciones' },
+    ];
 
     const {
+        control,
         register,
         handleSubmit,
         formState: { errors },
         reset,
-    } = useForm<EmployeeFormData>();
-    const { createEmployee } = useCreateEmployee();
+    } = useForm<EmployeeFormData>({
+        defaultValues: {
+            names: data.names,
+            last_name: data.last_name,
+            dni: data.dni,
+            email: data.email,
+            phone: data.phone,
+            address: data.address,
+            salary: data.salary,
+            hire_date: data.hire_date,
+            status: data.status,
+            role_name: data.role_name,
+            username: data.username,
+            password: '',
+        },
+    });
+    const { editEmployee, isPendingEmployee } = useUpdatedEmployee();
+
     const onSubmit = (data: EmployeeFormData) => {
         const formData = new FormData();
         formData.append('names', data.names);
@@ -35,34 +75,37 @@ export default function EmployeeForm() {
         formData.append('salary', data.salary!.toString());
         formData.append('hire_date', data.hire_date!.toString());
         formData.append('role_name', data.role_name);
+        formData.append('status', data.status);
 
-        if (data.profile_picture_url && data.profile_picture_url[0]) {
-            formData.append('profile_picture_url', data.profile_picture_url[0]);
-        } else {
-            console.error('No se ha seleccionado ninguna imagen');
-            return;
+        if (selectedImage instanceof File) {
+            formData.append('image', selectedImage);
         }
+
         formData.append('username', data.username);
         formData.append('password', data.password);
 
-        createEmployee(formData, {
+        const employeeData = {
+            employeeId: employeeId,
+            formData: formData,
+        };
+
+        editEmployee(employeeData, {
             onSuccess: () => {
+                setSelectedImage(null);
                 reset();
+                navigate('/dashboard/empleados');
             },
         });
     };
 
     //Función para manejar el cambio de la imagen seleccionada y mostrarla en la vista previa
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]; // Acceder al primer archivo del FileList
+        const file = e.target.files?.[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setSelectedImage(reader.result as string); // Establecer la URL de datos
-            };
-            reader.readAsDataURL(file); // Leer el archivo como URL de datos
+            setSelectedImage(file); // Guardamos el archivo directamente
         }
     };
+
     const redirectToEmployees = () => {
         navigate('/dashboard/empleados');
     };
@@ -79,14 +122,23 @@ export default function EmployeeForm() {
                                 </h2>
                                 <div className='border-2 border-dashed rounded-lg p-8 '>
                                     {selectedImage ? (
-                                        <div className='relative'>
-                                            <div className='flex items-center justify-center'>
+                                        <div className='relative flex justify-center items-center'>
+                                            {typeof selectedImage ===
+                                            'string' ? (
                                                 <img
                                                     src={selectedImage}
                                                     alt='Imagen seleccionada'
-                                                    className='w-52 h-52 rounded-lg'
+                                                    className='w-52 h-auto rounded-lg'
                                                 />
-                                            </div>
+                                            ) : (
+                                                <img
+                                                    src={URL.createObjectURL(
+                                                        selectedImage
+                                                    )}
+                                                    alt='Imagen seleccionada'
+                                                    className='w-52 h-auto rounded-lg'
+                                                />
+                                            )}
                                             <button
                                                 type='button'
                                                 className='mt-2 absolute top-2 right-2'
@@ -110,15 +162,8 @@ export default function EmployeeForm() {
                                                 type='file'
                                                 id='image_url'
                                                 className='hidden'
-                                                {...register(
-                                                    'profile_picture_url',
-                                                    {
-                                                        required:
-                                                            'Sube una imagen del plato.',
-                                                        onChange:
-                                                            handleImageChange,
-                                                    }
-                                                )}
+                                                accept='image/*'
+                                                onChange={handleImageChange}
                                             />
                                         </>
                                     )}
@@ -146,7 +191,7 @@ export default function EmployeeForm() {
                                             id='salary'
                                             placeholder='00.00'
                                             className='mt-2'
-                                            register={register('salary', {
+                                            {...register('salary', {
                                                 required:
                                                     'Ingrese el sueldo del empleado.',
                                                 pattern: {
@@ -173,7 +218,7 @@ export default function EmployeeForm() {
                                             id='hire_date'
                                             placeholder='Fecha de contratación'
                                             className='mt-2'
-                                            register={register('hire_date', {
+                                            {...register('hire_date', {
                                                 required:
                                                     'Ingrese la fecha de contrato del empleado.',
                                             })}
@@ -196,7 +241,7 @@ export default function EmployeeForm() {
                                             id='role_name'
                                             placeholder='Cargo'
                                             className='mt-2'
-                                            register={register('role_name', {
+                                            {...register('role_name', {
                                                 required:
                                                     'Ingresa la posiciòn del empleado.',
                                                 minLength: {
@@ -209,6 +254,52 @@ export default function EmployeeForm() {
                                         {errors.role_name && (
                                             <ErrorMessage>
                                                 {errors.role_name.message}
+                                            </ErrorMessage>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <Label
+                                            id='status'
+                                            htmlFor='status'
+                                            className='text-slate-600 font-normal'>
+                                            Estado
+                                        </Label>
+                                        <Controller
+                                            name='status'
+                                            control={control}
+                                            rules={{required: 'Selecciona un estado'}}
+                                            render={({ field }) => (
+                                                <Select
+                                                    onValueChange={
+                                                        field.onChange
+                                                    }
+                                                    value={field.value}>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder='Seleccion un estado' />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        {statusOption.map(
+                                                            (option) => (
+                                                                <SelectItem
+                                                                    key={
+                                                                        option.key
+                                                                    }
+                                                                    value={
+                                                                        option.value
+                                                                    }>
+                                                                    {
+                                                                        option.label
+                                                                    }
+                                                                </SelectItem>
+                                                            )
+                                                        )}
+                                                    </SelectContent>
+                                                </Select>
+                                            )}
+                                        />
+                                        {errors.status && (
+                                            <ErrorMessage>
+                                                {errors.status.message}
                                             </ErrorMessage>
                                         )}
                                     </div>
@@ -231,7 +322,7 @@ export default function EmployeeForm() {
                                             id='username'
                                             placeholder='usuario'
                                             className='mt-2'
-                                            register={register('username', {
+                                            {...register('username', {
                                                 required:
                                                     'Ingresa el usuario del empleado.',
                                                 minLength: {
@@ -259,11 +350,9 @@ export default function EmployeeForm() {
                                             placeholder='**********'
                                             id='password'
                                             className='mt-2'
-                                            register={register('password', {
-                                                required:
-                                                    'Ingresa la contraseña del empleado.',
+                                            {...register('password', {
                                                 minLength: {
-                                                    value: 6,
+                                                    value: 8,
                                                     message:
                                                         'La contraseña debe tener al menos 6 caracteres',
                                                 },
@@ -294,10 +383,9 @@ export default function EmployeeForm() {
                                         <Input
                                             type='text'
                                             id='names'
-                                            name='names'
                                             placeholder='Nombre'
                                             className='mt-2 '
-                                            register={register('names', {
+                                            {...register('names', {
                                                 required:
                                                     'El nombre del empleado es requerido.',
                                                 minLength: {
@@ -325,7 +413,7 @@ export default function EmployeeForm() {
                                             id='last_name'
                                             placeholder='Apellidos'
                                             className='mt-2'
-                                            register={register('last_name', {
+                                            {...register('last_name', {
                                                 required:
                                                     'El apellido del empleado es requerido.',
                                                 minLength: {
@@ -353,7 +441,7 @@ export default function EmployeeForm() {
                                             id='dni'
                                             placeholder='ej. 00000000'
                                             className='mt-2'
-                                            register={register('dni', {
+                                            {...register('dni', {
                                                 required:
                                                     'El DNI del empleado es requerido.',
                                                 minLength: {
@@ -365,7 +453,7 @@ export default function EmployeeForm() {
                                                     value: 8,
                                                     message:
                                                         'El DNI debe tener máximo 8 caracteres',
-                                                }
+                                                },
                                             })}
                                         />
                                         {errors.dni && (
@@ -386,7 +474,7 @@ export default function EmployeeForm() {
                                             id='email'
                                             placeholder='ejemplo@ejemplo.com'
                                             className='mt-2'
-                                            register={register('email', {
+                                            {...register('email', {
                                                 required:
                                                     'Ingrese el correo electrónico',
                                                 pattern: {
@@ -414,7 +502,7 @@ export default function EmployeeForm() {
                                             id='phone'
                                             placeholder='ej. 999999999'
                                             className='mt-2'
-                                            register={register('phone', {
+                                            {...register('phone', {
                                                 required:
                                                     'Ingrese el teléfono del empleado.',
                                                 pattern: {
@@ -447,7 +535,7 @@ export default function EmployeeForm() {
                                             id='address'
                                             placeholder='dirección'
                                             className='mt-2'
-                                            register={register('address', {
+                                            {...register('address', {
                                                 required:
                                                     'Ingresa la direcciòn del empleado.',
                                                 minLength: {
@@ -472,7 +560,13 @@ export default function EmployeeForm() {
                                     Cancelar
                                 </Button>
                                 <Button type='submit' variant={'principal'}>
-                                    Guardar
+                                    {isPendingEmployee ? (
+                                        <div className='flex justify-center'>
+                                            <SpinnerMini />
+                                        </div>
+                                    ) : (
+                                        'Guardar empleado'
+                                    )}
                                 </Button>
                             </div>
                         </div>

@@ -27,7 +27,7 @@ import AlertMessageDialog from '@/components/AlertMessageDialog';
 import { useLocation, useNavigate } from 'react-router-dom';
 import OrderHistoryData from './OrderHistoryData';
 
-export default function TableOrderHistory() {
+export default function rTableOrderHistory() {
     const navigate = useNavigate();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -53,6 +53,34 @@ export default function TableOrderHistory() {
     };
     const statusOrder = (status: string) => {
         switch (status) {
+            case 'PENDIENTE':
+                return (
+                    <Badge
+                        variant='warning'
+                        className='text-white font-semibold'>
+                        PENDIENTE
+                    </Badge>
+                );
+            case 'EN PROCESO':
+                return (
+                    <Badge variant='info' className='text-white font-semibold'>
+                        EN PROCESO
+                    </Badge>
+                );
+            case 'LISTO PARA SERVIR':
+                return (
+                    <Badge
+                        variant='served'
+                        className='text-black font-semibold'>
+                        LISTO PARA SERVIR
+                    </Badge>
+                );
+            case 'LISTO PARA PAGAR':
+                return (
+                    <Badge variant='successdark' className='text-black font-semibold'>
+                        LISTO PARA PAGAR
+                    </Badge>
+                );
             case 'CANCELADO':
                 return (
                     <Badge
@@ -62,20 +90,30 @@ export default function TableOrderHistory() {
                     </Badge>
                 );
 
-            case 'COMPLETADO':
+            case 'PAGADO':
                 return (
                     <Badge
                         variant='success'
                         className='text-white font-semibold'>
-                        COMPLETADO
+                        PAGADO
                     </Badge>
                 );
+
+            case 'CREADO':
+                return (
+                    <Badge
+                        variant='default'
+                        className='text-white font-semibold'>
+                        CREADO
+                    </Badge>
+                );
+
             default:
                 return (
                     <Badge
                         variant='secondary'
                         className='text-white font-semibold'>
-                        Desconocido
+                        Des conocido
                     </Badge>
                 );
         }
@@ -94,7 +132,7 @@ export default function TableOrderHistory() {
     if (isErrorsOrders) {
         return (
             <div className='flex justify-center items-center h-96'>
-                <span className='text-red-500'>{error?.message}</span>
+                <span className='text-lg'>{error?.message}</span>
             </div>
         );
     }
@@ -105,9 +143,10 @@ export default function TableOrderHistory() {
                     <TableHeader className='bg-slate-200'>
                         <TableRow>
                             <TableHead className='w-[100px] pl-4'>ID</TableHead>
+                            <TableHead>Número de orden</TableHead>
+                            <TableHead>Nombre del Empleado</TableHead>
                             <TableHead>Creación de Orden</TableHead>
                             <TableHead>Finalización de Orden</TableHead>
-                            <TableHead>Nombre del Empleado</TableHead>
                             <TableHead>Monto total</TableHead>
                             <TableHead>Estado de la orden</TableHead>
                             <TableHead className='text-center'>
@@ -121,16 +160,19 @@ export default function TableOrderHistory() {
                                 <TableCell className='font-medium pl-6'>
                                     {order.id_order}
                                 </TableCell>
+                                <TableCell> {order.order_number}</TableCell>
+                                <TableCell>
+                                    {order.employee.names}{' '}
+                                    {order.employee.last_name}
+                                </TableCell>
+
                                 <TableCell>
                                     {getDateToOrder(order.created_at)}
                                 </TableCell>
                                 <TableCell>
                                     {getDateToOrder(order.updated_at)}
                                 </TableCell>
-                                <TableCell>
-                                    {order.employee.names}{' '}
-                                    {order.employee.last_name}
-                                </TableCell>
+
                                 <TableCell>
                                     {formatCurrency(order.total)}
                                 </TableCell>

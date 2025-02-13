@@ -22,7 +22,6 @@ export const getCategoriesPagination = async ({ keyword, page }: GetCategoriesAP
     const { data } = await api.get<CategoryPagination>('/category/all', { params: { keyword, page } });
     return data
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message)
     }
@@ -60,7 +59,6 @@ export const createCategory = async (category: CategoryForm) => {
     const { data } = await api.post('/category', category);
     return data;
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message)
     } else {

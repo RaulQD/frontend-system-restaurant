@@ -28,13 +28,10 @@ export const ProtectedRoutes = ({
         );
     }
 
-    if (isError || !user)
+    if (isError || !user) {
+        localStorage.removeItem('token'); // limpiar el token si hay un error
         return <Navigate to='/auth/login' state={{ from: location }} replace />;
-
-    // //USUARIO ADMINISTRADOR TIENE ACCESO A TODAS LAS RUTAS
-    // if (user.role === 'administrador') {
-    //     return children;
-    // }
+    }
 
     if (!allowedRoles.includes(user.role)) {
         return (

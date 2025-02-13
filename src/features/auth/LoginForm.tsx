@@ -39,14 +39,14 @@ export default function LoginForm() {
                     onSubmit={handleSubmit(onSubmit)}
                     noValidate>
                     <div>
-                        <Label htmlFor='email'>Email</Label>
+                        <Label htmlFor='username'>Usuario</Label>
                         <div className='mt-2'>
                             <Input
                                 type='text'
                                 id='username'
                                 autoComplete='off'
                                 placeholder='usuario'
-                                register={register('username', {
+                                {...register('username', {
                                     required: 'El usuario es requerido.',
                                 })}
                             />
@@ -67,7 +67,7 @@ export default function LoginForm() {
                                 id='password'
                                 autoComplete='off'
                                 placeholder='*********'
-                                register={register('password', {
+                                {...register('password', {
                                     required: 'La contraseña es requerida.',
                                     minLength: {
                                         value: 8,
@@ -91,7 +91,7 @@ export default function LoginForm() {
                                 />
                                 <label
                                     htmlFor='showPassword'
-                                    className='ml-2 text-sm'>
+                                    className='ml-2 text-sm'> 
                                     Mostrar contraseñas
                                 </label>
                             </div>

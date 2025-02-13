@@ -1,7 +1,7 @@
 import { useTableInfo } from '@/features/manage-table/useTableInfo';
-import FilterOrder from '@/features/order/components/FilterOrder';
-import MenuList from '@/features/order/components/MenuList';
-import OrderList from '@/features/order/components/OrderList';
+import FilterOrder from '@/features/order/FilterOrder';
+import MenuList from '@/features/order/MenuList';
+import OrderList from '@/features/order/OrderList';
 import { useDecreaseQuantity } from '@/features/order/useDecreaseQuantity';
 import { useGetOrderActiveForTable } from '@/features/order/useGetOrderActiveForTable';
 import { useParams } from 'react-router-dom';
@@ -13,9 +13,6 @@ export default function Orders() {
     const { decreaseQuantity } = useDecreaseQuantity();
     const orderId = activeOrder?.id_order || 0;
 
-
-    //INHABILITAR EL BOTON DE DISMINUIR Y AUMENTAR LA CANTIDAD DE PLATOS CUANDO LA ORDEN ESTA EN ESTADO DE SERVIDO, LISTO PARA SERVIR O EN PREPARACION, SI ESTA EN ESTADO PENDIENTE SE HABILITA
-    
     const handleDecreaseQuantity = (itemId: number) => {
         if(!orderId) return;
         decreaseQuantity({ orderId, itemId, quantity: 1 });

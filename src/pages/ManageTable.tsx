@@ -27,7 +27,7 @@ export default function ManageTable() {
                                 {getCurrentDate()}
                             </span>
                         </div>
-                        <div className='flex items-center justify-start gap-4 mt-2'>
+                        <div className='flex items-center justify-start gap-4 mt-4'>
                             <div className='flex items-center justify-center gap-3'>
                                 <span className='bg-blue-300 w-2 h-2 py-1 px-1 block rounded-full'></span>
                                 <p className='text-sm font-outfit font-medium'>

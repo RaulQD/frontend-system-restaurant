@@ -6,7 +6,7 @@ import { Category } from '@/types/category';
 export default function FilterOrder() {
     return (
         <div className='flex flex-col gap-4 '>
-            <FilterInput filterValue='keyword' />
+            <FilterInput filterValue='keyword' placeholder='Buscar plato'/>
             <FilterButton<Category>
                 filterValue='category'
                 queryKey={['category']}

@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './layout/Layout';
 import AuthLayout from './layout/AuthLayout';
 import Login from './pages/Login';
@@ -12,7 +12,8 @@ import Category from './pages/Category';
 import OrderHistory from './pages/OrderHistory';
 import Orders from './pages/Orders';
 import UnAuthorized from './pages/UnAuthorized';
-import { useUser } from './hooks/useUser';
+import EditEmployee from './features/admin-personal/EditEmployee';
+import Dashboard from './pages/Dashboard';
 
 const ROLES = {
     Administrador: 'administrador',
@@ -21,28 +22,19 @@ const ROLES = {
 };
 
 export default function AppRoutes() {
-    const { user } = useUser();
-    const getDefaultRoutes = () => {
-        if (!user) return '/auth/login';
-        switch (user.role) {
-            case ROLES.Administrador:
-                return '/dashboard/personal';
-            case ROLES.Cocinero:
-                return '/dashboard/kitchen';
-            case ROLES.Mesero:
-                return '/dashboard/tables';
-            default:
-                return '/un-authorized';
-        }
-    };
     return (
         <BrowserRouter>
             <Routes>
-                <Route
-                    path='/'
-                    element={<Navigate to={getDefaultRoutes()} replace />}
-                />
                 <Route path='dashboard' element={<Layout />}>
+                    <Route
+                        path='home'
+                        element={
+                            <ProtectedRoutes
+                                allowedRoles={[ROLES.Administrador]}>
+                                <Dashboard />
+                            </ProtectedRoutes>
+                        }
+                    />
                     <Route
                         path='empleados'
                         element={
@@ -58,6 +50,15 @@ export default function AppRoutes() {
                             <ProtectedRoutes
                                 allowedRoles={[ROLES.Administrador]}>
                                 <AddEmployee />
+                            </ProtectedRoutes>
+                        }
+                    />
+                    <Route
+                        path='empleados/:employeeId/edit'
+                        element={
+                            <ProtectedRoutes
+                                allowedRoles={[ROLES.Administrador]}>
+                                <EditEmployee />
                             </ProtectedRoutes>
                         }
                     />
@@ -106,7 +107,6 @@ export default function AppRoutes() {
 
                     <Route
                         path='kitchen'
-                        index
                         element={
                             <ProtectedRoutes
                                 allowedRoles={[
@@ -117,13 +117,21 @@ export default function AppRoutes() {
                             </ProtectedRoutes>
                         }
                     />
-                    <Route path='order-history' element={<OrderHistory />} />
+                    <Route
+                        path='order-history'
+                        element={
+                            <ProtectedRoutes
+                                allowedRoles={[ROLES.Administrador]}>
+                                <OrderHistory />
+                            </ProtectedRoutes>
+                        }
+                    />
                 </Route>
 
-                <Route path='/un-authorized' element={<UnAuthorized />} />
-                <Route path='/auth/' element={<AuthLayout />}>
+                <Route path='auth' element={<AuthLayout />}>
                     <Route path='login' element={<Login />} />
                 </Route>
+                <Route path='/un-authorized' element={<UnAuthorized />} />
             </Routes>
         </BrowserRouter>
     );

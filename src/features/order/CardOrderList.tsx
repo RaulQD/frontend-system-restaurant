@@ -1,21 +1,28 @@
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { OrderItem } from '@/types/order';
-import { formatCurrency } from '../../../utils/formatCurrency';
 import { Badge } from '@/components/ui/badge';
-import { TrashIcon } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { useParams } from 'react-router-dom';
 
 type CardOrderListProps = {
     orderItem: OrderItem;
     handleDecreaseQuantity: (dishId: number) => void;
     handleDisableButton: (status: string) => boolean;
+    handleChangeStatusItem: (
+        orderId: number,
+        itemId: number,
+        status: string
+    ) => void;
 };
 
 export default function CardOrderList({
     orderItem,
     handleDecreaseQuantity,
     handleDisableButton,
+    handleChangeStatusItem,
 }: CardOrderListProps) {
+    const { orderId } = useParams();
     const totalQuantityItems = orderItem.unit_price * orderItem.quantity;
     //OBTENER LOS COLORES DEPENDIENDO DEL ESTADO DE LA ORDEN CON SWITCH
     const statusOrderItemsColor = (status: string) => {
@@ -36,7 +43,16 @@ export default function CardOrderList({
                 );
             case 'LISTO PARA SERVIR':
                 return (
-                    <Badge variant='muted' className='text-black font-semibold'>
+                    <Badge
+                        variant='muted'
+                        className='text-black font-semibold'
+                        onClick={() =>
+                            handleChangeStatusItem(
+                                Number(orderId),
+                                orderItem.id_item,
+                                'SERVIDO'
+                            )
+                        }>
                         Listo para servir
                     </Badge>
                 );
@@ -48,7 +64,7 @@ export default function CardOrderList({
                         Servido
                     </Badge>
                 );
-            case 'COMPLETADO':
+            case 'PAGADO':
                 return (
                     <Badge
                         variant='success'
@@ -60,7 +76,6 @@ export default function CardOrderList({
                 return 'primary';
         }
     };
-
 
     return (
         <Card>
@@ -85,7 +100,11 @@ export default function CardOrderList({
                                 <Button
                                     variant={'principal'}
                                     size={'sm'}
-                                    className={ orderItem.status === 'PENDIENTE' ? '' : 'pointer-events-none opacity-50' }
+                                    className={
+                                        orderItem.status === 'PENDIENTE'
+                                            ? ''
+                                            : 'pointer-events-none opacity-50'
+                                    }
                                     onClick={() =>
                                         handleDecreaseQuantity(
                                             orderItem.id_item
@@ -107,15 +126,11 @@ export default function CardOrderList({
                             </div>
                         </div>
                         <div className='flex flex-col items-end gap-1'>
-                            <span>
-                                <TrashIcon className='w-5 h-5 text-gray-500' />
-                            </span>
                             <span className='font-medium'>
                                 {formatCurrency(totalQuantityItems)}
                             </span>
-                            <span className='text-[0.5rem]'>
-                                {statusOrderItemsColor(orderItem.status)}
-                            </span>
+
+                            {statusOrderItemsColor(orderItem.status)}
                         </div>
                     </div>
                 </div>

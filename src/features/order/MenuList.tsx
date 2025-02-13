@@ -1,8 +1,9 @@
 import CardDishes from './CardDishes';
-import { useDishes } from '../../dishes/useDishes';
+import { useDishes } from '../dishes/useDishes';
 import Spinner from '@/components/Spinner';
 import { Order } from '@/types/order';
-import { useAddItemToOrder } from '../useAddItemToOrder';
+import { useAddItemToOrder } from './useAddItemToOrder';
+import PaginationI from '@/components/PaginationI';
 type MenuListProps = {
     // handleAddItemToOrder: (dishId: number, quantity: number) => void;
     orderId: Order['id_order'];
@@ -26,11 +27,11 @@ export default function MenuList({ orderId }: MenuListProps) {
             </div>
         );
     }
-    const onAddItem = (dishId: number, quantity: number = 1) => {
+    const onAddItem = (dishId: number) => {
         addItemToOrder({
             order_id: orderId,
             dish_id: dishId,
-            quantity,
+            quantity: 1,
         });
     };
 
@@ -40,13 +41,23 @@ export default function MenuList({ orderId }: MenuListProps) {
                 <h1 className='font-medium font-outfit text-xl'>
                     Elije tu plato
                 </h1>
-                <ul className='grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-4 mt-6'>
+                <ul className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-6'>
                     {dishes?.results.map((dish) => (
-                        <li key={dish.id} onClick={() => onAddItem(dish.id, 1)}>
+                        <li
+                            key={dish.id}
+                            onClick={() => onAddItem(dish.id)}
+                            className={`
+                                ${
+                                    dish.available === 'NO DISPONIBLE'
+                                        ? 'opacity-35 pointer-events-none'
+                                        : 'cursor-pointer opacity-100'
+                                }
+                            `}>
                             <CardDishes dish={dish} />
                         </li>
                     ))}
                 </ul>
+                <PaginationI totalItems={dishes?.pagination.totalDishes || 0} />
             </section>
         </>
     );

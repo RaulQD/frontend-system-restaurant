@@ -23,15 +23,19 @@ export default {
 					DEFAULT: 'hsl(var(--popover))',
 					foreground: 'hsl(var(--popover-foreground))'
 				},
-				success:{
+				success: {
 					DEFAULT: 'hsl(var(--success))',
 					foreground: 'hsl(var(--success-foreground))'
 				},
-				warning:{
+				successdark: {
+					DEFAULT: 'hsl(var(--success-dark))',
+					foreground: 'hsl(var(--success-dark-foreground))'
+				},
+				warning: {
 					DEFAULT: 'hsl(var(--warning))',
 					foreground: 'hsl(var(--warning-foreground))'
 				},
-				info:{
+				info: {
 					DEFAULT: 'hsl(var(--info))',
 					foreground: 'hsl(var(--info-foreground))'
 				},
@@ -55,15 +59,19 @@ export default {
 					DEFAULT: 'hsl(var(--destructive))',
 					foreground: 'hsl(var(--destructive-foreground))'
 				},
-				principal:{
+				principal: {
 					DEFAULT: 'hsl(var(--principal))',
-					foreground: 'hsl(var(--principal-foreground))'	 
+					foreground: 'hsl(var(--principal-foreground))'
 				},
-				payment:{
+				payment: {
 					DEFAULT: 'hsl(var(--payment))',
 					foreground: 'hsl(var(--payment-foreground))'
 				},
-				
+				served: {
+					DEFAULT: 'hsl(var(--served))',
+					foreground: 'hsl(var(--served-foreground))'
+				},
+
 
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

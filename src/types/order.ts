@@ -8,6 +8,7 @@ export type Order = {
   table_id: number;
   num_table: number;
   order_status: string;
+  order_number: string;
   total: string;
   created_at: Date;
   items: Items[];
@@ -39,9 +40,10 @@ export type OrderCreateData = {
 // Para listar órdenes en un panel
 export type OrdersList = {
   id_order: number; // Identificador de la orden
-  names: string; // Nombre del cliente o referencia
-  num_table: number; // Número de la mesa
   order_status: string; // Estado de la orden
+  order_number: string; // Número de la orden
+  employee: Employee;
+  table: Tables;
   total: number; // Total de la orden
   created_at: string; // Fecha de creación
 };
@@ -79,6 +81,7 @@ export type OrderResult = {
   employee: Employee;
   tables: Tables;
   order_status: string;
+  order_number: string;
   total: number;
   created_at: Date;
   updated_at: Date;

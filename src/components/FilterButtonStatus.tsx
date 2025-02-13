@@ -10,9 +10,10 @@ type StatusOptionProps = {
     }[];
 };
 
-export default function FilterButtonStatus({ statusOptions }: StatusOptionProps) {
+export default function FilterButtonStatus({
+    statusOptions,
+}: StatusOptionProps) {
     const [searchParams, setSearchParams] = useSearchParams();
-
     useEffect(() => {
         if (!searchParams.get('status')) {
             setSearchParams({ status: 'todos' });
@@ -29,15 +30,19 @@ export default function FilterButtonStatus({ statusOptions }: StatusOptionProps)
         }
         setSearchParams(searchParams);
     };
+
     return (
         <>
-            <div className='flex flex-wrap md:items-center justify-start gap-2'>
+            {/* Desktop: Botones */}
+            <div className='flex md:items-center justify-start gap-2'>
                 {statusOptions.map((status) => (
                     <Button
                         key={status.key}
                         onClick={() => handleStatusChange(status.value)}
                         variant={
-                            searchParams.get('status') === status.value
+                            searchParams.get('status') === status.value ||
+                            (!searchParams.get('status') &&
+                                status.value === 'todos') // Para marcar "Todos" por defecto
                                 ? 'principal'
                                 : 'outline'
                         }>

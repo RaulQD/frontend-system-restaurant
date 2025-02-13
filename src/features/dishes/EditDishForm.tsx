@@ -71,10 +71,8 @@ export default function EditDishForm({
                                     type='file'
                                     id='image_url'
                                     className='hidden'
-                                    {...register('image_url', {
-                                        required: 'Sube una imagen del plato.',
-                                        onChange: handleImageChange,
-                                    })}
+                                    accept="image/*" // 🔥 Asegura que solo acepte imágenes
+                                    onChange={handleImageChange} // 🔥 No uses register aquí
                                 />
                             </>
                         )}
@@ -140,7 +138,7 @@ export default function EditDishForm({
                         </ErrorMessage>
                     )}
                 </div>
-                <div className=''>
+                <div className='space-y-2'>
                     <Label htmlFor='price'>Precio</Label>
                     <Input
                         id='price'
@@ -152,7 +150,7 @@ export default function EditDishForm({
                             required: 'Ingresa el precio.',
                             min: {
                                 value: 5.01,
-                                message: 'El precio debe ser mayor a S/.5.00.',
+                                message: 'El precio debe ser mayor a S/.4.99.',
                             },
                             valueAsNumber: true,
                         })}
@@ -161,7 +159,7 @@ export default function EditDishForm({
                         <ErrorMessage>{errors.price.message}</ErrorMessage>
                     )}
                 </div>
-                <div className=''>
+                <div className='space-y-2'>
                     <Label htmlFor='available'>available</Label>
                     <select
                         id='available'

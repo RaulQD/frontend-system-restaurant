@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { useGetOrderSummary } from '../useGetOrderSummary';
+import { useGetOrderSummary } from './useGetOrderSummary';
 import PaymentModal from './PaymentModal';
 
 export default function OrderSummaryData() {

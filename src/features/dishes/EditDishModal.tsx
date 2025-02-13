@@ -47,16 +47,9 @@ export default function EditDishModal({
         formData.append('category_name', data.category_name);
         formData.append('available', data.available);
         //AÑADIR LA IMAGEN SELECCIONADA
-        // Añadir imagen al FormData
+        // AÑADIR LA IMAGEN SELECCIONADA
         if (selectedImage instanceof File) {
-            // Si se seleccionó una nueva imagen
-            formData.append('image_url', selectedImage);
-        } else if (typeof selectedImage === 'string') {
-            // Si se mantiene la imagen existente (URL)
-            formData.append('existing_image_url', selectedImage);
-        } else {
-            console.error('No se ha seleccionado ninguna imagen');
-            return;
+            formData.append('image', selectedImage);
         }
 
         const datadish = {
@@ -65,9 +58,9 @@ export default function EditDishModal({
         };
         editDish(datadish, {
             onSuccess: () => {
+                setSelectedImage(null);
                 navigate(location.pathname, { replace: true });
                 reset();
-                setSelectedImage(null);
             },
         });
     };
@@ -75,20 +68,23 @@ export default function EditDishModal({
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setSelectedImage(reader.result as string); // Establecer la URL de datos
-            };
-            reader.readAsDataURL(file); // Leer el archivo como URL de datos
+            setSelectedImage(file); // Guardamos el archivo directamente
         }
     };
     return (
         <ResponsiveDialog
             title='Editar plato'
             open={open}
-            description='Aquí puedes editar los datos del plato.'>
+            description='Aquí puedes editar los datos del plato.'
+            size='lg'>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <EditDishForm errors={errors} register={register} handleImageChange={handleImageChange} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>
+                <EditDishForm
+                    errors={errors}
+                    register={register}
+                    handleImageChange={handleImageChange}
+                    selectedImage={selectedImage}
+                    setSelectedImage={setSelectedImage}
+                />
                 <div className='flex items-center justify-end gap-2'>
                     <Button
                         type='button'
@@ -100,13 +96,15 @@ export default function EditDishModal({
                         Cancelar
                     </Button>
                     <Button variant={'principal'}>
-                        <BiUpload className='mr-2' />
                         {isPending ? (
                             <div className='flex justify-center'>
                                 <SpinnerMini />
                             </div>
                         ) : (
-                            'Agregar plato'
+                            <>
+                                <BiUpload className='mr-2' />
+                                Guardar plato
+                            </>
                         )}
                     </Button>
                 </div>

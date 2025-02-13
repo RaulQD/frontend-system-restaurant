@@ -25,9 +25,20 @@ import {
     Pencil2Icon,
     TrashIcon,
 } from '@radix-ui/react-icons';
+import { useNavigate } from 'react-router-dom';
+import AlertMessageDialog from '@/components/AlertMessageDialog';
+import { useState } from 'react';
+import { Employee } from '@/types/employee';
+import { useDelete } from './useDelete';
 
 export default function TableEmployees() {
+    const navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedEmployeeId, setSelectedEmployeeid] = useState<number | null>(
+        null
+    );
     const { employees, isLoading, error } = useEmployees();
+    const { employeeDelete} = useDelete();
 
     if (isLoading) {
         return (
@@ -80,6 +91,16 @@ export default function TableEmployees() {
                 );
         }
     };
+    const handleDeleteClick = (employeeId: Employee['id']) => {
+        setSelectedEmployeeid(employeeId);
+        setIsOpen(true);
+    };
+    const handleDeleteEmployee = () => {
+        if (selectedEmployeeId) {
+            employeeDelete(selectedEmployeeId);
+            setIsOpen(false);
+        }
+    };
 
     return (
         <>
@@ -96,7 +117,7 @@ export default function TableEmployees() {
                                 <TableHead>Apellidos</TableHead>
                                 <TableHead>Salary</TableHead>
                                 <TableHead>Fecha de Inicio</TableHead>
-                                <TableHead>Role</TableHead>
+                                <TableHead>Puesto</TableHead>
                                 <TableHead>Estado</TableHead>
                                 <TableHead className='text-right'>
                                     Acciones
@@ -151,8 +172,9 @@ export default function TableEmployees() {
                                                     <DropdownMenuItem
                                                         className='cursor-pointer'
                                                         onClick={() =>
-                                                            console.log(
-                                                                'editar'
+                                                            navigate(
+                                                                location.pathname +
+                                                                    `/${employee.id}/edit`
                                                             )
                                                         }>
                                                         <Pencil2Icon className='w-4 h-4 mr-2' />
@@ -169,8 +191,8 @@ export default function TableEmployees() {
                                                     <DropdownMenuItem
                                                         className='text-red-500 cursor-pointer'
                                                         onClick={() =>
-                                                            console.log(
-                                                                'eliminar'
+                                                            handleDeleteClick(
+                                                                employee.id
                                                             )
                                                         }>
                                                         <TrashIcon className='w-4 h-4 mr-2' />
@@ -187,6 +209,13 @@ export default function TableEmployees() {
                 </div>
                 <PaginationI
                     totalItems={employees?.pagination.totalEmployees || 0}
+                />
+                <AlertMessageDialog
+                    title='Eliminar Empleado'
+                    description='¿Estás seguro de eliminar este empleado?'
+                    setIsOpen={setIsOpen}
+                    isOpen={isOpen}
+                    onConfirm={handleDeleteEmployee}
                 />
             </div>
         </>

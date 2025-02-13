@@ -1,7 +1,13 @@
-import { BiCart, BiDish, BiSolidReport, BiUser } from 'react-icons/bi';
+import {
+    BiCart,
+    BiDish,
+    BiFoodMenu,
+    BiSolidReport,
+    BiUser,
+} from 'react-icons/bi';
 import SidebarDropdown from './SidebarDropdown';
 import SidebarItems from './SidebarItems';
-import { MdOutlineTableBar } from 'react-icons/md';
+import { MdDashboard, MdOutlineTableBar } from 'react-icons/md';
 import { useUser } from '@/hooks/useUser';
 
 type SidebarProps = {
@@ -22,6 +28,14 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
             <div className='flex-1 flex flex-col pt-6 pb-4 overflow-y-auto'>
                 <div className='flex-1 px-3 bg-white space-y-1'>
                     <ul className='space-y-2 pb-2 font-outfit'>
+                        {user?.role === 'administrador' && (
+                            <SidebarItems
+                                path='/dashboard/home'
+                                label='Dashboard'
+                                Icon={MdDashboard}
+                            />
+                        )}
+
                         {(user?.role === 'mesero' ||
                             user?.role === 'administrador') && (
                             <SidebarItems
@@ -31,48 +45,61 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                             />
                         )}
                         {user?.role === 'administrador' && (
-                            <SidebarDropdown
-                                label='Ventas'
-                                Icon={BiCart}
-                                menuItems={[
-                                    {
-                                        path: '/dashboard/dishes',
-                                        label: 'Platos',
-                                    },
+                            <>
+                                <SidebarDropdown
+                                    label='Ventas'
+                                    Icon={BiCart}
+                                    menuItems={[
+                                        {
+                                            path: '/dashboard/dishes',
+                                            label: 'Platos',
+                                        },
 
-                                    {
-                                        path: '/dashboard/category',
-                                        label: 'Categorias',
-                                    },
-                                ]}
-                            />
+                                        {
+                                            path: '/dashboard/category',
+                                            label: 'Categorias',
+                                        },
+                                    ]}
+                                />
+                                <SidebarDropdown
+                                    label='Personal'
+                                    Icon={BiUser}
+                                    menuItems={[
+                                        {
+                                            path: '/dashboard/empleados',
+                                            label: 'Administrar Personal',
+                                        },
+                                    ]}
+                                />
+                                <SidebarDropdown
+                                    label='Reportes'
+                                    Icon={BiSolidReport}
+                                    menuItems={[
+                                        {
+                                            path: '/dashboard/reports-month',
+                                            label: 'Total ventas por mes',
+                                        },
+                                        {
+                                            path: '/dashboard/reports-users',
+                                            label: 'Ventas por trabajador',
+                                        },
+                                    ]}
+                                />
+                                <SidebarDropdown
+                                    label='Ordenes'
+                                    Icon={BiFoodMenu}
+                                    menuItems={[
+                                        {
+                                            path: '/dashboard/order-history',
+                                            label: 'Historial de ordenes',
+                                        },
+                                    ]}
+                                />
+                            </>
                         )}
 
-                        <SidebarDropdown
-                            label='Personal'
-                            Icon={BiUser}
-                            menuItems={[
-                                {
-                                    path: '/dashboard/empleados',
-                                    label: 'Administrar Personal',
-                                },
-                            ]}
-                        />
-                        <SidebarDropdown
-                            label='Reportes'
-                            Icon={BiSolidReport}
-                            menuItems={[
-                                {
-                                    path: '/dashboard/reports-month',
-                                    label: 'Total ventas por mes',
-                                },
-                                {
-                                    path: '/dashboard/reports-users',
-                                    label: 'Ventas por trabajador',
-                                },
-                            ]}
-                        />
-                        {(user?.role === 'cocinero' || user?.role === 'administrador') && (
+                        {(user?.role === 'cocinero' ||
+                            user?.role === 'administrador') && (
                             <SidebarDropdown
                                 label='Cocina'
                                 Icon={BiDish}
@@ -84,17 +111,6 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                 ]}
                             />
                         )}
-
-                        <SidebarDropdown
-                            label='Ordenes'
-                            Icon={BiDish}
-                            menuItems={[
-                                {
-                                    path: '/dashboard/order-history',
-                                    label: 'Historial de ordenes',
-                                },
-                            ]}
-                        />
                     </ul>
                 </div>
             </div>

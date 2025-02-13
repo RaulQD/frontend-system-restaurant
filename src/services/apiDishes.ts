@@ -39,7 +39,6 @@ export const createDish = async (formData: FormData) => {
 
     return data;
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message)
     } else {

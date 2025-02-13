@@ -29,7 +29,7 @@ export default function TableList() {
         }
     }, [searchParams, setSearchParams]);
 
-    const handleTableClickv2 = (
+    const handleTableClick = (
         tableId: Tables['id_table'],
         tableStatus: Tables['status']
     ) => {
@@ -85,7 +85,7 @@ export default function TableList() {
                         className='cursor-pointer'
                         key={table.id_table}
                         onClick={() =>
-                            handleTableClickv2(table.id_table, table.status)
+                            handleTableClick(table.id_table, table.status)
                         }>
                         <CardTable table={table} />
                     </li>

@@ -5,10 +5,11 @@ import { useState } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { Order } from '@/types/order';
 import { formatCurrency } from '@/utils';
-import { useSendOrderToKitchen } from '../useSendOrderToKitchen';
-import { useCancelOrder } from '../useCancelOrder';
+import { useSendOrderToKitchen } from './useSendOrderToKitchen';
+import { useCancelOrder } from './useCancelOrder';
 import { useNavigate } from 'react-router-dom';
 import OrderSummaryData from './OrderSummaryData';
+import { useUpdateItemStatus } from '../kitchen/useUpdateItemStatus';
 
 type OrderListProps = {
     activeOrder: Order | undefined;
@@ -23,6 +24,7 @@ export default function OrderList({
     const [showCart, setShowCart] = useState(false);
     const { sendOrder } = useSendOrderToKitchen();
     const { cancellationOrder } = useCancelOrder();
+    const { updateStatus } = useUpdateItemStatus();
     const subTotal =
         activeOrder?.items.reduce(
             (acc, items) => acc + items.quantity * (items.unit_price || 0),
@@ -55,13 +57,18 @@ export default function OrderList({
     };
     const handleCancelOrder = () => {
         if (!activeOrder?.id_order) return;
-      
+
         cancellationOrder(activeOrder?.id_order, {
             onSuccess: () => {
                 navigate('/dashboard/tables');
             },
         });
     };
+
+    //CAMBIAR EL ESTADO DEL ITEM DE LA ORDEN A SERVIDO
+    const handleChangeStatusItem = (orderId:number, itemId:number, status:string) => {
+        updateStatus({orderId, itemId, status})
+    }
 
     return (
         <>
@@ -74,7 +81,7 @@ export default function OrderList({
                             Detalle de la orden
                         </h1>
                         <span className='text-gray-500 text-sm'>
-                            #FH-0000001
+                            {activeOrder?.order_number}
                         </span>
                     </div>
                     <Separator orientation='horizontal' />
@@ -90,6 +97,7 @@ export default function OrderList({
                                         handleDecreaseQuantity
                                     }
                                     handleDisableButton={handleDisableButton}
+                                    handleChangeStatusItem={handleChangeStatusItem}
                                 />
                             </li>
                         ))}

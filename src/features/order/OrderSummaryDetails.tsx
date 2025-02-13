@@ -1,5 +1,5 @@
 import { OrderSummary } from '@/types/order';
-import { formatCurrency } from '../../../utils/formatCurrency';
+import { formatCurrency } from '../../utils/formatCurrency';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@/components/ErrorMessage';
 import { useUser } from '@/hooks/useUser';
-import { useProcessPayment } from '../useProcessPayment';
+import { useProcessPayment } from './useProcessPayment';
 import { useNavigate } from 'react-router-dom';
 import SpinnerMini from '@/components/SpinnerMini';
 
@@ -60,9 +60,9 @@ export default function OrderSummaryDetails({
         const calculateChange = (value - subTotal).toFixed(2);
         setChange(Number(calculateChange));
         // Limpiar errores de validación si el valor es válido
-        if (value >= subTotal) {
-            clearErrors('amount_received');
-        }
+        // if (value >= subTotal) {
+        //     clearErrors('amount_received');
+        // }
     };
 
     const desglosarIGV = (subTotal: number) => {
@@ -170,11 +170,12 @@ export default function OrderSummaryDetails({
                             </div>
 
                             <div className='flex flex-col gap-2'>
-                                <Label htmlFor='amount_received'>
+                                <Label htmlFor='amount_received' id='amount_received'>
                                     Monto recibido :
                                 </Label>
                                 <Input
                                     type='number'
+                                    id='amount_received'
                                     placeholder='Monto recibido'
                                     {...register('amount_received', {
                                         required: 'Ingrese el monto recibido.',

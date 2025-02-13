@@ -24,19 +24,19 @@ export function FilterSelect<T>({
     onValueChange,
 }: FilterSelectProps<T>) {
     return (
-        <Select
-            onValueChange={onValueChange}
-            defaultValue={currentFilterValue || 'all'}>
-            <SelectTrigger className='w-64 bg-white'>
-                <SelectValue placeholder='Selecciona una categoría' />
+        <Select onValueChange={onValueChange} value={currentFilterValue || 'todos'}>
+            <SelectTrigger className='w-full bg-white'>
+                <SelectValue placeholder='Selecciona un estado' />
             </SelectTrigger>
             <SelectContent>
-                {showAllButton && <SelectItem value='all'>Todos</SelectItem>}
-                {items?.map((item) => (
-                    <SelectItem key={getValue(item)} value={getValue(item)}>
-                        {getLabel(item)}
-                    </SelectItem>
-                ))}
+                {showAllButton && <SelectItem value='todos'>Todos</SelectItem>}
+                {items
+                    ?.filter((item) => getValue(item) !== 'todos') // Evitar duplicado
+                    .map((item) => (
+                        <SelectItem key={getValue(item)} value={getValue(item)}>
+                            {getLabel(item)}
+                        </SelectItem>
+                    ))}
             </SelectContent>
         </Select>
     );

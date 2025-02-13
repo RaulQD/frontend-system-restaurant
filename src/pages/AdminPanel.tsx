@@ -1,23 +1,36 @@
 import FilterButtonStatus from '@/components/FilterButtonStatus';
 import FilterInput from '@/components/FilterInput';
-import SortBy from '@/components/SortBy';
+import { FilterSelect } from '@/components/FilterSelect';
 import { Button } from '@/components/ui/button';
 
 import TableEmployees from '@/features/admin-personal/TableEmployees';
-// import { useState } from 'react';
+import { useMediaQuery } from '@/hooks/use-media-query';
 
 import { BiPlus } from 'react-icons/bi';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
+const statusOptions = [
+    { key: 'all', label: 'Todos', value: 'todos' },
+    { key: 'active', label: 'Activos', value: 'activo' },
+    { key: 'vacation', label: 'En Vacaciones', value: 'en vacaciones' },
+    { key: 'inactive', label: 'No Activo', value: 'no activo' },
+    { key: 'suspended', label: 'Suspendido', value: 'suspendido' },
+];
 export default function AdminPanel() {
     const navigate = useNavigate();
-    const statusOptions = [
-        { key: 'all', label: 'Todos', value: 'todos' },
-        { key: 'active', label: 'Activos', value: 'activo' },
-        { key: 'vacation', label: 'En Vacaciones', value: 'en vacaciones' },
-        { key: 'inactive', label: 'No Activo', value: 'no activo' },
-        { key: 'suspended', label: 'Suspendido', value: 'suspendido' },
-    ];
+    const isMobile = useMediaQuery("(min-width: 768px)");
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const currentStatus = searchParams.get('status') || 'todos';
+
+    const handleFilterChange = (value: string) => {
+        if (value === 'todos') {
+            searchParams.delete('status');
+        } else {
+            searchParams.set('status', value);
+        }
+        setSearchParams(searchParams);
+    };
 
     return (
         <section className=''>
@@ -40,11 +53,24 @@ export default function AdminPanel() {
                 </Button>
             </div>
             <div className='mt-14'>
-                <div className='flex flex-col items-start gap-4 xl:flex-row xl:items-center xl:justify-between'>
-                    <FilterButtonStatus statusOptions={statusOptions}/>
-                    <div className='flex flex-col md:flex-row md:items-center md:justify-end gap-2'>
-                        <FilterInput filterValue='keyword' placeholder='Buscar empleado'/>
-                        <SortBy />
+                <div className='mt-14 '>
+                    <div className='flex flex-col items-start gap-4 xl:flex-row xl:items-center xl:justify-between'>
+                        {isMobile ? (
+                            <FilterButtonStatus statusOptions={statusOptions} />
+                        ) : (
+                            <FilterSelect
+                                items={statusOptions}
+                                currentFilterValue={currentStatus}
+                                showAllButton={true}
+                                getLabel={(item) => item.label}
+                                getValue={(item) => item.value}
+                                onValueChange={handleFilterChange}
+                            />
+                        )}
+                        <FilterInput
+                            filterValue='keyword'
+                            placeholder='Buscar orden'
+                        />
                     </div>
                 </div>
             </div>

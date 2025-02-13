@@ -24,7 +24,7 @@ export default function FilterInput({ filterValue, placeholder }: { filterValue:
                 type='text'
                 id='search'
                 placeholder={placeholder}
-                className='pl-10 bg-white outline-none'
+                className='pl-10 bg-white outline-none w-full md:w-auto '
                 value={currentFilter}
                 onChange={(e) => handleInputSearch(e.target.value)}
             />

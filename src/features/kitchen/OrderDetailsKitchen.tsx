@@ -88,7 +88,7 @@ export default function OrderDetailsKitchen({
                                 </td>
                                 <td className='px-3 py-2 text-sm text-center'>
                                     {item.status === 'SERVIDO' ? (
-                                        <Badge variant={'success'}>
+                                        <Badge variant={'success'} className='text-white font-semibold'>
                                             Servido
                                         </Badge>
                                     ) : (

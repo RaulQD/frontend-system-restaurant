@@ -7,16 +7,16 @@ export const useOrderHistory = () => {
   const queryclient = useQueryClient();
   const [searchParams] = useSearchParams();
 
-  const filterStatus = searchParams.get('status') || '';
+  const filterStatus = searchParams.get('status') || null;
   const status = !filterStatus || filterStatus === 'todos' ? '' : filterStatus;
 
-  const keywordValue = searchParams.get('keyword') || '';
+  const keywordValue = searchParams.get('keyword') || null;
   const keyword = !keywordValue ? '' : keywordValue;
 
-  const startDateValue = searchParams.get('startDate') || '';
+  const startDateValue = searchParams.get('startDate') || null;
   const startDate = !startDateValue ? '' : startDateValue;
 
-  const endDateValue = searchParams.get('endDate') || '';
+  const endDateValue = searchParams.get('endDate') || null;
   const endDate = !endDateValue ? '' : endDateValue;
 
 
@@ -26,6 +26,7 @@ export const useOrderHistory = () => {
     queryKey: ['orders', keyword, status, startDate, endDate, page],
     queryFn: () => getOrders({ keyword, status, startDate, endDate, page }),
     retry: false,
+
   })
   const pageCount = Math.ceil((orders?.pagination.totalOrders || 0) / 10);
 
