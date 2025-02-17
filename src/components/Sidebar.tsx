@@ -1,5 +1,6 @@
 import {
     BiCart,
+    BiCog,
     BiDish,
     BiFoodMenu,
     BiSolidReport,
@@ -39,7 +40,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                         {(user?.role === 'mesero' ||
                             user?.role === 'administrador') && (
                             <SidebarItems
-                                path='/dashboard/tables'
+                                path='/dashboard/table'
                                 label='Manejo de Mesas'
                                 Icon={MdOutlineTableBar}
                             />
@@ -66,17 +67,17 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                     Icon={BiUser}
                                     menuItems={[
                                         {
-                                            path: '/dashboard/empleados',
+                                            path: '/dashboard/employees',
                                             label: 'Administrar Personal',
                                         },
                                     ]}
                                 />
-                                <SidebarDropdown
+                                {/* <SidebarDropdown
                                     label='Reportes'
                                     Icon={BiSolidReport}
                                     menuItems={[
                                         {
-                                            path: '/dashboard/reports-month',
+                                            path: '/dashboard/reports',
                                             label: 'Total ventas por mes',
                                         },
                                         {
@@ -84,7 +85,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                             label: 'Ventas por trabajador',
                                         },
                                     ]}
-                                />
+                                /> */}
                                 <SidebarDropdown
                                     label='Ordenes'
                                     Icon={BiFoodMenu}
@@ -107,6 +108,22 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                     {
                                         path: '/dashboard/kitchen',
                                         label: 'Listado de Pedidos',
+                                    },
+                                ]}
+                            />
+                        )}
+                        {user?.role === 'administrador' && (
+                            <SidebarDropdown
+                                label='Configuración'
+                                Icon={BiCog}
+                                menuItems={[
+                                    {
+                                        path: '/dashboard/tables',
+                                        label: 'Gestion de Mesas',
+                                    },
+                                    {
+                                        path: '/dashboard/rooms',
+                                        label: 'Gestion de Salones',
                                     },
                                 ]}
                             />

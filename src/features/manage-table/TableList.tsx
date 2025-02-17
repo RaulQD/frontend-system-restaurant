@@ -49,7 +49,7 @@ export default function TableList() {
             createOrders(orderData, {
                 onSuccess: (data) => {
                     if (data?.order?.id_order) {
-                        navigate(`/dashboard/tables/${tableId}/order/${data.order.id_order}`);
+                        navigate(`/dashboard/table/${tableId}/order/${data.order.id_order}`);
                     }
                 },
             });
@@ -58,7 +58,7 @@ export default function TableList() {
     useEffect(() => {
         if (activeOrder && selectedTable) {
             navigate(
-                `/dashboard/tables/${selectedTable}/order/${activeOrder?.id_order}`
+                `/dashboard/table/${selectedTable}/order/${activeOrder?.id_order}`
             );
         }
     }, [activeOrder, selectedTable, navigate]);

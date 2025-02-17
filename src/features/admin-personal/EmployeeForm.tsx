@@ -10,8 +10,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useCreateEmployee } from './useCreateEmployee';
-
-
+import { useQuery } from '@tanstack/react-query';
+import { getRoles } from '@/services/apiRol';
+import { Rol } from '@/types/rols';
 
 export default function EmployeeForm() {
     const navigate = useNavigate();
@@ -24,6 +25,11 @@ export default function EmployeeForm() {
         reset,
     } = useForm<EmployeeFormData>();
     const { createEmployee } = useCreateEmployee();
+    const { data: roles } = useQuery<Rol[]>({
+        queryKey: ['roles'],
+        queryFn: getRoles,
+    });
+
     const onSubmit = (data: EmployeeFormData) => {
         const formData = new FormData();
         formData.append('names', data.names);
@@ -74,7 +80,7 @@ export default function EmployeeForm() {
                     <div className='font-outfit mb-4 grid grid-cols-1 md:grid-cols-2 gap-4'>
                         <div className='grid grid-cols-1 gap-4'>
                             <div className='bg-white p-4 shadow-md rounded-md '>
-                                <h2 className=' text-lg text-slate-600 font-medium mb-2'>
+                                <h2 className=' text-lg text-slate-600 font-semibold mb-2'>
                                     Foto de perfil
                                 </h2>
                                 <div className='border-2 border-dashed rounded-lg p-8 '>
@@ -130,7 +136,7 @@ export default function EmployeeForm() {
                                 )}
                             </div>
                             <div className='font-outfit bg-white p-4 shadow-md rounded-md '>
-                                <h2 className=' text-lg text-slate-600 font-medium mb-2'>
+                                <h2 className='text-lg text-slate-600 font-semibold mb-2'>
                                     Detalle de trabajo
                                 </h2>
                                 <div className='grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8'>
@@ -138,7 +144,7 @@ export default function EmployeeForm() {
                                         <Label
                                             id='salary'
                                             htmlFor='salary'
-                                            className='text-slate-600 font-normal'>
+                                            className='text-slate-600 font-medium'>
                                             Sueldo
                                         </Label>
                                         <Input
@@ -146,7 +152,7 @@ export default function EmployeeForm() {
                                             id='salary'
                                             placeholder='00.00'
                                             className='mt-2'
-                                            register={register('salary', {
+                                            {...register('salary', {
                                                 required:
                                                     'Ingrese el sueldo del empleado.',
                                                 pattern: {
@@ -165,7 +171,7 @@ export default function EmployeeForm() {
                                         <Label
                                             id='hire_date'
                                             htmlFor='hire_date'
-                                            className='text-slate-600 font-normal'>
+                                            className='text-slate-600 font-medium'>
                                             Fecha de contratación
                                         </Label>
                                         <Input
@@ -173,7 +179,7 @@ export default function EmployeeForm() {
                                             id='hire_date'
                                             placeholder='Fecha de contratación'
                                             className='mt-2'
-                                            register={register('hire_date', {
+                                            {...register('hire_date', {
                                                 required:
                                                     'Ingrese la fecha de contrato del empleado.',
                                             })}
@@ -188,10 +194,28 @@ export default function EmployeeForm() {
                                         <Label
                                             id='role_name'
                                             htmlFor='role_name'
-                                            className='text-slate-600 font-normal'>
+                                            className='text-slate-600 font-medium'>
                                             Cargo
                                         </Label>
-                                        <Input
+                                        <select
+                                            id='role_name'
+                                            className='flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 mt-2'
+                                            {...register('role_name', {
+                                                required:
+                                                    'Selecciona una rol.',
+                                            })}>
+                                            <option value=''>
+                                                Selecciona un rol
+                                            </option>
+                                            {roles?.map((role) => (
+                                                <option
+                                                    key={role.id_rol}
+                                                    value={role.id_rol}>
+                                                    {role.role_name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        {/* <Input
                                             type='text'
                                             id='role_name'
                                             placeholder='Cargo'
@@ -205,7 +229,7 @@ export default function EmployeeForm() {
                                                         'El cargo debe tener al menos 3 caracteres',
                                                 },
                                             })}
-                                        />
+                                        /> */}
                                         {errors.role_name && (
                                             <ErrorMessage>
                                                 {errors.role_name.message}
@@ -215,7 +239,7 @@ export default function EmployeeForm() {
                                 </div>
                             </div>
                             <div className='font-outfit bg-white shadow-md rounded-md p-4'>
-                                <h2 className=' text-lg text-slate-600 font-normal'>
+                                <h2 className=' text-lg text-slate-600 font-semibold'>
                                     Usuarios y contraseña
                                 </h2>
                                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-y-4 gap-x-8'>
@@ -223,7 +247,7 @@ export default function EmployeeForm() {
                                         <Label
                                             id='username'
                                             htmlFor='username'
-                                            className='text-slate-500 font-normal'>
+                                            className='text-slate-600 font-medium'>
                                             Usuario del empleado
                                         </Label>
                                         <Input
@@ -231,7 +255,7 @@ export default function EmployeeForm() {
                                             id='username'
                                             placeholder='usuario'
                                             className='mt-2'
-                                            register={register('username', {
+                                            {...register('username', {
                                                 required:
                                                     'Ingresa el usuario del empleado.',
                                                 minLength: {
@@ -251,15 +275,15 @@ export default function EmployeeForm() {
                                         <Label
                                             id='password'
                                             htmlFor='password'
-                                            className='text-slate-500 font-normal'>
+                                            className='text-slate-600 font-medium'>
                                             Contraseña
                                         </Label>
                                         <Input
                                             type='password'
-                                            placeholder='**********'
                                             id='password'
+                                            placeholder='**********'
                                             className='mt-2'
-                                            register={register('password', {
+                                            {...register('password', {
                                                 required:
                                                     'Ingresa la contraseña del empleado.',
                                                 minLength: {
@@ -288,16 +312,15 @@ export default function EmployeeForm() {
                                         <Label
                                             id='names'
                                             htmlFor='names'
-                                            className='text-slate-600 font-normal'>
+                                            className='text-slate-600 font-medium'>
                                             Nombre del plato
                                         </Label>
                                         <Input
                                             type='text'
                                             id='names'
-                                            name='names'
                                             placeholder='Nombre'
                                             className='mt-2 '
-                                            register={register('names', {
+                                            {...register('names', {
                                                 required:
                                                     'El nombre del empleado es requerido.',
                                                 minLength: {
@@ -317,7 +340,7 @@ export default function EmployeeForm() {
                                         <Label
                                             id='last_name'
                                             htmlFor='last_name'
-                                            className='text-slate-600 font-normal'>
+                                            className='text-slate-600 font-medium'>
                                             Apellidos
                                         </Label>
                                         <Input
@@ -325,7 +348,7 @@ export default function EmployeeForm() {
                                             id='last_name'
                                             placeholder='Apellidos'
                                             className='mt-2'
-                                            register={register('last_name', {
+                                            {...register('last_name', {
                                                 required:
                                                     'El apellido del empleado es requerido.',
                                                 minLength: {
@@ -345,7 +368,7 @@ export default function EmployeeForm() {
                                         <Label
                                             id='dni'
                                             htmlFor='dni'
-                                            className='text-slate-600 font-normal'>
+                                            className='text-slate-600 font-medium'>
                                             N° de documento
                                         </Label>
                                         <Input
@@ -353,7 +376,7 @@ export default function EmployeeForm() {
                                             id='dni'
                                             placeholder='ej. 00000000'
                                             className='mt-2'
-                                            register={register('dni', {
+                                            {...register('dni', {
                                                 required:
                                                     'El DNI del empleado es requerido.',
                                                 minLength: {
@@ -365,7 +388,7 @@ export default function EmployeeForm() {
                                                     value: 8,
                                                     message:
                                                         'El DNI debe tener máximo 8 caracteres',
-                                                }
+                                                },
                                             })}
                                         />
                                         {errors.dni && (
@@ -378,7 +401,7 @@ export default function EmployeeForm() {
                                         <Label
                                             id='email'
                                             htmlFor='email'
-                                            className='text-slate-600 font-normal'>
+                                            className='text-slate-600 font-medium'>
                                             Correo electrónico
                                         </Label>
                                         <Input
@@ -386,7 +409,7 @@ export default function EmployeeForm() {
                                             id='email'
                                             placeholder='ejemplo@ejemplo.com'
                                             className='mt-2'
-                                            register={register('email', {
+                                            {...register('email', {
                                                 required:
                                                     'Ingrese el correo electrónico',
                                                 pattern: {
@@ -406,7 +429,7 @@ export default function EmployeeForm() {
                                         <Label
                                             id='phone'
                                             htmlFor='phone'
-                                            className='text-slate-600 font-normal'>
+                                            className='text-slate-600 font-medium'>
                                             Contacto
                                         </Label>
                                         <Input
@@ -414,7 +437,7 @@ export default function EmployeeForm() {
                                             id='phone'
                                             placeholder='ej. 999999999'
                                             className='mt-2'
-                                            register={register('phone', {
+                                            {...register('phone', {
                                                 required:
                                                     'Ingrese el teléfono del empleado.',
                                                 pattern: {
@@ -439,7 +462,7 @@ export default function EmployeeForm() {
                                         <Label
                                             id='address'
                                             htmlFor='address'
-                                            className='text-slate-600 font-normal'>
+                                            className='text-slate-600 font-medium'>
                                             Dirección
                                         </Label>
                                         <Input
@@ -447,7 +470,7 @@ export default function EmployeeForm() {
                                             id='address'
                                             placeholder='dirección'
                                             className='mt-2'
-                                            register={register('address', {
+                                            {...register('address', {
                                                 required:
                                                     'Ingresa la direcciòn del empleado.',
                                                 minLength: {

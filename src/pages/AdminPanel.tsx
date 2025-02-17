@@ -46,7 +46,7 @@ export default function AdminPanel() {
                 <Button
                     variant={'principal'}
                     onClick={() =>
-                        navigate('/dashboard/empleados/registrar-empleado')
+                        navigate('/dashboard/employees/create')
                     }>
                     <BiPlus className='mr-1 text-xl text-white' />
                     Agregar empleados

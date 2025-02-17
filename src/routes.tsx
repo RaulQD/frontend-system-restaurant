@@ -14,6 +14,9 @@ import Orders from './pages/Orders';
 import UnAuthorized from './pages/UnAuthorized';
 import EditEmployee from './features/admin-personal/EditEmployee';
 import Dashboard from './pages/Dashboard';
+import Reports from './pages/Reports';
+import Tables from './pages/Tables';
+import Rooms from './pages/Rooms';
 
 const ROLES = {
     Administrador: 'administrador',
@@ -36,7 +39,7 @@ export default function AppRoutes() {
                         }
                     />
                     <Route
-                        path='empleados'
+                        path='employees'
                         element={
                             <ProtectedRoutes
                                 allowedRoles={[ROLES.Administrador]}>
@@ -45,7 +48,7 @@ export default function AppRoutes() {
                         }
                     />
                     <Route
-                        path='empleados/registrar-empleado'
+                        path='employees/create'
                         element={
                             <ProtectedRoutes
                                 allowedRoles={[ROLES.Administrador]}>
@@ -54,7 +57,7 @@ export default function AppRoutes() {
                         }
                     />
                     <Route
-                        path='empleados/:employeeId/edit'
+                        path='employees/:employeeId/edit'
                         element={
                             <ProtectedRoutes
                                 allowedRoles={[ROLES.Administrador]}>
@@ -81,7 +84,7 @@ export default function AppRoutes() {
                         }
                     />
                     <Route
-                        path='tables'
+                        path='table'
                         element={
                             <ProtectedRoutes
                                 allowedRoles={[
@@ -93,7 +96,7 @@ export default function AppRoutes() {
                         }
                     />
                     <Route
-                        path='tables/:tableId/order/:orderId'
+                        path='table/:tableId/order/:orderId'
                         element={
                             <ProtectedRoutes
                                 allowedRoles={[
@@ -117,6 +120,7 @@ export default function AppRoutes() {
                             </ProtectedRoutes>
                         }
                     />
+                    <Route path='reports' element={<Reports />} />
                     <Route
                         path='order-history'
                         element={
@@ -126,6 +130,8 @@ export default function AppRoutes() {
                             </ProtectedRoutes>
                         }
                     />
+                    <Route path='tables' element={<Tables />} />
+                    <Route path='rooms' element={<Rooms />} />
                 </Route>
 
                 <Route path='auth' element={<AuthLayout />}>

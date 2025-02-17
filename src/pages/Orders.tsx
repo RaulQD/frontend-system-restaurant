@@ -14,10 +14,9 @@ export default function Orders() {
     const orderId = activeOrder?.id_order || 0;
 
     const handleDecreaseQuantity = (itemId: number) => {
-        if(!orderId) return;
+        if (!orderId) return;
         decreaseQuantity({ orderId, itemId, quantity: 1 });
     };
-  
 
     return (
         <>
@@ -35,7 +34,7 @@ export default function Orders() {
                 </div>
                 <div className='lg:basis-1/3'>
                     <OrderList
-                        activeOrder={activeOrder}
+                        activeOrder={activeOrder!}
                         handleDecreaseQuantity={handleDecreaseQuantity}
                     />
                 </div>

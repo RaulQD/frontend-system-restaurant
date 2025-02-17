@@ -12,7 +12,7 @@ import OrderSummaryData from './OrderSummaryData';
 import { useUpdateItemStatus } from '../kitchen/useUpdateItemStatus';
 
 type OrderListProps = {
-    activeOrder: Order | undefined;
+    activeOrder: Order;
     handleDecreaseQuantity: (dishId: number) => void;
 };
 
@@ -30,6 +30,10 @@ export default function OrderList({
             (acc, items) => acc + items.quantity * (items.unit_price || 0),
             0
         ) || 0;
+
+    const isOrderIsEmpty = !activeOrder?.items.length;
+    const isOrderBusy =  activeOrder?.items.every((item) => item.status === 'LISTO PARA SERVIR' || item.status === 'SERVIDO');
+
     //función para calcular el igv
     const desglosarIGV = (subTotal: number) => {
         const basePrice = subTotal / 1.18;
@@ -51,6 +55,7 @@ export default function OrderList({
                 return false;
         }
     };
+
     const handleSendOrder = () => {
         if (!activeOrder?.id_order) return;
         sendOrder(activeOrder?.id_order);
@@ -66,9 +71,13 @@ export default function OrderList({
     };
 
     //CAMBIAR EL ESTADO DEL ITEM DE LA ORDEN A SERVIDO
-    const handleChangeStatusItem = (orderId:number, itemId:number, status:string) => {
-        updateStatus({orderId, itemId, status})
-    }
+    const handleChangeStatusItem = (
+        orderId: number,
+        itemId: number,
+        status: string
+    ) => {
+        updateStatus({ orderId, itemId, status });
+    };
 
     return (
         <>
@@ -88,20 +97,30 @@ export default function OrderList({
                 </div>
 
                 <div className='basis-11/12 overflow-y-auto flex flex-col lg:p-6 bg-white rounded-lg'>
-                    <ul className='basis-8/12 max-h-full overflow-y-auto'>
-                        {activeOrder?.items.map((item) => (
-                            <li key={item.id_item} className='mb-3'>
-                                <CardOrderList
-                                    orderItem={item}
-                                    handleDecreaseQuantity={
-                                        handleDecreaseQuantity
-                                    }
-                                    handleDisableButton={handleDisableButton}
-                                    handleChangeStatusItem={handleChangeStatusItem}
-                                />
-                            </li>
-                        ))}
-                    </ul>
+                    {activeOrder?.items.length ? (
+                        <ul className='basis-8/12 max-h-full overflow-y-auto'>
+                            {activeOrder?.items.map((item) => (
+                                <li key={item.id_item} className='mb-3'>
+                                    <CardOrderList
+                                        orderItem={item}
+                                        handleDecreaseQuantity={
+                                            handleDecreaseQuantity
+                                        }
+                                        handleDisableButton={
+                                            handleDisableButton
+                                        }
+                                        handleChangeStatusItem={
+                                            handleChangeStatusItem
+                                        }
+                                    />
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <div className='flex justify-center items-center h-full'>
+                            <p>No hay items agregados a la orden.</p>
+                        </div>
+                    )}
                     <section className='basis-4/12 flex flex-col justify-between gap-y-2 pt-4'>
                         <ul className='space-y-1 2xl:space-y-3'>
                             <li className='flex items-center justify-between'>
@@ -127,20 +146,22 @@ export default function OrderList({
                             </li>
                         </ul>
                         <Button
-                            variant='muted'
-                            className='w-full hover:tracking-widest transition-all text-black'
+                            variant='destructive'
+                            className='w-full hover:tracking-widest transition-all text-white'
                             onClick={() => handleCancelOrder()}>
                             Cancelar
                         </Button>
                         <Button
-                            variant={'principal'}
+                            variant={'default'}
+                            disabled={isOrderIsEmpty}
                             className='w-full hover:tracking-widest transition-all'
                             onClick={() => handleSendOrder()}>
                             Enviar a cocina
                         </Button>
                         <Button
-                            variant={'default'}
+                            variant={'principal'}
                             className='w-full hover:tracking-widest transition-all'
+                            disabled={!isOrderBusy || isOrderIsEmpty}
                             onClick={() =>
                                 navigate(
                                     location.pathname + `?orderSummary=true`

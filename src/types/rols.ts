@@ -1,5 +1,5 @@
 
 export type Rol = {
-  id: number;
-  name: string;
+  id_rol: number;
+  role_name: string;
 }

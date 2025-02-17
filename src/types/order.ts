@@ -91,3 +91,9 @@ export type OrderResponseType = {
   results: OrderResult[]
   pagination: PaginationInfoType;
 }
+export type  ProcessPaymentDataValues = {
+    amount_received: string;
+    employee_id: number;
+    employee_name: string;
+    change_amount: number;
+};

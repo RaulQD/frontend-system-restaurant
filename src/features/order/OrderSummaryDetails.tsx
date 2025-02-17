@@ -1,8 +1,8 @@
-import { OrderSummary } from '@/types/order';
+import { OrderSummary, ProcessPaymentDataValues } from '@/types/order';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useForm } from 'react-hook-form';
@@ -15,27 +15,20 @@ import SpinnerMini from '@/components/SpinnerMini';
 type OrderSummaryDetailsProps = {
     orderSummary: OrderSummary;
 };
-type ProcessPaymentDataValues = {
-    amount_received: string;
-    employee_id: number;
-    employee_name: string;
-    change_amount: number;
-};
+
 export default function OrderSummaryDetails({
     orderSummary,
 }: OrderSummaryDetailsProps) {
     const [showPayment, setShowPayment] = useState(false);
-    const [change, setChange] = useState<number>(0);
     const navigate = useNavigate();
     const { user } = useUser();
-    const { processPayment, isLodingPayment } =
-        useProcessPayment();
+    const { processPayment, isLodingPayment } = useProcessPayment();
     const {
         register,
         handleSubmit,
         reset,
         setValue,
-        clearErrors,
+        watch,
         formState: { errors },
     } = useForm<ProcessPaymentDataValues>({
         defaultValues: {
@@ -54,16 +47,11 @@ export default function OrderSummaryDetails({
             (acc, item) => acc + item.quantity * (item.unit_price || 0),
             0
         ) || 0;
-    //CALCULAR EL RETORNO DE CAMBIO
-    const handleReceivedChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const value = Number(e.target.value);
-        const calculateChange = (value - subTotal).toFixed(2);
-        setChange(Number(calculateChange));
-        // Limpiar errores de validación si el valor es válido
-        // if (value >= subTotal) {
-        //     clearErrors('amount_received');
-        // }
-    };
+
+    // Obtener el monto recibido en tiempo real
+    const amountReceived = watch('amount_received');
+    // Calcular cambio en tiempo real
+    const changeAmount = amountReceived ? Number(amountReceived) - subTotal : 0;
 
     const desglosarIGV = (subTotal: number) => {
         const basePrice = subTotal / 1.18;
@@ -129,25 +117,36 @@ export default function OrderSummaryDetails({
             <div>
                 <div className='flex flex-col gap-2'>
                     <div className='flex justify-between'>
-                        <p className=''>Subtotal</p>
+                        <p className='font-semibold'>Subtotal</p>
                         <p className=''>
                             {formatCurrency(desglosarIGV(subTotal).basePrice)}
                         </p>
                     </div>
                     <div className='flex justify-between'>
-                        <p className=''>Impuestos</p>
+                        <p className='font-semibold'>Impuestos</p>
                         <p className=''>
                             {formatCurrency(desglosarIGV(subTotal).igv)}
                         </p>
                     </div>
                     <div className='flex justify-between mb-4'>
-                        <p className=''>Total</p>
-                        <p className=''>{formatCurrency(subTotal)}</p>
+                        <p className='font-semibold'>Total</p>
+                        <p className='font-semibold'>
+                            {formatCurrency(subTotal)}
+                        </p>
                     </div>
                 </div>
                 <Separator />
                 {!showPayment ? (
-                    <div className='flex justify-end mt-4'>
+                    <div className='flex justify-end mt-4 items-center gap-2'>
+                        <Button
+                            variant={'secondary'}
+                            onClick={() =>
+                                navigate(location.pathname, {
+                                    replace: true,
+                                })
+                            }>
+                            Cancelar
+                        </Button>
                         <Button
                             variant={'principal'}
                             onClick={() => setShowPayment(true)}>
@@ -170,7 +169,9 @@ export default function OrderSummaryDetails({
                             </div>
 
                             <div className='flex flex-col gap-2'>
-                                <Label htmlFor='amount_received' id='amount_received'>
+                                <Label
+                                    htmlFor='amount_received'
+                                    id='amount_received'>
                                     Monto recibido :
                                 </Label>
                                 <Input
@@ -185,7 +186,6 @@ export default function OrderSummaryDetails({
                                                 'El monto recibido debe ser mayor o igual al total de la orden.',
                                         },
                                     })}
-                                    onChange={handleReceivedChange}
                                 />
                                 {errors.amount_received && (
                                     <ErrorMessage>
@@ -198,19 +198,28 @@ export default function OrderSummaryDetails({
                                 <Input
                                     type='text'
                                     placeholder='Cambio'
-                                    value={change.toFixed(2)}
+                                    value={formatCurrency(changeAmount)}
                                     disabled
                                 />
                             </div>
                         </div>
-                        <div className='mt-4 flex items-center justify-end'>
+                        <div className='mt-4 flex items-center justify-end gap-4'>
+                            <Button
+                                variant={'muted'}
+                                onClick={() =>
+                                    navigate(location.pathname, {
+                                        replace: true,
+                                    })
+                                }>
+                                Cancelar
+                            </Button>
                             <Button variant={'principal'}>
                                 {isLodingPayment ? (
                                     <div className='flex justify-center'>
                                         <SpinnerMini />
                                     </div>
                                 ) : (
-                                    'Pagar'
+                                    'Realizar Pago'
                                 )}
                             </Button>
                         </div>

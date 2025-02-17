@@ -11,15 +11,10 @@ export const ProtectedRoutes = ({
     children,
     allowedRoles,
 }: ProtectedRoutesProps) => {
-    const token = localStorage.getItem('token');
     const { user, isLoading, isError } = useUser();
     const location = useLocation();
 
-    // REDIRIGIR A LA PÁGINA DE LOGIN SI NO HAY TOKEN
-    if (!token) {
-        return <Navigate to='/auth/login' state={{ from: location }} replace />;
-    }
-    // 2. mientras carga el usuario, mostrar un spinner
+    // 1. mientras carga el usuario, mostrar un spinner
     if (isLoading) {
         return (
             <div className='h-screen bg-gray-50 flex items-center justify-center'>
@@ -28,11 +23,13 @@ export const ProtectedRoutes = ({
         );
     }
 
+    // 2. si hay un error o no hay usuario, redirigir a la página de inicio de sesión
     if (isError || !user) {
         localStorage.removeItem('token'); // limpiar el token si hay un error
         return <Navigate to='/auth/login' state={{ from: location }} replace />;
     }
 
+    // 3. si el usuario no tiene un rol permitido, redirigir a la página de no autorizado
     if (!allowedRoles.includes(user.role)) {
         return (
             <Navigate to='/un-authorized' state={{ from: location }} replace />

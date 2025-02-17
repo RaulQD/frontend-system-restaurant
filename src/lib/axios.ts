@@ -12,4 +12,19 @@ api.interceptors.request.use((config) => {
   }
   return config;
 })
+
+// 🔥 Manejo global de errores 401 (token expirado)
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token'); // Eliminar token vencido
+      window.location.href = '/auth/login'; // Redirigir al login inmediatamente
+    }
+    return Promise.reject(error);
+  }
+);
+
+
+
 export default api

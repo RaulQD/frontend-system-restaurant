@@ -9,9 +9,9 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 
-type AddDishesProps = { 
+type AddDishesProps = {
     open: boolean;
-}
+};
 
 export default function AddDishes({ open }: AddDishesProps) {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -65,7 +65,13 @@ export default function AddDishes({ open }: AddDishesProps) {
             open={open}
             description='Agrega un plato al menú de tu restaurante'>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <DishesForm register={register} errors={errors} handleImageChange={handleImageChange} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>
+                <DishesForm
+                    register={register}
+                    errors={errors}
+                    handleImageChange={handleImageChange}
+                    selectedImage={selectedImage}
+                    setSelectedImage={setSelectedImage}
+                />
                 <div className='flex items-center justify-end gap-2'>
                     <Button
                         type='button'
@@ -77,13 +83,15 @@ export default function AddDishes({ open }: AddDishesProps) {
                         Cancelar
                     </Button>
                     <Button variant={'principal'}>
-                        <BiUpload className='mr-2' />
                         {isPendingDishes ? (
                             <div className='flex justify-center'>
                                 <SpinnerMini />
                             </div>
                         ) : (
-                            'Agregar plato'
+                            <>
+                                <BiUpload className='mr-2' />
+                                'Agregar plato'
+                            </>
                         )}
                     </Button>
                 </div>

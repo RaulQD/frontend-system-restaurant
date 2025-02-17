@@ -43,8 +43,18 @@ export default function OrderHistoryDetailsData({
                 );
             case 'LISTO PARA PAGAR':
                 return (
-                    <Badge variant='successdark' className='text-black font-semibold'>
+                    <Badge
+                        variant='successdark'
+                        className='text-black font-semibold'>
                         LISTO PARA PAGAR
+                    </Badge>
+                );
+            case 'SERVIDO':
+                return (
+                    <Badge
+                        variant='success'
+                        className='text-white font-semibold'>
+                        SERVIDO
                     </Badge>
                 );
             case 'CANCELADO':

@@ -93,7 +93,7 @@ export default function EditEmployeeForm({
             onSuccess: () => {
                 setSelectedImage(null);
                 reset();
-                navigate('/dashboard/empleados');
+                navigate('/dashboard/employees');
             },
         });
     };
@@ -107,7 +107,7 @@ export default function EditEmployeeForm({
     };
 
     const redirectToEmployees = () => {
-        navigate('/dashboard/empleados');
+        navigate('/dashboard/employees');
     };
     return (
         <>

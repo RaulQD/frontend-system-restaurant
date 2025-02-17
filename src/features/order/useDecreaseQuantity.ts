@@ -14,6 +14,7 @@ export const useDecreaseQuantity = () => {
     onSuccess: (data) => {
       toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ['activeOrder', Number(tableId)] });
+      queryClient.invalidateQueries({ queryKey: ['orderSummary']})
     }
   })
   return { decreaseQuantity }

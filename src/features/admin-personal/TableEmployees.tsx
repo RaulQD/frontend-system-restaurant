@@ -38,7 +38,7 @@ export default function TableEmployees() {
         null
     );
     const { employees, isLoading, error } = useEmployees();
-    const { employeeDelete} = useDelete();
+    const { employeeDelete } = useDelete();
 
     if (isLoading) {
         return (
@@ -153,7 +153,7 @@ export default function TableEmployees() {
                                             : 'N/A'}
                                     </TableCell>
                                     <TableCell className='capitalize'>
-                                        {employee.role.name}
+                                        {employee.role.role_name}
                                     </TableCell>
                                     <TableCell>
                                         {badgeStatus(employee.status)}

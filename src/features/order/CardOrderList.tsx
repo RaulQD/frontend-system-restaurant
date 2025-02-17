@@ -45,7 +45,7 @@ export default function CardOrderList({
                 return (
                     <Badge
                         variant='muted'
-                        className='text-black font-semibold'
+                        className='text-black font-semibold '
                         onClick={() =>
                             handleChangeStatusItem(
                                 Number(orderId),
@@ -87,7 +87,7 @@ export default function CardOrderList({
                         className='h-14 w-14 rounded-xl md:h-12 md:w-12 sm:h-10 sm:w-10'
                     />
                     <div className='w-full flex flex-row items-center justify-between '>
-                        <div className='flex flex-col justify-between'>
+                        <div className='flex flex-col justify-between gap-2'>
                             <div className='flex items-center justify-between gap-1'>
                                 <CardTitle className='font-normal text-gray-600 line-clamp-1 '>
                                     {orderItem.dishes_name}
@@ -96,7 +96,7 @@ export default function CardOrderList({
                                     (x {orderItem.quantity})
                                 </span>
                             </div>
-                            <div className='flex justify-start items-center gap-4 mt-1'>
+                            <div className='flex justify-start items-center gap-4'>
                                 <Button
                                     variant={'principal'}
                                     size={'sm'}
@@ -125,12 +125,16 @@ export default function CardOrderList({
                                 </Button>
                             </div>
                         </div>
-                        <div className='flex flex-col items-end gap-1'>
+                        <div className='flex flex-col items-end gap-2'>
                             <span className='font-medium'>
                                 {formatCurrency(totalQuantityItems)}
                             </span>
 
-                            {statusOrderItemsColor(orderItem.status)}
+                            <div>
+                                <span className='cursor-pointer'>
+                                    {statusOrderItemsColor(orderItem.status)}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
