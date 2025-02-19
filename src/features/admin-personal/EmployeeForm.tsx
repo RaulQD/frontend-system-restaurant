@@ -43,7 +43,7 @@ export default function EmployeeForm() {
         formData.append('role_name', data.role_name);
 
         if (data.profile_picture_url && data.profile_picture_url[0]) {
-            formData.append('profile_picture_url', data.profile_picture_url[0]);
+            formData.append('image', data.profile_picture_url[0]);
         } else {
             console.error('No se ha seleccionado ninguna imagen');
             return;
@@ -70,7 +70,7 @@ export default function EmployeeForm() {
         }
     };
     const redirectToEmployees = () => {
-        navigate('/dashboard/empleados');
+        navigate('/dashboard/employees');
     };
     return (
         <>
@@ -106,8 +106,19 @@ export default function EmployeeForm() {
                                         <>
                                             <Label
                                                 htmlFor='image_url'
-                                                className='flex flex-col items-center justify-center cursor-pointer h-full'>
-                                                <UploadIcon className='w-10 h-10 text-muted-foreground mb-2' />
+                                                className={`font-medium transition-colors ${
+                                                    errors.profile_picture_url
+                                                        ? 'text-red-500'
+                                                        : 'text-gray-600'
+                                                } flex flex-col items-center justify-center h-40 cursor-pointer`}>
+                                                <UploadIcon
+                                                    className={`font-medium transition-colors ${
+                                                        errors.profile_picture_url
+                                                            ? 'text-red-500'
+                                                            : 'text-gray-600'
+                                                    }w-10 h-10 text-muted-foreground mb-2
+                                                `}
+                                                />
                                                 <span>
                                                     Click para subir la imagen
                                                 </span>
@@ -144,13 +155,17 @@ export default function EmployeeForm() {
                                         <Label
                                             id='salary'
                                             htmlFor='salary'
-                                            className='text-slate-600 font-medium'>
+                                            className={`font-medium transition-colors ${
+                                                errors.salary
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Sueldo
                                         </Label>
                                         <Input
                                             type='text'
                                             id='salary'
-                                            placeholder='00.00'
+                                            placeholder='0.00'
                                             className='mt-2'
                                             {...register('salary', {
                                                 required:
@@ -171,7 +186,11 @@ export default function EmployeeForm() {
                                         <Label
                                             id='hire_date'
                                             htmlFor='hire_date'
-                                            className='text-slate-600 font-medium'>
+                                            className={`font-medium transition-colors ${
+                                                errors.hire_date
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Fecha de contratación
                                         </Label>
                                         <Input
@@ -194,15 +213,18 @@ export default function EmployeeForm() {
                                         <Label
                                             id='role_name'
                                             htmlFor='role_name'
-                                            className='text-slate-600 font-medium'>
+                                            className={`font-medium transition-colors ${
+                                                errors.role_name
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Cargo
                                         </Label>
                                         <select
                                             id='role_name'
                                             className='flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 mt-2'
                                             {...register('role_name', {
-                                                required:
-                                                    'Selecciona una rol.',
+                                                required: 'Selecciona una rol.',
                                             })}>
                                             <option value=''>
                                                 Selecciona un rol
@@ -210,26 +232,11 @@ export default function EmployeeForm() {
                                             {roles?.map((role) => (
                                                 <option
                                                     key={role.id_rol}
-                                                    value={role.id_rol}>
+                                                    value={role.role_name}>
                                                     {role.role_name}
                                                 </option>
                                             ))}
                                         </select>
-                                        {/* <Input
-                                            type='text'
-                                            id='role_name'
-                                            placeholder='Cargo'
-                                            className='mt-2'
-                                            register={register('role_name', {
-                                                required:
-                                                    'Ingresa la posiciòn del empleado.',
-                                                minLength: {
-                                                    value: 3,
-                                                    message:
-                                                        'El cargo debe tener al menos 3 caracteres',
-                                                },
-                                            })}
-                                        /> */}
                                         {errors.role_name && (
                                             <ErrorMessage>
                                                 {errors.role_name.message}
@@ -247,7 +254,11 @@ export default function EmployeeForm() {
                                         <Label
                                             id='username'
                                             htmlFor='username'
-                                            className='text-slate-600 font-medium'>
+                                            className={`font-medium transition-colors ${
+                                                errors.username
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Usuario del empleado
                                         </Label>
                                         <Input
@@ -275,7 +286,11 @@ export default function EmployeeForm() {
                                         <Label
                                             id='password'
                                             htmlFor='password'
-                                            className='text-slate-600 font-medium'>
+                                            className={`font-medium transition-colors ${
+                                                errors.password
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Contraseña
                                         </Label>
                                         <Input
@@ -312,7 +327,11 @@ export default function EmployeeForm() {
                                         <Label
                                             id='names'
                                             htmlFor='names'
-                                            className='text-slate-600 font-medium'>
+                                            className={`font-medium transition-colors ${
+                                                errors.names
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Nombre del plato
                                         </Label>
                                         <Input
@@ -340,7 +359,11 @@ export default function EmployeeForm() {
                                         <Label
                                             id='last_name'
                                             htmlFor='last_name'
-                                            className='text-slate-600 font-medium'>
+                                            className={`font-medium transition-colors ${
+                                                errors.last_name
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Apellidos
                                         </Label>
                                         <Input
@@ -368,7 +391,11 @@ export default function EmployeeForm() {
                                         <Label
                                             id='dni'
                                             htmlFor='dni'
-                                            className='text-slate-600 font-medium'>
+                                            className={`font-medium transition-colors ${
+                                                errors.dni
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             N° de documento
                                         </Label>
                                         <Input
@@ -401,7 +428,11 @@ export default function EmployeeForm() {
                                         <Label
                                             id='email'
                                             htmlFor='email'
-                                            className='text-slate-600 font-medium'>
+                                            className={`font-medium transition-colors ${
+                                                errors.email
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Correo electrónico
                                         </Label>
                                         <Input
@@ -429,7 +460,11 @@ export default function EmployeeForm() {
                                         <Label
                                             id='phone'
                                             htmlFor='phone'
-                                            className='text-slate-600 font-medium'>
+                                            className={`font-medium transition-colors ${
+                                                errors.phone
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Contacto
                                         </Label>
                                         <Input
@@ -462,7 +497,11 @@ export default function EmployeeForm() {
                                         <Label
                                             id='address'
                                             htmlFor='address'
-                                            className='text-slate-600 font-medium'>
+                                            className={`font-medium transition-colors ${
+                                                errors.address
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Dirección
                                         </Label>
                                         <Input

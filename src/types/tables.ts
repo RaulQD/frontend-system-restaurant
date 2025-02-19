@@ -1,12 +1,19 @@
+import { Rooms } from "./rooms";
 
 export type Tables = {
   id_table: number;
-  num_table: number;
+  num_table: string;
   capacity_table: number;
   status: string;
+  room: Rooms
+}
+export type TableFormData = {
+  num_table: string;
+  capacity_table: number;
+  room_id: number;
 }
 
-export type TableFormData = Pick<Tables, 'num_table' | 'capacity_table'>;
+
 export type Pagination = {
   page: number;
   limit: number;

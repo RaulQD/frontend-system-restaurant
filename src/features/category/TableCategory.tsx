@@ -10,7 +10,7 @@ import { useGetCategories } from './useGetCategories';
 import { Button } from '@/components/ui/button';
 import { Pencil1Icon } from '@radix-ui/react-icons';
 import Spinner from '@/components/Spinner';
-import { BiTrash } from 'react-icons/bi';
+import { BiPencil, BiTrash } from 'react-icons/bi';
 import { useState } from 'react';
 import EditCategoryData from './EditCategoryData';
 import { Category } from '@/types/category';
@@ -18,6 +18,7 @@ import { useDeleteCategory } from './useDeleteCategory';
 import AlertMessageDialog from '../../components/AlertMessageDialog';
 import { useNavigate } from 'react-router-dom';
 import PaginationI from '@/components/PaginationI';
+import DropdownActions from '@/components/DropdownActions';
 
 export default function TableCategory() {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function TableCategory() {
     const [editCategoryId, setEditCategoryId] = useState<number>();
     const [isDelete, setIsDelete] = useState(false);
 
-    const { categories, isLoading, error} = useGetCategories();
+    const { categories, isLoading, error } = useGetCategories();
     const { categoryDelete } = useDeleteCategory();
 
     if (isLoading) {
@@ -72,30 +73,39 @@ export default function TableCategory() {
                                     {category.category_description}
                                 </TableCell>
                                 <TableCell className='flex items-center justify-center'>
-                                    <div>
-                                        <Button
-                                            variant={'ghost'}
-                                            onClick={() =>
-                                                navigate(location.pathname + `?editCategory=${category.id}`)
-                                            }>
-                                            <Pencil1Icon className='text-lg' />
-                                        </Button>
-                                        <Button
-                                            variant={'ghost'}
-                                            onClick={() => {
-                                                setEditCategoryId(category.id);
-                                                setIsDelete(true);
-                                            }}>
-                                            <BiTrash className='text-red-500 text-lg' />
-                                        </Button>
-                                    </div>
+                                    <DropdownActions
+                                        actions={[
+                                            {
+                                                label: 'Editar',
+                                                onClick: () =>
+                                                    navigate(
+                                                        location.pathname +
+                                                            `?editCategory=${category.id}`
+                                                    ),
+                                                iconType: BiPencil,
+                                            },
+                                            {
+                                                label: 'Eliminar',
+                                                onClick: () => {
+                                                    setEditCategoryId(
+                                                        category.id
+                                                    );
+                                                    setIsDelete(true);
+                                                },
+                                                iconType: BiTrash,
+                                                className: 'text-red-500',
+                                            },
+                                        ]}
+                                    />
                                 </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </div>
-            <PaginationI totalItems={categories?.pagination.totalCategories || 0}  />
+            <PaginationI
+                totalItems={categories?.pagination.totalCategories || 0}
+            />
             <EditCategoryData />
             <AlertMessageDialog
                 isOpen={isDelete}

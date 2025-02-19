@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import Categoryform from './Categoryform';
 import { Button } from '@/components/ui/button';
 import SpinnerMini from '@/components/SpinnerMini';
-import { BiSave } from 'react-icons/bi';
 import { useEditCategory } from './useEditCategory';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,7 +16,7 @@ type EditCategoryModalProps = {
 export default function EditCategoryModal({
     data,
     open,
-    categoryId
+    categoryId,
 }: EditCategoryModalProps) {
     const navigate = useNavigate();
     const {
@@ -38,7 +37,7 @@ export default function EditCategoryModal({
         const categoryData = {
             formData,
             categoryId,
-        }
+        };
         update(categoryData, {
             onSuccess: () => {
                 reset();
@@ -54,7 +53,16 @@ export default function EditCategoryModal({
             description='Aquí puedes editar los datos de la categoría.'>
             <form onSubmit={handleSubmit(handleEditCategory)} noValidate>
                 <Categoryform register={register} errors={errors} />
-                <div className='flex items-center justify-end'>
+                <div className='flex items-center justify-end gap-2'>
+                    <Button
+                        type='button'
+                        variant={'secondary'}
+                        onClick={() => {
+                            reset();
+                            navigate(location.pathname, { replace: true });
+                        }}>
+                        Cancelar
+                    </Button>
                     <Button variant={'principal'}>
                         {isPending ? (
                             <div className='flex items-center justify-center'>
@@ -62,7 +70,7 @@ export default function EditCategoryModal({
                             </div>
                         ) : (
                             <div className='flex items-center gap-2'>
-                                <BiSave /> Guardar
+                                Guardar
                             </div>
                         )}
                     </Button>

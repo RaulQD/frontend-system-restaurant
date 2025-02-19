@@ -30,8 +30,7 @@ export default function CardKitchen({ order }: CardKitchenProps) {
                 );
             case 'EN PROCESO':
                 return (
-                    <Badge
-                        className='bg-[#6be6ff] hover:bg-[#6be6ff]/80 text-black font-normal flex items-center gap-1'>
+                    <Badge className='bg-[#6be6ff] hover:bg-[#6be6ff]/80 text-black font-normal flex items-center gap-1'>
                         <LucideAlarmClockCheck className='w-4 h-4  ' />
                         En Proceso
                     </Badge>
@@ -72,7 +71,7 @@ export default function CardKitchen({ order }: CardKitchenProps) {
             <Card className='font-outfit w-full'>
                 <CardHeader className='p-4'>
                     <div className='flex items-center justify-between'>
-                        <h1 className=' text-sm font-medium'>{full_name}</h1>
+                        <h1 className='text-sm font-medium'>{full_name}</h1>
 
                         <span>{statusOrder(order.order_status)}</span>
                     </div>
@@ -89,8 +88,7 @@ export default function CardKitchen({ order }: CardKitchenProps) {
                         <div className='flex items-center justify-start gap-2'>
                             <ComponentInstanceIcon className='w-3 h-3 text-gray-500' />
                             <p className='text-sm font-normal text-gray-500'>
-                                Pedido # {order.order_number} - Mesa{' '}
-                                {order.table.num_table}
+                                Pedido # {order.order_number} - {order.table.num_table}
                             </p>
                         </div>
                     </div>

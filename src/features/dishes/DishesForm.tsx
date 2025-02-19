@@ -25,10 +25,9 @@ export default function DishesForm({
     setSelectedImage,
 }: DishesFormProps) {
     const { data: categories } = useQuery<Category[]>({
-        queryKey:['categories'],
+        queryKey: ['categories'],
         queryFn: getCategories,
-    })
-        
+    });
 
     return (
         <>
@@ -54,9 +53,19 @@ export default function DishesForm({
                             <>
                                 <Label
                                     htmlFor='image_url'
-                                    className='flex flex-col items-center justify-center h-40 cursor-pointer'>
-                                    <UploadIcon className='w-10 h-10 text-muted-foreground mb-2' />
-                                    <span>Click para subir la imagen</span>
+                                    className={`font-medium transition-colors ${
+                                        errors.image_url
+                                            ? 'text-red-500'
+                                            : 'text-gray-600'
+                                    } flex flex-col items-center justify-center h-40 cursor-pointer`}>
+                                    <UploadIcon
+                                        className={`transition-colors ${
+                                            errors.image_url
+                                                ? 'text-red-500'
+                                                : 'text-gray-600'
+                                        } w-10 h-10 text-muted-foreground mb-2`}
+                                    />
+                                    Click para subir la imagen
                                 </Label>
                                 <Input
                                     type='file'
@@ -77,9 +86,17 @@ export default function DishesForm({
                     )}
                 </div>
                 <div className='col-span-3'>
-                    <Label htmlFor='dishes_name'>Nombre del plato</Label>
+                    <Label
+                        htmlFor='dishes_name'
+                        className={`font-medium transition-colors ${
+                            errors.dishes_name
+                                ? 'text-red-500'
+                                : 'text-gray-600'
+                        }`}>
+                        Nombre del plato
+                    </Label>
                     <Input
-                        id='name'
+                        id='dishes_name'
                         className='mt-2'
                         type='text'
                         placeholder='Nombre del plato'
@@ -104,7 +121,13 @@ export default function DishesForm({
                     )}
                 </div>
                 <div className='col-span-3'>
-                    <Label htmlFor='dishes_description'>
+                    <Label
+                        htmlFor='dishes_description'
+                        className={`font-medium transition-colors ${
+                            errors.dishes_description
+                                ? 'text-red-500'
+                                : 'text-gray-600'
+                        }`}>
                         Descripción del plato
                     </Label>
                     <Input
@@ -133,7 +156,13 @@ export default function DishesForm({
                     )}
                 </div>
                 <div className=''>
-                    <Label htmlFor='price'>Precio</Label>
+                    <Label
+                        htmlFor='price'
+                        className={`font-medium transition-colors ${
+                            errors.price ? 'text-red-500' : 'text-gray-600'
+                        }`}>
+                        Precio
+                    </Label>
                     <Input
                         id='price'
                         type='number'
@@ -146,16 +175,22 @@ export default function DishesForm({
                                 value: 5.01,
                                 message: 'El precio debe ser mayor a S/.5.00.',
                             },
-                            valueAsNumber: true,
                         })}
                     />
-                    <div className=''>{}</div>
                     {errors.price && (
                         <ErrorMessage>{errors.price.message}</ErrorMessage>
                     )}
                 </div>
                 <div className=' space-y-2'>
-                    <Label htmlFor='category_name'>Categoría</Label>
+                    <Label
+                        htmlFor='category_name'
+                        className={`font-medium transition-colors ${
+                            errors.category_name
+                                ? 'text-red-500'
+                                : 'text-gray-600'
+                        }`}>
+                        Categoría
+                    </Label>
                     <select
                         id='category_name'
                         className='flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1'

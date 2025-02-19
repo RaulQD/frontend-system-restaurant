@@ -15,17 +15,11 @@ import { Badge } from '@/components/ui/badge';
 import { formatCurrency } from '@/utils';
 import PaginationI from '@/components/PaginationI';
 
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { MdBorderVertical } from 'react-icons/md';
 import { useState } from 'react';
 import AlertMessageDialog from '@/components/AlertMessageDialog';
 import { useLocation, useNavigate } from 'react-router-dom';
 import OrderHistoryData from './OrderHistoryData';
+import DropdownActions from '@/components/DropdownActions';
 
 export default function rTableOrderHistory() {
     const navigate = useNavigate();
@@ -47,10 +41,7 @@ export default function rTableOrderHistory() {
             second: 'numeric',
         });
     };
-    const handleOpenModal = (orderId: number) => {
-        searchParams.set('orderDetails', String(orderId));
-        navigate(`${location.pathname}?${searchParams.toString()}`);
-    };
+
     const statusOrder = (status: string) => {
         switch (status) {
             case 'PENDIENTE':
@@ -77,7 +68,9 @@ export default function rTableOrderHistory() {
                 );
             case 'LISTO PARA PAGAR':
                 return (
-                    <Badge variant='successdark' className='text-black font-semibold'>
+                    <Badge
+                        variant='successdark'
+                        className='text-black font-semibold'>
                         LISTO PARA PAGAR
                     </Badge>
                 );
@@ -117,6 +110,10 @@ export default function rTableOrderHistory() {
                     </Badge>
                 );
         }
+    };
+    const handleOpenModal = (orderId: number) => {
+        searchParams.set('orderDetails', String(orderId));
+        navigate(`${location.pathname}?${searchParams.toString()}`);
     };
     const handleDeleteOrder = (dishId: number) => {
         console.log('Eliminar plato', dishId);
@@ -182,34 +179,26 @@ export default function rTableOrderHistory() {
                                 <TableCell className='flex items-center justify-center'>
                                     <div className='flex items-center'>
                                         {/* 🔹 Dropdown Menu */}
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button
-                                                    variant='ghost'
-                                                    size='icon'>
-                                                    <MdBorderVertical className='w-5 h-5' />
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align='end'>
-                                                <DropdownMenuItem
-                                                    onClick={() =>
+                                        <DropdownActions
+                                            actions={[
+                                                {
+                                                    label: 'Ver Detalles',
+                                                    onClick: () =>
                                                         handleOpenModal(
                                                             order.id_order
-                                                        )
-                                                    }>
-                                                    Ver Detalles
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem
-                                                    onClick={() => {
+                                                        ),
+                                                },
+                                                {
+                                                    label: 'Eliminar',
+                                                    onClick: () => {
                                                         setIdOrder(
                                                             order.id_order
                                                         );
                                                         setIsDelete(true);
-                                                    }}>
-                                                    Cancelar Orden
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
+                                                    },
+                                                },
+                                            ]}
+                                        />
                                     </div>
                                 </TableCell>
                             </TableRow>

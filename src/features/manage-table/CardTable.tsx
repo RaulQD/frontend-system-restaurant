@@ -15,7 +15,7 @@ export default function CardTable({ table }: CardTableProps) {
             }>
             <CardHeader className='relative'>
                 <CardTitle className='text-blue-500 font-normal font-outfit mt-4 text-center'>
-                    Mesa #{table.num_table}
+                    # {table.num_table}
                 </CardTitle>
                 <div
                     className={` ${

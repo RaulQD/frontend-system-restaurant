@@ -7,7 +7,7 @@ import SpinnerMini from '@/components/SpinnerMini';
 import ResponsiveDialog from '@/components/ResponsiveDialog';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type AddDishesProps = {
     open: boolean;
@@ -24,7 +24,12 @@ export default function AddDishes({ open }: AddDishesProps) {
         formState: { errors },
     } = useForm<DishesFormData>();
     const { addDish, isPendingDishes } = useAddDishes();
-
+    useEffect(() => {
+        if (!open) {
+            reset(); 
+            setSelectedImage(null); 
+        }
+    }, [open, reset]); 
     const onSubmit = (data: DishesFormData) => {
         const formData = new FormData();
         formData.append('dishes_name', data.dishes_name);
@@ -75,7 +80,7 @@ export default function AddDishes({ open }: AddDishesProps) {
                 <div className='flex items-center justify-end gap-2'>
                     <Button
                         type='button'
-                        variant={'ghost'}
+                        variant={'secondary'}
                         onClick={() => {
                             reset();
                             navigate(location.pathname, { replace: true });
@@ -90,7 +95,7 @@ export default function AddDishes({ open }: AddDishesProps) {
                         ) : (
                             <>
                                 <BiUpload className='mr-2' />
-                                'Agregar plato'
+                                Agregar plato
                             </>
                         )}
                     </Button>

@@ -15,6 +15,5 @@ export default function EditCategoryData() {
         queryFn: () => getCategoryById(Number(categoryId)),
         enabled: !!categoryId,
     });
-    console.log(data);
     if (data) return <EditCategoryModal data={data} categoryId={Number(categoryId)} open={open}/>;
 }

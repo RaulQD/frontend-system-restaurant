@@ -7,6 +7,7 @@ import {
 } from "@radix-ui/react-icons"
 
 import { cn } from "@/lib/utils"
+import { removePointerEventsFromBody } from "@/utils/removePointerEventsFrombody"
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 
@@ -91,6 +92,12 @@ const DropdownMenuItem = React.forwardRef<
       className
     )}
     {...props}
+    onSelect={(event) => {
+      if(props.onSelect){
+        props.onSelect(event)
+      }
+      removePointerEventsFromBody()
+    }}
   />
 ))
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName

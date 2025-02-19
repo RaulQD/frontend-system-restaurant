@@ -34,7 +34,7 @@ export default function AlertMessageDialog({
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
+                    <AlertDialogAction className='bg-red-500'
                         onClick={() => {
                             onConfirm();
                         }}>

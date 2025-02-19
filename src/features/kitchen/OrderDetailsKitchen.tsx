@@ -13,7 +13,6 @@ const status = [
     { value: 'PENDIENTE', label: 'Pendiente' },
     { value: 'EN PREPARACION', label: 'En preparacion' },
     { value: 'LISTO PARA SERVIR', label: 'Listo para servir' },
-    { value: 'SERVIDO', label: 'Servido' },
 ];
 
 export default function OrderDetailsKitchen({

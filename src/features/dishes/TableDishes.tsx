@@ -7,7 +7,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { BiTrash } from 'react-icons/bi';
+import { BiPencil, BiTrash } from 'react-icons/bi';
 import { Pencil1Icon } from '@radix-ui/react-icons';
 import { formatCurrency } from '../../utils/index';
 import { Badge } from '@/components/ui/badge';
@@ -22,6 +22,7 @@ import EditDishData from './EditDishData';
 import { useDeleteDih } from './useDeletedish';
 import AlertMessageDialog from '@/components/AlertMessageDialog';
 import { useNavigate } from 'react-router-dom';
+import DropdownActions from '@/components/DropdownActions';
 
 export default function TableDishes() {
     const navigate = useNavigate();
@@ -113,26 +114,28 @@ export default function TableDishes() {
                                     {availableDish(dish.available)}
                                 </TableCell>
                                 <TableCell className='flex items-center justify-center'>
-                                    <div>
-                                        <Button
-                                            variant={'ghost'}
-                                            onClick={() =>
-                                                navigate(
-                                                    location.pathname +
-                                                        `?editDish=${dish.id}`
-                                                )
-                                            }>
-                                            <Pencil1Icon className='text-lg' />
-                                        </Button>
-                                        <Button
-                                            variant={'ghost'}
-                                            onClick={() => {
-                                                setDishId(dish.id);
-                                                setIsDelete(true);
-                                            }}>
-                                            <BiTrash className='text-red-500 text-lg' />
-                                        </Button>
-                                    </div>
+                                    <DropdownActions
+                                        actions={[
+                                            {
+                                                label: 'Editar',
+                                                onClick: () =>
+                                                    navigate(
+                                                        location.pathname +
+                                                            `?editDish=${dish.id}`
+                                                    ),
+                                                iconType: BiPencil,
+                                            },
+                                            {
+                                                label: 'Eliminar',
+                                                onClick: () => {
+                                                    setDishId(dish.id);
+                                                    setIsDelete(true);
+                                                },
+                                                className: 'text-red-500',
+                                                iconType: BiTrash,
+                                            },
+                                        ]}
+                                    />
                                 </TableCell>
                             </TableRow>
                         ))}

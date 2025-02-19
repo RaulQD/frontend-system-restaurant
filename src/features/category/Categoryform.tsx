@@ -2,7 +2,7 @@ import { ErrorMessage } from '@/components/ErrorMessage';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CategoryForm } from '@/types/category';
-import { FieldErrors,  UseFormRegister } from 'react-hook-form';
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Textarea } from '@/components/ui/textarea';
 
 type CategoryFormProps = {
@@ -15,7 +15,12 @@ export default function Categoryform({ errors, register }: CategoryFormProps) {
         <>
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5 font-outfit'>
                 <div className='w-full col-span-3 row-span-2'>
-                    <Label className='text-gray-600 font-medium7'>
+                    <Label htmlFor='category_name'
+                        className={`font-medium transition-colors ${
+                            errors.category_name
+                                ? 'text-red-500'
+                                : 'text-gray-600'
+                        }`}>
                         Nombre de la categoria
                     </Label>
                     <Input
@@ -38,7 +43,13 @@ export default function Categoryform({ errors, register }: CategoryFormProps) {
                     )}
                 </div>
                 <div className='col-span-3'>
-                    <Label className='text-gray-600 font-medium7'>
+                    <Label
+                        htmlFor='category_description'
+                        className={`font-medium transition-colors ${
+                            errors.category_description
+                                ? 'text-red-500'
+                                : 'text-gray-600'
+                        }`}>
                         Descripción
                     </Label>
                     <Textarea

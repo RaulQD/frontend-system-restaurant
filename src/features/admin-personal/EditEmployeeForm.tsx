@@ -1,6 +1,6 @@
 import { Employee, EmployeeFormData } from '@/types/employee';
 import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useUpdatedEmployee } from './useUpdatedEmployee';
 import { Separator } from '@/components/ui/separator';
@@ -10,13 +10,10 @@ import { Input } from '@/components/ui/input';
 import { ErrorMessage } from '@/components/ErrorMessage';
 import { Button } from '@/components/ui/button';
 import SpinnerMini from '@/components/SpinnerMini';
-import {
-    Select,
-    SelectContent,
-    SelectValue,
-    SelectTrigger,
-    SelectItem,
-} from '@/components/ui/select';
+
+import { useQuery } from '@tanstack/react-query';
+import { Rol } from '@/types/rols';
+import { getRoles } from '@/services/apiRol';
 
 type EditEmployeeProps = {
     data: EmployeeFormData;
@@ -41,7 +38,6 @@ export default function EditEmployeeForm({
     ];
 
     const {
-        control,
         register,
         handleSubmit,
         formState: { errors },
@@ -63,7 +59,10 @@ export default function EditEmployeeForm({
         },
     });
     const { editEmployee, isPendingEmployee } = useUpdatedEmployee();
-
+    const { data: roles } = useQuery<Rol[]>({
+        queryKey: ['roles'],
+        queryFn: getRoles,
+    });
     const onSubmit = (data: EmployeeFormData) => {
         const formData = new FormData();
         formData.append('names', data.names);
@@ -183,13 +182,17 @@ export default function EditEmployeeForm({
                                         <Label
                                             id='salary'
                                             htmlFor='salary'
-                                            className='text-slate-600 font-normal'>
+                                            className={`font-medium transition-colors ${
+                                                errors.salary
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Sueldo
                                         </Label>
                                         <Input
                                             type='text'
                                             id='salary'
-                                            placeholder='00.00'
+                                            placeholder='0.00'
                                             className='mt-2'
                                             {...register('salary', {
                                                 required:
@@ -210,7 +213,11 @@ export default function EditEmployeeForm({
                                         <Label
                                             id='hire_date'
                                             htmlFor='hire_date'
-                                            className='text-slate-600 font-normal'>
+                                            className={`font-medium transition-colors ${
+                                                errors.hire_date
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Fecha de contratación
                                         </Label>
                                         <Input
@@ -233,24 +240,30 @@ export default function EditEmployeeForm({
                                         <Label
                                             id='role_name'
                                             htmlFor='role_name'
-                                            className='text-slate-600 font-normal'>
+                                            className={`font-medium transition-colors ${
+                                                errors.role_name
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Cargo
                                         </Label>
-                                        <Input
-                                            type='text'
+                                        <select
                                             id='role_name'
-                                            placeholder='Cargo'
-                                            className='mt-2'
+                                            className='flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 mt-2'
                                             {...register('role_name', {
-                                                required:
-                                                    'Ingresa la posiciòn del empleado.',
-                                                minLength: {
-                                                    value: 3,
-                                                    message:
-                                                        'El cargo debe tener al menos 3 caracteres',
-                                                },
-                                            })}
-                                        />
+                                                required: 'Selecciona una rol.',
+                                            })}>
+                                            <option value=''>
+                                                Selecciona un rol
+                                            </option>
+                                            {roles?.map((role) => (
+                                                <option
+                                                    key={role.id_rol}
+                                                    value={role.role_name}>
+                                                    {role.role_name}
+                                                </option>
+                                            ))}
+                                        </select>
                                         {errors.role_name && (
                                             <ErrorMessage>
                                                 {errors.role_name.message}
@@ -261,42 +274,32 @@ export default function EditEmployeeForm({
                                         <Label
                                             id='status'
                                             htmlFor='status'
-                                            className='text-slate-600 font-normal'>
+                                            className={`font-medium transition-colors ${
+                                                errors.status
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Estado
                                         </Label>
-                                        <Controller
-                                            name='status'
-                                            control={control}
-                                            rules={{required: 'Selecciona un estado'}}
-                                            render={({ field }) => (
-                                                <Select
-                                                    onValueChange={
-                                                        field.onChange
-                                                    }
-                                                    value={field.value}>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder='Seleccion un estado' />
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        {statusOption.map(
-                                                            (option) => (
-                                                                <SelectItem
-                                                                    key={
-                                                                        option.key
-                                                                    }
-                                                                    value={
-                                                                        option.value
-                                                                    }>
-                                                                    {
-                                                                        option.label
-                                                                    }
-                                                                </SelectItem>
-                                                            )
-                                                        )}
-                                                    </SelectContent>
-                                                </Select>
-                                            )}
-                                        />
+                                        <select
+                                            id='status'
+                                            className='flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 mt-2'
+                                            {...register('status', {
+                                                required:
+                                                    'Selecciona un estado',
+                                            })}>
+                                            <option value=''>
+                                                Selecciona un estado
+                                            </option>
+                                            {statusOption.map((option) => (
+                                                <option
+                                                    key={option.key}
+                                                    value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
+
                                         {errors.status && (
                                             <ErrorMessage>
                                                 {errors.status.message}
@@ -377,7 +380,11 @@ export default function EditEmployeeForm({
                                         <Label
                                             id='names'
                                             htmlFor='names'
-                                            className='text-slate-600 font-normal'>
+                                            className={`font-medium transition-colors ${
+                                                errors.names
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Nombre del plato
                                         </Label>
                                         <Input
@@ -405,7 +412,11 @@ export default function EditEmployeeForm({
                                         <Label
                                             id='last_name'
                                             htmlFor='last_name'
-                                            className='text-slate-600 font-normal'>
+                                            className={`font-medium transition-colors ${
+                                                errors.last_name
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Apellidos
                                         </Label>
                                         <Input
@@ -433,7 +444,11 @@ export default function EditEmployeeForm({
                                         <Label
                                             id='dni'
                                             htmlFor='dni'
-                                            className='text-slate-600 font-normal'>
+                                            className={`font-medium transition-colors ${
+                                                errors.dni
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             N° de documento
                                         </Label>
                                         <Input
@@ -466,7 +481,11 @@ export default function EditEmployeeForm({
                                         <Label
                                             id='email'
                                             htmlFor='email'
-                                            className='text-slate-600 font-normal'>
+                                            className={`font-medium transition-colors ${
+                                                errors.email
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Correo electrónico
                                         </Label>
                                         <Input
@@ -494,7 +513,11 @@ export default function EditEmployeeForm({
                                         <Label
                                             id='phone'
                                             htmlFor='phone'
-                                            className='text-slate-600 font-normal'>
+                                            className={`font-medium transition-colors ${
+                                                errors.phone
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Contacto
                                         </Label>
                                         <Input
@@ -527,7 +550,11 @@ export default function EditEmployeeForm({
                                         <Label
                                             id='address'
                                             htmlFor='address'
-                                            className='text-slate-600 font-normal'>
+                                            className={`font-medium transition-colors ${
+                                                errors.address
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-600'
+                                            } `}>
                                             Dirección
                                         </Label>
                                         <Input
@@ -561,11 +588,9 @@ export default function EditEmployeeForm({
                                 </Button>
                                 <Button type='submit' variant={'principal'}>
                                     {isPendingEmployee ? (
-                                        <div className='flex justify-center'>
-                                            <SpinnerMini />
-                                        </div>
+                                        <SpinnerMini />
                                     ) : (
-                                        'Guardar empleado'
+                                        'Guardar cambios'
                                     )}
                                 </Button>
                             </div>

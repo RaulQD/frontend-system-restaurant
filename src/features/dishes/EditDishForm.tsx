@@ -12,8 +12,10 @@ type CategoryFormProps = {
     errors: FieldErrors<DishesFormData>;
     register: UseFormRegister<DishesFormData>;
     handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    selectedImage: string | File | null
-    setSelectedImage: React.Dispatch<React.SetStateAction<string | File | null>>
+    selectedImage: string | File | null;
+    setSelectedImage: React.Dispatch<
+        React.SetStateAction<string | File | null>
+    >;
 };
 export default function EditDishForm({
     errors,
@@ -25,7 +27,6 @@ export default function EditDishForm({
     const { data: category } = useQuery<Category[]>({
         queryKey: ['categories'],
         queryFn: getCategories,
-        
     });
 
     return (
@@ -63,15 +64,25 @@ export default function EditDishForm({
                             <>
                                 <Label
                                     htmlFor='image_url'
-                                    className='flex flex-col items-center justify-center h-40 cursor-pointer'>
-                                    <UploadIcon className='w-10 h-10 text-muted-foreground mb-2' />
+                                    className={`font-medium transition-colors ${
+                                        errors.image_url
+                                            ? 'text-red-500'
+                                            : 'text-gray-600'
+                                    } flex flex-col items-center justify-center h-40 cursor-pointer`}>
+                                    <UploadIcon
+                                        className={`transition-colors ${
+                                            errors.image_url
+                                                ? 'text-red-500'
+                                                : 'text-gray-600'
+                                        } w-10 h-10 text-muted-foreground mb-2`}
+                                    />
                                     <span>Click para subir la imagen</span>
                                 </Label>
                                 <Input
                                     type='file'
                                     id='image_url'
                                     className='hidden'
-                                    accept="image/*" // 🔥 Asegura que solo acepte imágenes
+                                    accept='image/*' // 🔥 Asegura que solo acepte imágenes
                                     onChange={handleImageChange} // 🔥 No uses register aquí
                                 />
                             </>
@@ -83,7 +94,15 @@ export default function EditDishForm({
                     )}
                 </div>
                 <div className='col-span-3'>
-                    <Label htmlFor='dishes_name'>Nombre del plato</Label>
+                    <Label
+                        htmlFor='dishes_name'
+                        className={`font-medium transition-colors ${
+                            errors.dishes_name
+                                ? 'text-red-500'
+                                : 'text-gray-600'
+                        }`}>
+                        Nombre del plato
+                    </Label>
                     <Input
                         id='name'
                         className='mt-2'
@@ -110,7 +129,13 @@ export default function EditDishForm({
                     )}
                 </div>
                 <div className='col-span-3'>
-                    <Label htmlFor='dishes_description'>
+                    <Label
+                        htmlFor='dishes_description'
+                        className={`font-medium transition-colors ${
+                            errors.dishes_description
+                                ? 'text-red-500'
+                                : 'text-gray-600'
+                        }`}>
                         Descripción del plato
                     </Label>
                     <Input
@@ -139,7 +164,13 @@ export default function EditDishForm({
                     )}
                 </div>
                 <div className='space-y-2'>
-                    <Label htmlFor='price'>Precio</Label>
+                    <Label
+                        htmlFor='price'
+                        className={`font-medium transition-colors ${
+                            errors.price ? 'text-red-500' : 'text-gray-600'
+                        }`}>
+                        Precio
+                    </Label>
                     <Input
                         id='price'
                         type='number'
@@ -160,7 +191,13 @@ export default function EditDishForm({
                     )}
                 </div>
                 <div className='space-y-2'>
-                    <Label htmlFor='available'>available</Label>
+                    <Label
+                        htmlFor='available'
+                        className={`font-medium transition-colors ${
+                            errors.available ? 'text-red-500' : 'text-gray-600'
+                        }`}>
+                        available
+                    </Label>
                     <select
                         id='available'
                         className='flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1'
@@ -175,7 +212,15 @@ export default function EditDishForm({
                     )}
                 </div>
                 <div className='space-y-2'>
-                    <Label htmlFor='category_name'>Categoría</Label>
+                    <Label
+                        htmlFor='category_name'
+                        className={`font-medium transition-colors ${
+                            errors.category_name
+                                ? 'text-red-500'
+                                : 'text-gray-600'
+                        }`}>
+                        Categoría
+                    </Label>
                     {category && (
                         <select
                             id='category_name'
