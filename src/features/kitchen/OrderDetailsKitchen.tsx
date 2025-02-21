@@ -92,7 +92,9 @@ export default function OrderDetailsKitchen({
                                         </Badge>
                                     ) : (
                                         <form>
-                                            <select
+                                           <select
+                                                id='status'
+                                                name='status'
                                                 defaultValue={item.status}
                                                 className='border border-gray-300 rounded-md text-sm p-1 w-full'
                                                 onChange={(

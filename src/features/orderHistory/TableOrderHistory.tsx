@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import {
     Table,
     TableBody,
@@ -7,8 +6,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { Pencil1Icon } from '@radix-ui/react-icons';
-import { BiTrash } from 'react-icons/bi';
+import { BiPencil, BiTrash } from 'react-icons/bi';
 import { useOrderHistory } from './useOrderHistory';
 import Spinner from '@/components/Spinner';
 import { Badge } from '@/components/ui/badge';
@@ -187,6 +185,7 @@ export default function rTableOrderHistory() {
                                                         handleOpenModal(
                                                             order.id_order
                                                         ),
+                                                    iconType: BiPencil,
                                                 },
                                                 {
                                                     label: 'Eliminar',
@@ -196,6 +195,8 @@ export default function rTableOrderHistory() {
                                                         );
                                                         setIsDelete(true);
                                                     },
+                                                    iconType: BiTrash,
+                                                    className: 'text-red-500',
                                                 },
                                             ]}
                                         />

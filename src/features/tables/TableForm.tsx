@@ -21,6 +21,7 @@ export default function TableForm({ errors, register }: TableFormProps) {
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5 font-outfit'>
                 <div className='w-full col-span-3 row-span-2'>
                     <Label
+                        htmlFor='num_table'
                         className={`font-medium transition-colors ${
                             errors.num_table ? 'text-red-500' : 'text-gray-600'
                         } `}>
@@ -28,6 +29,7 @@ export default function TableForm({ errors, register }: TableFormProps) {
                     </Label>
                     <Input
                         type='text'
+                        id='num_table'
                         placeholder='Mesa'
                         className='mt-2'
                         {...register('num_table', {
@@ -54,6 +56,7 @@ export default function TableForm({ errors, register }: TableFormProps) {
                 </div>
                 <div className='col-span-3'>
                     <Label
+                        htmlFor='capacity_table'
                         className={`font-medium transition-colors ${
                             errors.capacity_table
                                 ? 'text-red-500'
@@ -63,6 +66,7 @@ export default function TableForm({ errors, register }: TableFormProps) {
                     </Label>
                     <Input
                         type='number'
+                        id='capacity_table'
                         placeholder='Capacidad'
                         className='mt-2'
                         {...register('capacity_table', {

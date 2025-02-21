@@ -12,24 +12,13 @@ import Spinner from '@/components/Spinner';
 import { Badge } from '@/components/ui/badge';
 import NoImage from '@/assets/not-image-found.png';
 import PaginationI from '@/components/PaginationI';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import {
-    DotsVerticalIcon,
-    EyeOpenIcon,
-    Pencil2Icon,
-    TrashIcon,
-} from '@radix-ui/react-icons';
 import { useNavigate } from 'react-router-dom';
 import AlertMessageDialog from '@/components/AlertMessageDialog';
 import { useState } from 'react';
 import { Employee } from '@/types/employee';
 import { useDelete } from './useDelete';
+import DropdownActions from '@/components/DropdownActions';
+import { BiPencil, BiTrash } from 'react-icons/bi';
 
 export default function TableEmployees() {
     const navigate = useNavigate();
@@ -119,7 +108,7 @@ export default function TableEmployees() {
                                 <TableHead>Fecha de Inicio</TableHead>
                                 <TableHead>Puesto</TableHead>
                                 <TableHead>Estado</TableHead>
-                                <TableHead className='text-right'>
+                                <TableHead className='text-center'>
                                     Acciones
                                 </TableHead>
                             </TableRow>
@@ -158,49 +147,36 @@ export default function TableEmployees() {
                                     <TableCell>
                                         {badgeStatus(employee.status)}
                                     </TableCell>
-                                    <TableCell className='flex items-end justify-end'>
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant='ghost'>
-                                                    <DotsVerticalIcon className='h-4 w-4 cursor-pointer ' />
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent
-                                                align='end'
-                                                className='w-[160px] z-50'>
-                                                <div className='py-1'>
-                                                    <DropdownMenuItem
-                                                        className='cursor-pointer'
-                                                        onClick={() =>
-                                                            navigate(
-                                                                location.pathname +
-                                                                    `/${employee.id}/edit`
-                                                            )
-                                                        }>
-                                                        <Pencil2Icon className='w-4 h-4 mr-2' />
-                                                        Editar
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem
-                                                        className='cursor-pointer text-yellow-600'
-                                                        onClick={() =>
-                                                            console.log('ver')
-                                                        }>
-                                                        <EyeOpenIcon className='w-4 h-4 mr-2' />
-                                                        Ver
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem
-                                                        className='text-red-500 cursor-pointer'
-                                                        onClick={() =>
-                                                            handleDeleteClick(
-                                                                employee.id
-                                                            )
-                                                        }>
-                                                        <TrashIcon className='w-4 h-4 mr-2' />
-                                                        Eliminar
-                                                    </DropdownMenuItem>
-                                                </div>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
+                                    <TableCell className='text-center'>
+                                              <DropdownActions 
+                                              actions = {[
+                                                {
+                                                    label: 'Editar',
+                                                    onClick: () =>
+                                                        navigate(
+                                                            location.pathname +
+                                                                `/${employee.id}/edit`
+                                                        ),
+                                                    iconType: BiPencil
+                                                },
+                                                {
+                                                    label: 'Ver',
+                                                    onClick: () =>
+                                                        console.log('ver')
+                                                    
+                                                },
+                                                {
+                                                    label: 'Eliminar',
+                                                    onClick: () =>
+                                                        handleDeleteClick(
+                                                            employee.id
+                                                        ),
+                                                    className: 'text-red-500 ',
+                                                    iconType: BiTrash,
+                                                },
+                                              ]}
+                                              />
+                                       
                                     </TableCell>
                                 </TableRow>
                             ))}

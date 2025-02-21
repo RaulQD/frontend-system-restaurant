@@ -23,7 +23,7 @@ export default function CardTable({ table }: CardTableProps) {
                             ? 'bg-blue-500'
                             : 'bg-red-500'
                     } absolute -top-2 left-0 rounded-ss-xl p-1`}>
-                    <h1 className='text-white lowercase'>{table.status}</h1>
+                    <h1 className='text-sm text-white capitalize'>{table.status}</h1>
                 </div>
             </CardHeader>
             <CardContent>

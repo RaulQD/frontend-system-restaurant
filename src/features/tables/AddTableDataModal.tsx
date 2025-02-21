@@ -4,7 +4,7 @@ import { TableFormData } from '@/types/tables';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { useEffect} from 'react';
+import { useEffect } from 'react';
 import { useCreateTable } from './useCreateTable';
 import SpinnerMini from '@/components/SpinnerMini';
 
@@ -52,6 +52,7 @@ export default function AddTableDataModal({ open }: TableDataModalProps) {
 
                 <div className='flex justify-end gap-4 mt-4'>
                     <Button
+                        type='button'
                         variant={'secondary'}
                         onClick={() =>
                             navigate(location.pathname, { replace: true })

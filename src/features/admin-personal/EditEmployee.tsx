@@ -3,15 +3,17 @@ import { getEmployeeById } from '@/services/apiEmployee';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import EditEmployeeForm from './EditEmployeeForm';
+import { Employee } from '@/types/employee';
 
 export default function EditEmployee() {
     const params = useParams();
     const employeeId = params.employeeId!
-    const { data, isLoading, isError, error } = useQuery({
+    const { data, isLoading, isError, error } = useQuery<Employee>({
         queryKey: ['employeeId', employeeId],
         queryFn: () => getEmployeeById(Number(employeeId)),
         enabled: !!employeeId,
     });
+    console.log(data);
     if (isLoading) {
         return (
             <div className='flex justify-center items-center h-96'>

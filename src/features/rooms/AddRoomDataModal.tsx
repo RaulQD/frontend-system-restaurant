@@ -1,75 +1,66 @@
 import ResponsiveDialog from '@/components/ResponsiveDialog';
-import { TableFormData, Tables } from '@/types/tables';
-import TableForm from './TableForm';
+import { RoomFormData } from '@/types/rooms';
 import { useForm } from 'react-hook-form';
+import RoomForm from './RoomForm';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import SpinnerMini from '@/components/SpinnerMini';
+import { useCreateRoom } from './useCreateRoom';
 import { useEffect } from 'react';
-import { useUpdateTable } from './useUpdateTable';
+import SpinnerMini from '@/components/SpinnerMini';
 
-type TableDataModalProps = {
+type AddRoomDataModalProps = {
     open: boolean;
-    data: Tables;
-    tableId: Tables['id_table'];
 };
 
-export default function EditTabledataModal({
-    open,
-    data,
-    tableId,
-}: TableDataModalProps) {
+export default function AddRoomDataModal({ open }: AddRoomDataModalProps) {
     const navigate = useNavigate();
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors },
-    } = useForm<TableFormData>({
+    } = useForm<RoomFormData>({
         defaultValues: {
-            num_table: data.num_table,
-            capacity_table: data.capacity_table,
-            room_id: data.room.id,
+            room_name: '',
+            num_tables: '',
         },
     });
+    // Reset the form when the modal is closed
     useEffect(() => {
         if (!open) {
             reset();
         }
     }, [open, reset]);
-    const { update, isPending } = useUpdateTable();
 
-    const onSubmit = (formData: TableFormData) => {
-      
-        const data = {
-            formData,
-            tableId,
-        };
-        update(data, {
+    const { create, isPending } = useCreateRoom();
+    const onSubmit = (data: RoomFormData) => {
+        create(data, {
             onSuccess: () => {
                 reset();
                 navigate(location.pathname, { replace: true });
             },
         });
     };
+    const handleCancel = () => {
+        reset();
+        navigate(location.pathname, { replace: true });
+    };
+
     return (
         <ResponsiveDialog
-            title='Editar mesa'
-            description='Ingresa los datos de la mesa'
-            open={open}>
+            title='Agregar nueva sala'
+            open={open}
+            description='Agrega una nueva sala para el restaurante.'>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <TableForm register={register} errors={errors} />
-
+                <RoomForm errors={errors} register={register} />
                 <div className='flex justify-end gap-4 mt-4'>
                     <Button
                         type='button'
                         variant={'secondary'}
-                        onClick={() =>
-                            navigate(location.pathname, { replace: true })
-                        }>
+                        onClick={handleCancel}>
                         Cancelar
                     </Button>
-                    <Button variant={'principal'} disabled={isPending}>
+                    <Button type='submit' variant={'principal'}>
                         {isPending ? <SpinnerMini /> : 'Guardar'}
                     </Button>
                 </div>

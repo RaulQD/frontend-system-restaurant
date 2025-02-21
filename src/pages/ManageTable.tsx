@@ -17,7 +17,7 @@ export default function ManageTable() {
     return (
         <section>
             <div>
-                <div className='flex flex-col md:flex-row items-start justify-between gap-6'>
+                <div className='flex flex-col lg:flex-row items-start lg:items-center lg:justify-between gap-6'>
                     <div>
                         <div>
                             <h1 className='font-outfit text-2xl font-medium'>

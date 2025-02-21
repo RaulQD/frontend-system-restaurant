@@ -15,13 +15,13 @@ export const useLogin = () => {
     onSuccess: (data) => {
 
       queryClient.setQueryData(['user'], data);
-      if (data?.role.name === 'cocinero') {
+      if (data?.role.role_name === 'cocinero') {
         navigate('/dashboard/kitchen')
       }
-      if (data?.role.name === 'mesero') {
-        navigate('/dashboard/tables')
+      if (data?.role.role_name === 'mesero') {
+        navigate('/dashboard/table')
       }
-      if (data?.role.name === 'administrador') {
+      if (data?.role.role_name === 'administrador') {
         navigate('/dashboard/home')
       }
     }

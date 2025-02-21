@@ -68,6 +68,7 @@ export const updateTable = async ({ tableId, formData }: UpdateTableType) => {
     const { data } = await api.put(`/tables/${tableId}`, formData)
     return data
   } catch (error) {
+    
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message)
     } else {

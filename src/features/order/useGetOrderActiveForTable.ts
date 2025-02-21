@@ -8,6 +8,7 @@ export const useGetOrderActiveForTable = (tableId: number) => {
     queryFn: () => getOrderByTableId(tableId),
     retry: false,
     enabled: !!tableId,
+    refetchInterval: 2000,
   })
 
   return { activeOrder, isLoading, isError, error }

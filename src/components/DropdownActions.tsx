@@ -5,7 +5,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import {  DotsVerticalIcon } from '@radix-ui/react-icons';
+import { DotsVerticalIcon } from '@radix-ui/react-icons';
 import { IconType } from 'react-icons';
 
 type Actions = {
@@ -27,15 +27,19 @@ export default function DropdownActions({ actions }: DropdownActionsProps) {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
-               {actions.map((action) => (
+                {actions.map((action) => (
                     <DropdownMenuItem
                         key={action.label}
-                        className={`cursor-pointer ${action.className || ''}`}
+                        className={`cursor-pointer ${
+                            action.className || ''
+                        }`}
                         onClick={action.onClick}>
-                         {action.iconType && <action.iconType className='w-5 h-5 mr-2' />}
-                         {action.label}
+                        {action.iconType && (
+                            <action.iconType className='w-5 h-5 mr-2' />
+                        )}
+                        {action.label}
                     </DropdownMenuItem>
-               ))}
+                ))}
             </DropdownMenuContent>
         </DropdownMenu>
     );

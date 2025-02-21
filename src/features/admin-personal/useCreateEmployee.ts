@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 export const useCreateEmployee = () => {
   const queryClient = useQueryClient()
   const navigarte = useNavigate()
-  const { mutate: createEmployee } = useMutation({
+  const { mutate: createEmployee, isPending } = useMutation({
     mutationFn: registerUser,
     onError: (error) => {
       toast.error(error.message)
@@ -17,5 +17,5 @@ export const useCreateEmployee = () => {
       navigarte('/dashboard/employees')
     }
   })
-  return { createEmployee }
+  return { createEmployee, isPending }
 }

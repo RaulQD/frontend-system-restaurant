@@ -14,9 +14,7 @@ type CardKitchenProps = {
 export default function CardKitchen({ order }: CardKitchenProps) {
     //OBTENER EL PRIMER NOMBRE Y APELLIDO DEL USUARIO
     const names = order.employee.names.split(' ');
-    console.log(names);
     const last_name = order.employee.last_name.split(' ');
-    console.log(last_name);
     const full_name = names[0] + ' ' + last_name[0];
 
     const statusOrder = (status: string) => {
@@ -72,12 +70,11 @@ export default function CardKitchen({ order }: CardKitchenProps) {
                 <CardHeader className='p-4'>
                     <div className='flex items-center justify-between'>
                         <h1 className='text-sm font-medium'>{full_name}</h1>
-
                         <span>{statusOrder(order.order_status)}</span>
                     </div>
                 </CardHeader>
                 <CardContent className='px-4 pb-4'>
-                    <Separator className='mb-4' />
+                    <Separator className='mb-4'/>
                     <div>
                         <div className='flex items-center justify-start gap-2'>
                             <ClockIcon className='w-3 h-3 text-gray-500' />

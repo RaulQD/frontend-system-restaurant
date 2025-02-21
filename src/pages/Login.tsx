@@ -19,20 +19,10 @@ export default function Login() {
                             <h2 className=' mt-4 text-center text-base md:text-xl font-semibold leading-9 tracking-tight text-gray-900 mb-2'>
                                 ¡Bienvenido a Foodie Hub!
                             </h2>
-                            {/* <p className='font-normal text-sm'>
-                                Ingresa tu usuario y contraseña para <br />
-                                iniciar sesión
-                            </p> */}
+
                         </div>
                         <LoginForm />
-                        <div className='flex justify-center items-center gap-2 mt-3'>
-                            <Button
-                                variant={'default'}
-                                size={'lg'}
-                                className='w-full text-base'>
-                                Ordenes Cocina
-                            </Button>
-                        </div>
+                       
                     </div>
                 </div>
             </div>

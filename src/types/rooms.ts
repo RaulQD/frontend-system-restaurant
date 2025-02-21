@@ -2,5 +2,6 @@
 export type Rooms = {
   id: number;
   room_name: string;
-  tables: number;
+  num_tables: string;
 }
+export type RoomFormData = Pick<Rooms, 'room_name' | 'num_tables'>;

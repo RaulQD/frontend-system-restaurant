@@ -16,7 +16,7 @@ import { Rol } from '@/types/rols';
 import { getRoles } from '@/services/apiRol';
 
 type EditEmployeeProps = {
-    data: EmployeeFormData;
+    data: Employee;
     employeeId: Employee['id'];
 };
 
@@ -53,8 +53,8 @@ export default function EditEmployeeForm({
             salary: data.salary,
             hire_date: data.hire_date,
             status: data.status,
-            role_name: data.role_name,
-            username: data.username,
+            role_name: data.role.role_name,
+            username: data.user.username,
             password: '',
         },
     });
@@ -180,7 +180,6 @@ export default function EditEmployeeForm({
                                 <div className='grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8'>
                                     <div>
                                         <Label
-                                            id='salary'
                                             htmlFor='salary'
                                             className={`font-medium transition-colors ${
                                                 errors.salary
@@ -192,6 +191,7 @@ export default function EditEmployeeForm({
                                         <Input
                                             type='text'
                                             id='salary'
+                                            autoComplete="off"
                                             placeholder='0.00'
                                             className='mt-2'
                                             {...register('salary', {
@@ -211,7 +211,6 @@ export default function EditEmployeeForm({
                                     </div>
                                     <div className=''>
                                         <Label
-                                            id='hire_date'
                                             htmlFor='hire_date'
                                             className={`font-medium transition-colors ${
                                                 errors.hire_date
@@ -223,6 +222,7 @@ export default function EditEmployeeForm({
                                         <Input
                                             type='date'
                                             id='hire_date'
+                                            autoComplete="off"
                                             placeholder='Fecha de contratación'
                                             className='mt-2'
                                             {...register('hire_date', {
@@ -238,7 +238,6 @@ export default function EditEmployeeForm({
                                     </div>
                                     <div>
                                         <Label
-                                            id='role_name'
                                             htmlFor='role_name'
                                             className={`font-medium transition-colors ${
                                                 errors.role_name
@@ -249,6 +248,7 @@ export default function EditEmployeeForm({
                                         </Label>
                                         <select
                                             id='role_name'
+                                            autoComplete="off"
                                             className='flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 mt-2'
                                             {...register('role_name', {
                                                 required: 'Selecciona una rol.',
@@ -272,7 +272,6 @@ export default function EditEmployeeForm({
                                     </div>
                                     <div>
                                         <Label
-                                            id='status'
                                             htmlFor='status'
                                             className={`font-medium transition-colors ${
                                                 errors.status
@@ -283,6 +282,7 @@ export default function EditEmployeeForm({
                                         </Label>
                                         <select
                                             id='status'
+                                            autoComplete="off"
                                             className='flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 mt-2'
                                             {...register('status', {
                                                 required:
@@ -315,7 +315,6 @@ export default function EditEmployeeForm({
                                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-y-4 gap-x-8'>
                                     <div>
                                         <Label
-                                            id='username'
                                             htmlFor='username'
                                             className='text-slate-500 font-normal'>
                                             Usuario del empleado
@@ -325,6 +324,7 @@ export default function EditEmployeeForm({
                                             id='username'
                                             placeholder='usuario'
                                             className='mt-2'
+                                            autoComplete="off"
                                             {...register('username', {
                                                 required:
                                                     'Ingresa el usuario del empleado.',
@@ -343,7 +343,6 @@ export default function EditEmployeeForm({
                                     </div>
                                     <div>
                                         <Label
-                                            id='password'
                                             htmlFor='password'
                                             className='text-slate-500 font-normal'>
                                             Contraseña
@@ -353,6 +352,7 @@ export default function EditEmployeeForm({
                                             placeholder='**********'
                                             id='password'
                                             className='mt-2'
+                                            autoComplete="off"
                                             {...register('password', {
                                                 minLength: {
                                                     value: 8,
@@ -391,7 +391,8 @@ export default function EditEmployeeForm({
                                             type='text'
                                             id='names'
                                             placeholder='Nombre'
-                                            className='mt-2 '
+                                            className='mt-2'
+                                            autoComplete="off"
                                             {...register('names', {
                                                 required:
                                                     'El nombre del empleado es requerido.',
@@ -410,7 +411,6 @@ export default function EditEmployeeForm({
                                     </div>
                                     <div className='col-span-2 md:col-auto'>
                                         <Label
-                                            id='last_name'
                                             htmlFor='last_name'
                                             className={`font-medium transition-colors ${
                                                 errors.last_name
@@ -424,6 +424,7 @@ export default function EditEmployeeForm({
                                             id='last_name'
                                             placeholder='Apellidos'
                                             className='mt-2'
+                                            autoComplete="off"
                                             {...register('last_name', {
                                                 required:
                                                     'El apellido del empleado es requerido.',
@@ -442,7 +443,6 @@ export default function EditEmployeeForm({
                                     </div>
                                     <div className='col-span-2 md:col-auto'>
                                         <Label
-                                            id='dni'
                                             htmlFor='dni'
                                             className={`font-medium transition-colors ${
                                                 errors.dni
@@ -454,6 +454,7 @@ export default function EditEmployeeForm({
                                         <Input
                                             type='text'
                                             id='dni'
+                                            autoComplete="off"
                                             placeholder='ej. 00000000'
                                             className='mt-2'
                                             {...register('dni', {
@@ -492,6 +493,7 @@ export default function EditEmployeeForm({
                                             type='email'
                                             id='email'
                                             placeholder='ejemplo@ejemplo.com'
+                                            autoComplete="off"
                                             className='mt-2'
                                             {...register('email', {
                                                 required:
@@ -525,6 +527,7 @@ export default function EditEmployeeForm({
                                             id='phone'
                                             placeholder='ej. 999999999'
                                             className='mt-2'
+                                            autoComplete="off"
                                             {...register('phone', {
                                                 required:
                                                     'Ingrese el teléfono del empleado.',
@@ -562,6 +565,7 @@ export default function EditEmployeeForm({
                                             id='address'
                                             placeholder='dirección'
                                             className='mt-2'
+                                            autoComplete="off"
                                             {...register('address', {
                                                 required:
                                                     'Ingresa la direcciòn del empleado.',
@@ -582,6 +586,7 @@ export default function EditEmployeeForm({
                             </div>
                             <div className='flex items-center justify-end gap-4 mt-4'>
                                 <Button
+                                    type='button'
                                     variant={'outline'}
                                     onClick={redirectToEmployees}>
                                     Cancelar

@@ -15,6 +15,7 @@ createRoot(document.getElementById('root')!).render(
                     initialIsOpen={false}
                     buttonPosition='bottom-left'
                 />
+               
                 <Toaster
                     position='top-right'
                     reverseOrder={false}

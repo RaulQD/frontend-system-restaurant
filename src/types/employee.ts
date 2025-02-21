@@ -1,9 +1,8 @@
+import { User } from "./auth";
 import { Rol } from "./rols";
 
 export type Employee = {
   id: number;
-  username: string;
-  password: string;
   names: string;
   last_name: string;
   dni: string;
@@ -14,7 +13,8 @@ export type Employee = {
   profile_picture_url?: FileList | null;
   hire_date?: Date;
   status: string;
-  role_name: string;
+  role: Rol;
+  user: User;
 }
 export type EmployeeList = {
   id: number;
@@ -26,8 +26,23 @@ export type EmployeeList = {
   role: Rol;
   status: string;
 }
+export type EmployeeFormData = {
+  dni: string;
+  user: number;
+  phone: string;
+  email: string;
+  address: string;
+  names: string;
+  last_name: string;
+  salary: number;
+  profile_picture_url: FileList | null;
+  hire_date: Date;
+  status: string;
+  role_name: string;
+  username: string;
+  password: string;
+}
 
-export type EmployeeFormData = Pick<Employee, 'dni' | 'username' | 'password' | 'phone' | 'email' | 'address' | 'names' | 'last_name' | 'salary' | 'profile_picture_url' | 'hire_date' | 'status' | 'role_name'>
 
 export type PaginationResponse = {
   currentPage: number;

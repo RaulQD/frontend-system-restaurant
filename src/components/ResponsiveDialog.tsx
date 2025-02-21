@@ -26,7 +26,7 @@ export default function ResponsiveDialog({
     const navigate = useNavigate();
     const widthClass = {
         sm: "sm:max-w-[400px]",
-        md: "sm:max-w-[600px]",
+        md: "sm:max-w-[650px]",
         lg: "sm:max-w-[900px]",
         xl: "sm:max-w-[1200px]",
     }[size];

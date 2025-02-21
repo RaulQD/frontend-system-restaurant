@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { format, getYear, setMonth, setYear } from 'date-fns';
+import {
+    format,
+    getYear,
+    isAfter,
+    setMonth,
+    setYear,
+    startOfDay,
+} from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -22,7 +29,7 @@ type DatePickerProps = {
     text: string;
     startYear?: number;
     endYear?: number;
-    onDateChange: (startDate: string) => void
+    onDateChange: (startDate: string) => void;
 };
 
 export default function DatePicker({
@@ -50,6 +57,8 @@ export default function DatePicker({
         { length: endYear - startYear + 1 },
         (_, i) => startYear + i
     );
+    //OBTENER LA FECHA ACTUAL SIN HORAS
+    const today = startOfDay(new Date());
     const handleMonthChange = (month: string) => {
         const newDate = setMonth(date, months.indexOf(month));
         setDate(newDate);
@@ -59,13 +68,12 @@ export default function DatePicker({
         setDate(newDate);
     };
     const handleSelect = (selectedDate: Date | undefined) => {
-        if (selectedDate) {
+        //SI LA FECHA SELECCIONADA ES MENOR A LA FECHA ACTUAL, SE GUARDA
+        if (selectedDate && !isAfter(selectedDate, today)) {
             setDate(selectedDate);
             onDateChange(format(selectedDate, 'yyyy-MM-dd'));
         }
-    }
-
-
+    };
 
     return (
         <Popover>
@@ -118,6 +126,7 @@ export default function DatePicker({
                     initialFocus
                     month={date}
                     onMonthChange={setDate}
+                    disabled={(date) => isAfter(date, today)}//DESACTIVAR FECHAS FUTURAS
                 />
             </PopoverContent>
         </Popover>

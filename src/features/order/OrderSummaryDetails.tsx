@@ -68,7 +68,7 @@ export default function OrderSummaryDetails({
         processPayment(data, {
             onSuccess: () => {
                 reset();
-                navigate('/dashboard/tables');
+                navigate('/dashboard/table');
             },
         });
     };

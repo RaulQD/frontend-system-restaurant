@@ -1,5 +1,13 @@
 import { Rol } from "./rols";
 
+export type User = {
+  id: number;
+  username: string;
+  password: string;
+  status: string;
+  role: Rol;
+}
+
 export type Employee = {
   id_employee: number;
   full_name: string;

@@ -96,7 +96,7 @@ export default function OrderHistoryDetailsData({
     };
 
     return (
-        <div className='w-full overflow-y-auto'>
+        <div className='w-full overflow-y-auto rounded-md border'>
             {orderDetails.items.length > 0 ? (
                 <Table className='w-full divide-y divide-gray-300'>
                     <TableHeader className='bg-slate-200'>

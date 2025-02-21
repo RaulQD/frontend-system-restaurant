@@ -13,6 +13,7 @@ import { useCreateEmployee } from './useCreateEmployee';
 import { useQuery } from '@tanstack/react-query';
 import { getRoles } from '@/services/apiRol';
 import { Rol } from '@/types/rols';
+import SpinnerMini from '@/components/SpinnerMini';
 
 export default function EmployeeForm() {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ export default function EmployeeForm() {
         formState: { errors },
         reset,
     } = useForm<EmployeeFormData>();
-    const { createEmployee } = useCreateEmployee();
+    const { createEmployee, isPending } = useCreateEmployee();
     const { data: roles } = useQuery<Rol[]>({
         queryKey: ['roles'],
         queryFn: getRoles,
@@ -105,7 +106,7 @@ export default function EmployeeForm() {
                                     ) : (
                                         <>
                                             <Label
-                                                htmlFor='image_url'
+                                                htmlFor='profile_picture_url'
                                                 className={`font-medium transition-colors ${
                                                     errors.profile_picture_url
                                                         ? 'text-red-500'
@@ -116,7 +117,7 @@ export default function EmployeeForm() {
                                                         errors.profile_picture_url
                                                             ? 'text-red-500'
                                                             : 'text-gray-600'
-                                                    }w-10 h-10 text-muted-foreground mb-2
+                                                    } w-10 h-10 text-muted-foreground mb-2
                                                 `}
                                                 />
                                                 <span>
@@ -125,7 +126,7 @@ export default function EmployeeForm() {
                                             </Label>
                                             <Input
                                                 type='file'
-                                                id='image_url'
+                                                id='profile_picture_url'
                                                 className='hidden'
                                                 {...register(
                                                     'profile_picture_url',
@@ -153,7 +154,6 @@ export default function EmployeeForm() {
                                 <div className='grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8'>
                                     <div>
                                         <Label
-                                            id='salary'
                                             htmlFor='salary'
                                             className={`font-medium transition-colors ${
                                                 errors.salary
@@ -162,11 +162,12 @@ export default function EmployeeForm() {
                                             } `}>
                                             Sueldo
                                         </Label>
+                                        id='salary'
                                         <Input
                                             type='text'
-                                            id='salary'
                                             placeholder='0.00'
                                             className='mt-2'
+                                            autoComplete='off'
                                             {...register('salary', {
                                                 required:
                                                     'Ingrese el sueldo del empleado.',
@@ -184,7 +185,6 @@ export default function EmployeeForm() {
                                     </div>
                                     <div className=''>
                                         <Label
-                                            id='hire_date'
                                             htmlFor='hire_date'
                                             className={`font-medium transition-colors ${
                                                 errors.hire_date
@@ -194,8 +194,9 @@ export default function EmployeeForm() {
                                             Fecha de contratación
                                         </Label>
                                         <Input
-                                            type='date'
                                             id='hire_date'
+                                            type='date'
+                                            autoComplete='off'
                                             placeholder='Fecha de contratación'
                                             className='mt-2'
                                             {...register('hire_date', {
@@ -211,7 +212,6 @@ export default function EmployeeForm() {
                                     </div>
                                     <div>
                                         <Label
-                                            id='role_name'
                                             htmlFor='role_name'
                                             className={`font-medium transition-colors ${
                                                 errors.role_name
@@ -222,6 +222,7 @@ export default function EmployeeForm() {
                                         </Label>
                                         <select
                                             id='role_name'
+                                            autoComplete='off'
                                             className='flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 mt-2'
                                             {...register('role_name', {
                                                 required: 'Selecciona una rol.',
@@ -252,7 +253,6 @@ export default function EmployeeForm() {
                                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-y-4 gap-x-8'>
                                     <div>
                                         <Label
-                                            id='username'
                                             htmlFor='username'
                                             className={`font-medium transition-colors ${
                                                 errors.username
@@ -262,10 +262,11 @@ export default function EmployeeForm() {
                                             Usuario del empleado
                                         </Label>
                                         <Input
-                                            type='text'
                                             id='username'
+                                            type='text'
                                             placeholder='usuario'
                                             className='mt-2'
+                                            autoComplete='off'
                                             {...register('username', {
                                                 required:
                                                     'Ingresa el usuario del empleado.',
@@ -284,7 +285,6 @@ export default function EmployeeForm() {
                                     </div>
                                     <div>
                                         <Label
-                                            id='password'
                                             htmlFor='password'
                                             className={`font-medium transition-colors ${
                                                 errors.password
@@ -294,9 +294,10 @@ export default function EmployeeForm() {
                                             Contraseña
                                         </Label>
                                         <Input
-                                            type='password'
                                             id='password'
+                                            type='password'
                                             placeholder='**********'
+                                            autoComplete='off'
                                             className='mt-2'
                                             {...register('password', {
                                                 required:
@@ -325,7 +326,6 @@ export default function EmployeeForm() {
                                 <div className='grid grid-cols-2 gap-4'>
                                     <div className='col-span-2'>
                                         <Label
-                                            id='names'
                                             htmlFor='names'
                                             className={`font-medium transition-colors ${
                                                 errors.names
@@ -335,9 +335,10 @@ export default function EmployeeForm() {
                                             Nombre del plato
                                         </Label>
                                         <Input
-                                            type='text'
                                             id='names'
+                                            type='text'
                                             placeholder='Nombre'
+                                            autoComplete='off'
                                             className='mt-2 '
                                             {...register('names', {
                                                 required:
@@ -357,7 +358,6 @@ export default function EmployeeForm() {
                                     </div>
                                     <div className='col-span-2 md:col-auto'>
                                         <Label
-                                            id='last_name'
                                             htmlFor='last_name'
                                             className={`font-medium transition-colors ${
                                                 errors.last_name
@@ -370,6 +370,7 @@ export default function EmployeeForm() {
                                             type='text'
                                             id='last_name'
                                             placeholder='Apellidos'
+                                            autoComplete='off'
                                             className='mt-2'
                                             {...register('last_name', {
                                                 required:
@@ -389,7 +390,6 @@ export default function EmployeeForm() {
                                     </div>
                                     <div className='col-span-2 md:col-auto'>
                                         <Label
-                                            id='dni'
                                             htmlFor='dni'
                                             className={`font-medium transition-colors ${
                                                 errors.dni
@@ -402,6 +402,7 @@ export default function EmployeeForm() {
                                             type='text'
                                             id='dni'
                                             placeholder='ej. 00000000'
+                                            autoComplete='off'
                                             className='mt-2'
                                             {...register('dni', {
                                                 required:
@@ -426,7 +427,6 @@ export default function EmployeeForm() {
                                     </div>
                                     <div className='col-span-2 md:col-auto'>
                                         <Label
-                                            id='email'
                                             htmlFor='email'
                                             className={`font-medium transition-colors ${
                                                 errors.email
@@ -440,6 +440,7 @@ export default function EmployeeForm() {
                                             id='email'
                                             placeholder='ejemplo@ejemplo.com'
                                             className='mt-2'
+                                            autoComplete='off'
                                             {...register('email', {
                                                 required:
                                                     'Ingrese el correo electrónico',
@@ -458,7 +459,6 @@ export default function EmployeeForm() {
                                     </div>
                                     <div className='col-span-2 md:col-auto'>
                                         <Label
-                                            id='phone'
                                             htmlFor='phone'
                                             className={`font-medium transition-colors ${
                                                 errors.phone
@@ -471,6 +471,7 @@ export default function EmployeeForm() {
                                             type='text'
                                             id='phone'
                                             placeholder='ej. 999999999'
+                                            autoComplete='off'
                                             className='mt-2'
                                             {...register('phone', {
                                                 required:
@@ -495,7 +496,6 @@ export default function EmployeeForm() {
                                     </div>
                                     <div className='col-span-2 '>
                                         <Label
-                                            id='address'
                                             htmlFor='address'
                                             className={`font-medium transition-colors ${
                                                 errors.address
@@ -509,6 +509,7 @@ export default function EmployeeForm() {
                                             id='address'
                                             placeholder='dirección'
                                             className='mt-2'
+                                            autoComplete='off'
                                             {...register('address', {
                                                 required:
                                                     'Ingresa la direcciòn del empleado.',
@@ -529,12 +530,13 @@ export default function EmployeeForm() {
                             </div>
                             <div className='flex items-center justify-end gap-4 mt-4'>
                                 <Button
+                                    type='button'
                                     variant={'outline'}
                                     onClick={redirectToEmployees}>
                                     Cancelar
                                 </Button>
                                 <Button type='submit' variant={'principal'}>
-                                    Guardar
+                                    {isPending ? <SpinnerMini /> : 'Guardar'}
                                 </Button>
                             </div>
                         </div>

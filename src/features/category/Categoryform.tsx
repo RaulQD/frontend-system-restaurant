@@ -25,6 +25,7 @@ export default function Categoryform({ errors, register }: CategoryFormProps) {
                     </Label>
                     <Input
                         type='text'
+                        id='category_name'
                         placeholder='Nombre de la categoria'
                         className='mt-2'
                         register={register('category_name', {
@@ -53,6 +54,7 @@ export default function Categoryform({ errors, register }: CategoryFormProps) {
                         Descripción
                     </Label>
                     <Textarea
+                        id='category_description'
                         placeholder='Descripción'
                         className='mt-2'
                         register={register('category_description', {

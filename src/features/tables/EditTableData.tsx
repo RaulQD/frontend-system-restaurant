@@ -14,7 +14,6 @@ export default function EditTableData() {
         queryFn: () => getTableById(Number(tableId)),
         enabled: !!tableId,
     });
-    console.log(data);
 
     if (data) return <EditTabledataModal open={open} data={data} tableId={Number(tableId)}/>;
 }

@@ -130,8 +130,24 @@ export default function AppRoutes() {
                             </ProtectedRoutes>
                         }
                     />
-                    <Route path='tables' element={<Tables />} />
-                    <Route path='rooms' element={<Rooms />} />
+                    <Route
+                        path='tables'
+                        element={
+                            <ProtectedRoutes
+                                allowedRoles={[ROLES.Administrador]}>
+                                <Tables />
+                            </ProtectedRoutes>
+                        }
+                    />
+                    <Route
+                        path='rooms'
+                        element={
+                            <ProtectedRoutes
+                                allowedRoles={[ROLES.Administrador]}>
+                                <Rooms />
+                            </ProtectedRoutes>
+                        }
+                    />
                 </Route>
 
                 <Route path='auth' element={<AuthLayout />}>

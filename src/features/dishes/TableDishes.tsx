@@ -6,9 +6,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
 import { BiPencil, BiTrash } from 'react-icons/bi';
-import { Pencil1Icon } from '@radix-ui/react-icons';
 import { formatCurrency } from '../../utils/index';
 import { Badge } from '@/components/ui/badge';
 import Spinner from '@/components/Spinner';

@@ -88,15 +88,6 @@ export const addItemsToOrder = async (orderItems: AddItemToOrderData) => {
     }
   }
 }
-// export const increaseItemQuantity = async (orderId: number, dishId: number) => {
-//   try {
-//     const { data } = await api.patch(`/orders/${orderId}/item/${dishId}/increase-quantity`);
-//   } catch (error) {
-
-//   }
-// }
-
-
 export const decreaseItemQuantity = async (orderId: number, itemId: number, quantity: number) => {
   try {
     const { data } = await api.patch(`/orders/${orderId}/decrease-quantity`, { itemId, quantity });

@@ -58,7 +58,7 @@ export default function FilterButton<T>({
             )}
 
             <div className={useSelectOnMobile ? 'hidden xl:block' : 'block'}>
-                <ul className='flex flex-wrap items-start justify-start gap-4'>
+                <ul className='flex flex-wrap md:flex-row items-start justify-start gap-4'>
                     {/* Botón "Todos" */}
                     {showAllButton && (
                         <li>

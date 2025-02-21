@@ -6,7 +6,7 @@ export const useTable = () => {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
 
-  const filterRoom = searchParams.get('room') || ''
+  const filterRoom = searchParams.get('rooms') || ''
   const room = !filterRoom || filterRoom === 'todos' ? '' : filterRoom;
 
   const page = !searchParams.get('page') ? 1 : Number(searchParams.get('page'))
