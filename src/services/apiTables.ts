@@ -24,6 +24,7 @@ export const getTables = async ({ page, room }: TableQueryParams) => {
 export const getTablesByRoomName = async (room: string) => {
   try {
     const { data } = await api.get<Tables[]>('/tables/findTablesByRoom', { params: { room } })
+    console.log(data)
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {

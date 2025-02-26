@@ -2,8 +2,13 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { OrdersList } from '@/types/order';
-import { ClockIcon, ComponentInstanceIcon } from '@radix-ui/react-icons';
+import {
+    ClockIcon,
+    ComponentInstanceIcon,
+    TimerIcon,
+} from '@radix-ui/react-icons';
 import { CheckCheckIcon, LucideAlarmClockCheck } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { CgSandClock } from 'react-icons/cg';
 import { PiHandCoins } from 'react-icons/pi';
 
@@ -12,6 +17,25 @@ type CardKitchenProps = {
 };
 
 export default function CardKitchen({ order }: CardKitchenProps) {
+    const [minutesElapsed, setMinutesElapsed] = useState<number>(0);
+
+    useEffect(() => {
+        const calculateMinutesElapsed = () => {
+            const date = new Date(order.created_at);
+            const currentDate = new Date();
+            const diff = currentDate.getTime() - date.getTime();
+            const minutes = Math.floor(diff / 60000);
+            setMinutesElapsed(minutes);
+        };
+        //calcular los minutos transcurridos
+        calculateMinutesElapsed();
+        //configurar el intervalo para actualizar los minutos transcurridos
+        const interval = setInterval(() => {
+            calculateMinutesElapsed();
+        }, 60000);
+        return () => clearInterval(interval);
+    }, [order.created_at]);
+
     //OBTENER EL PRIMER NOMBRE Y APELLIDO DEL USUARIO
     const names = order.employee.names.split(' ');
     const last_name = order.employee.last_name.split(' ');
@@ -63,6 +87,19 @@ export default function CardKitchen({ order }: CardKitchenProps) {
                 );
         }
     };
+    //FORMATEAR LA FECHA DE CREACIÓN DE LA ORDEN
+    const formatDateTime = (date: string) => {
+        const newDate = new Date(date);
+        return newDate.toLocaleDateString('es-PE', {
+            weekday: 'short',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+        });
+    };
 
     return (
         <>
@@ -74,18 +111,28 @@ export default function CardKitchen({ order }: CardKitchenProps) {
                     </div>
                 </CardHeader>
                 <CardContent className='px-4 pb-4'>
-                    <Separator className='mb-4'/>
+                    <Separator className='mb-4' />
                     <div>
-                        <div className='flex items-center justify-start gap-2'>
+                        {/* Fecha de creación */}
+                        <div className='flex items-center gap-2'>
                             <ClockIcon className='w-3 h-3 text-gray-500' />
-                            <p className='text-sm text-gray-500'>
-                                {new Date(order.created_at).toLocaleString()}
+                            <p className='text-sm text-gray-500 capitalize'>
+                                {formatDateTime(order.created_at)}
                             </p>
                         </div>
-                        <div className='flex items-center justify-start gap-2'>
+                        {/* Minutos transcurridos */}
+                        <div className='flex items-center gap-2'>
+                            <TimerIcon className='w-3 h-3 text-red-500' />
+                            <p className='text-sm text-red-500 font-medium'>
+                                {minutesElapsed} min
+                            </p>
+                        </div>
+                        {/* Número de pedido y mesa */}
+                        <div className='flex items-center gap-2'>
                             <ComponentInstanceIcon className='w-3 h-3 text-gray-500' />
                             <p className='text-sm font-normal text-gray-500'>
-                                Pedido # {order.order_number} - {order.table.num_table}
+                                Pedido # {order.order_number} -{' '}
+                                {order.table.num_table}
                             </p>
                         </div>
                     </div>

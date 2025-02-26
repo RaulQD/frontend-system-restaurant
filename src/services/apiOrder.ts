@@ -16,7 +16,6 @@ export const getOrders = async ({ page, keyword, status, startDate, endDate }: G
     const { data } = await api.get<OrderResponseType>('/orders', { params: { page, keyword, status, startDate, endDate } });
     return data;
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }
@@ -26,6 +25,7 @@ export const getOrders = async ({ page, keyword, status, startDate, endDate }: G
 export const getOrdersForKitchen = async () => {
   try {
     const { data } = await api.get('/orders/kitchen');
+    console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -48,7 +48,6 @@ export const getOrderByTableId = async (tableId: number) => {
     const { data } = await api.get(`/orders/active/${tableId}/`);
     return data;
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }
@@ -82,7 +81,6 @@ export const addItemsToOrder = async (orderItems: AddItemToOrderData) => {
     const { data } = await api.patch(`/orders/${orderItems.order_id}/add-item`, orderItems);
     return data;
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }
@@ -93,7 +91,6 @@ export const decreaseItemQuantity = async (orderId: number, itemId: number, quan
     const { data } = await api.patch(`/orders/${orderId}/decrease-quantity`, { itemId, quantity });
     return data;
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }

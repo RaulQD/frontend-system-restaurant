@@ -19,6 +19,15 @@ export default function TablesList() {
     const navigate = useNavigate();
     const { tables, isLoading, isError, error } = useTable();
 
+    
+    if (tables?.results.length === 0) {
+        return (
+            <div className='flex items-center justify-center h-96'>
+                <p className='text-lg text-gray-500'>{error?.message}</p>
+            </div>
+        );
+    }
+
     if (isLoading) {
         return (
             <div className='flex items-center justify-center h-96'>

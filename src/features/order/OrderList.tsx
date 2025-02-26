@@ -65,7 +65,7 @@ export default function OrderList({
 
         cancellationOrder(activeOrder?.id_order, {
             onSuccess: () => {
-                navigate('/dashboard/tables');
+                navigate('/dashboard/table');
             },
         });
     };

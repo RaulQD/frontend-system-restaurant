@@ -39,13 +39,15 @@ export type OrderCreateData = {
 
 // Para listar órdenes en un panel
 export type OrdersList = {
-  id_order: number; // Identificador de la orden
-  order_status: string; // Estado de la orden
-  order_number: string; // Número de la orden
+  id_order: number; 
+  order_status: string; 
+  order_number: string; 
   employee: Employee;
   table: Tables;
-  total: number; // Total de la orden
-  created_at: string; // Fecha de creación
+  total: number; 
+  minutes_elapsed: number; 
+  created_at: string; 
+
 };
 
 // PARA AÑADIR UN ITEM A UNA ORDERN

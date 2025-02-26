@@ -7,8 +7,6 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useGetCategories } from './useGetCategories';
-import { Button } from '@/components/ui/button';
-import { Pencil1Icon } from '@radix-ui/react-icons';
 import Spinner from '@/components/Spinner';
 import { BiPencil, BiTrash } from 'react-icons/bi';
 import { useState } from 'react';

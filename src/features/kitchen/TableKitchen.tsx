@@ -15,10 +15,10 @@ export default function TableKitchen() {
             </div>
         );
     }
-    if (error) {
+    if (!orders?.length) {
         return (
             <div className='flex justify-center items-center h-96'>
-                <p className='text-lg text-gray-500'>{error.message}</p>
+                <p className='text-lg text-gray-500'>{error?.message}</p>
             </div>
         );
     }

@@ -127,10 +127,17 @@ export default function rTableOrderHistory() {
     if (isErrorsOrders) {
         return (
             <div className='flex justify-center items-center h-96'>
-                <span className='text-lg'>{error?.message}</span>
+                <span className='text-lg'>{error?.message || 'El servidor no responde'}  </span>
             </div>
         );
     }
+    if(orders?.results.length === 0){
+        return (
+            <div className='flex justify-center items-center h-96'>
+                <span className='text-lg'>No hay ordenes registradas</span>
+            </div>
+        );
+    }    
     return (
         <div className='mt-6'>
             <div className='overflow-x-auto shadow-sm ring-1 ring-black ring-opacity-5 md:rounded-lg'>

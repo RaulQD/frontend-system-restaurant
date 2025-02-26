@@ -11,16 +11,15 @@ import toast from 'react-hot-toast';
 import { OrderCreateData } from '@/types/order';
 
 export default function TableList() {
+    const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const room = searchParams.get('room') || 'comedor principal';
     const [selectedTable, setSelectedTable] = useState<Tables['id_table']>();
+    const { user } = useUser();
     const { activeOrder, isLoading: isOrderLoading } =
         useGetOrderActiveForTable(selectedTable || 0);
-    const { user } = useUser();
     const { createOrders } = useCreateOrder();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
-
-    const room = searchParams.get('room') || 'comedor principal';
-    const { tables, isLoading, error } = useTables(room);
+    const { tables, isLoading, isError, error } = useTables(room);
 
     useEffect(() => {
         if (!searchParams.has('room')) {
@@ -49,7 +48,9 @@ export default function TableList() {
             createOrders(orderData, {
                 onSuccess: (data) => {
                     if (data?.order?.id_order) {
-                        navigate(`/dashboard/table/${tableId}/order/${data.order.id_order}`);
+                        navigate(
+                            `/dashboard/table/${tableId}/order/${data.order.id_order}`
+                        );
                     }
                 },
             });
@@ -62,10 +63,19 @@ export default function TableList() {
             );
         }
     }, [activeOrder, selectedTable, navigate]);
-    if (!tables?.length) {
+
+    if (isError) {
         return (
             <div className='flex justify-center items-center pt-20'>
                 <p className='text-lg'>{error?.message}</p>
+            </div>
+        );
+    }
+
+    if (!tables?.length) {
+        return (
+            <div className='flex justify-center items-center pt-20'>
+                <p className='text-lg'>{error?.message || 'error al cargar las mesas'}</p>
             </div>
         );
     }

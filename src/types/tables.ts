@@ -6,6 +6,10 @@ export type Tables = {
   capacity_table: number;
   status: string;
   room: Rooms
+  employee_id?: number;
+  employee_name?: string;
+  employee_last_name?: string;
+  total_amount?: number;
 }
 export type TableFormData = {
   num_table: string;

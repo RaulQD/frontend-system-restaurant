@@ -174,19 +174,26 @@ export default function OrderSummaryDetails({
                                     id='amount_received'>
                                     Monto recibido :
                                 </Label>
-                                <Input
-                                    type='number'
-                                    id='amount_received'
-                                    placeholder='Monto recibido'
-                                    {...register('amount_received', {
-                                        required: 'Ingrese el monto recibido.',
-                                        min: {
-                                            value: subTotal,
-                                            message:
-                                                'El monto recibido debe ser mayor o igual al total de la orden.',
-                                        },
-                                    })}
-                                />
+                                <div className='relative'>
+                                    <span className='absolute inset-y-0 left-3 flex items-center text-gray-500'>
+                                        S/.
+                                    </span>
+                                    <Input
+                                        type='number'
+                                        id='amount_received'
+                                        placeholder='Monto recibido'
+                                        {...register('amount_received', {
+                                            required:
+                                                'Ingrese el monto recibido.',
+                                            min: {
+                                                value: subTotal,
+                                                message:
+                                                    'El monto recibido debe ser mayor o igual al total de la orden.',
+                                            },
+                                        })}
+                                        className='pl-9'
+                                    />
+                                </div>
                                 {errors.amount_received && (
                                     <ErrorMessage>
                                         {errors.amount_received?.message}

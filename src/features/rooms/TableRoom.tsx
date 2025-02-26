@@ -16,18 +16,40 @@ import AlertMessageDialog from '@/components/AlertMessageDialog';
 import { useState } from 'react';
 import { useDeleteRoom } from './useDeleteRoom';
 import { Rooms } from '@/types/rooms';
+import Spinner from '@/components/Spinner';
 
 export default function TableRoom() {
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const [roomId, setRoomId] = useState<number>();
-    const { rooms } = useRooms();
+    const { rooms, isLoading, isError, error } = useRooms();
     const { roomDelete } = useDeleteRoom();
 
     const handleDeleteRoom = async (roomId: Rooms['id']) => {
         roomDelete(roomId);
         setIsOpen(false);
     };
+    if (rooms?.length === 0) {
+        return (
+            <div className='flex justify-center items-center h-96'>
+                <p className='text-lg text-gray-500'>{error?.message}</p>
+            </div>
+        );
+    }
+    if (isLoading) {
+        return (
+            <div className='flex justify-center items-center h-96'>
+                <Spinner />
+            </div>
+        );
+    }
+    if (isError) {
+        return (
+            <div className='flex justify-center items-center h-96'>
+                <p className='text-lg text-gray-500'>{error?.message}</p>
+            </div>
+        );
+    }
 
     return (
         <>
