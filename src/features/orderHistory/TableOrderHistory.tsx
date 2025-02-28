@@ -6,28 +6,31 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { BiPencil, BiTrash } from 'react-icons/bi';
+import { BiSearch } from 'react-icons/bi';
 import { useOrderHistory } from './useOrderHistory';
 import Spinner from '@/components/Spinner';
 import { Badge } from '@/components/ui/badge';
 import { formatCurrency } from '@/utils';
 import PaginationI from '@/components/PaginationI';
 
-import { useState } from 'react';
-import AlertMessageDialog from '@/components/AlertMessageDialog';
 import { useLocation, useNavigate } from 'react-router-dom';
 import OrderHistoryData from './OrderHistoryData';
 import DropdownActions from '@/components/DropdownActions';
 
-export default function rTableOrderHistory() {
+export default function TableOrderHistory() {
     const navigate = useNavigate();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
 
-    const [isDelete, setIsDelete] = useState(false);
-    const [idOrder, setIdOrder] = useState<number>();
     const { orders, isLoadingOrders, isErrorsOrders, error } =
         useOrderHistory();
+
+    const shortName = (name: string, lastName: string) => {
+        const splitName = name.split(' ');
+        const splitLastName = lastName.split(' ');
+        return `${splitName[0]} ${splitLastName[0]}`;
+    };
+
     const getDateToOrder = (date: Date) => {
         const orderDate = new Date(date);
         return orderDate.toLocaleDateString('es-PE', {
@@ -113,9 +116,6 @@ export default function rTableOrderHistory() {
         searchParams.set('orderDetails', String(orderId));
         navigate(`${location.pathname}?${searchParams.toString()}`);
     };
-    const handleDeleteOrder = (dishId: number) => {
-        console.log('Eliminar plato', dishId);
-    };
 
     if (isLoadingOrders) {
         return (
@@ -127,29 +127,32 @@ export default function rTableOrderHistory() {
     if (isErrorsOrders) {
         return (
             <div className='flex justify-center items-center h-96'>
-                <span className='text-lg'>{error?.message || 'El servidor no responde'}  </span>
+                <span className='text-lg'>
+                    {error?.message || 'El servidor no responde'}{' '}
+                </span>
             </div>
         );
     }
-    if(orders?.results.length === 0){
+    if (orders?.results.length === 0) {
         return (
             <div className='flex justify-center items-center h-96'>
                 <span className='text-lg'>No hay ordenes registradas</span>
             </div>
         );
-    }    
+    }
     return (
         <div className='mt-6'>
             <div className='overflow-x-auto shadow-sm ring-1 ring-black ring-opacity-5 md:rounded-lg'>
                 <Table className='w-full divide-y divide-gray-300'>
                     <TableHeader className='bg-slate-200'>
                         <TableRow>
-                            <TableHead className='w-[100px] pl-4'>ID</TableHead>
-                            <TableHead>Número de orden</TableHead>
+                            <TableHead className='w-[200px] pl-4'>
+                                Número de orden
+                            </TableHead>
                             <TableHead>Nombre del Empleado</TableHead>
-                            <TableHead>Creación de Orden</TableHead>
-                            <TableHead>Finalización de Orden</TableHead>
+                            <TableHead>Mesa</TableHead>
                             <TableHead>Monto total</TableHead>
+                            <TableHead>Creación de Orden</TableHead>
                             <TableHead>Estado de la orden</TableHead>
                             <TableHead className='text-center'>
                                 Acciones
@@ -159,25 +162,24 @@ export default function rTableOrderHistory() {
                     <TableBody>
                         {orders?.results.map((order) => (
                             <TableRow key={order.id_order}>
-                                <TableCell className='font-medium pl-6'>
-                                    {order.id_order}
-                                </TableCell>
-                                <TableCell> {order.order_number}</TableCell>
-                                <TableCell>
-                                    {order.employee.names}{' '}
-                                    {order.employee.last_name}
-                                </TableCell>
-
-                                <TableCell>
-                                    {getDateToOrder(order.created_at)}
+                                <TableCell className='pl-4'>
+                                    {' '}
+                                    {order.order_number}
                                 </TableCell>
                                 <TableCell>
-                                    {getDateToOrder(order.updated_at)}
+                                    {shortName(
+                                        order.employee.names,
+                                        order.employee.last_name
+                                    )}
                                 </TableCell>
-
+                                <TableCell>{order.tables.num_table}</TableCell>
                                 <TableCell>
                                     {formatCurrency(order.total)}
                                 </TableCell>
+                                <TableCell>
+                                    {getDateToOrder(order.created_at)}
+                                </TableCell>
+
                                 <TableCell>
                                     {statusOrder(order.order_status)}
                                 </TableCell>
@@ -192,18 +194,7 @@ export default function rTableOrderHistory() {
                                                         handleOpenModal(
                                                             order.id_order
                                                         ),
-                                                    iconType: BiPencil,
-                                                },
-                                                {
-                                                    label: 'Eliminar',
-                                                    onClick: () => {
-                                                        setIdOrder(
-                                                            order.id_order
-                                                        );
-                                                        setIsDelete(true);
-                                                    },
-                                                    iconType: BiTrash,
-                                                    className: 'text-red-500',
+                                                    iconType: BiSearch,
                                                 },
                                             ]}
                                         />
@@ -216,16 +207,6 @@ export default function rTableOrderHistory() {
             </div>
             <PaginationI totalItems={orders?.pagination.totalOrders!} />
             <OrderHistoryData />
-            <AlertMessageDialog
-                title='Eliminar Plato'
-                description='¿Estás seguro de eliminar este plato?'
-                isOpen={isDelete}
-                setIsOpen={setIsDelete}
-                onConfirm={() => {
-                    handleDeleteOrder(idOrder!);
-                    setIsDelete(false);
-                }}
-            />
         </div>
     );
 }

@@ -1,12 +1,13 @@
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
 import { Toaster } from '@/components/ui/toaster';
+import { usePageTittle } from '@/hooks/usePageTittle';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 export default function Layout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-
+    usePageTittle();
     return (
         <>
             <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />

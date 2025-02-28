@@ -1,5 +1,5 @@
 import api from '@/lib/axios';
-import { TableFormData, TablePagination, Tables } from '../types/tables';
+import { ManageTable, TableFormData, TablePagination, Tables } from '../types/tables';
 import { isAxiosError } from 'axios';
 
 
@@ -23,7 +23,7 @@ export const getTables = async ({ page, room }: TableQueryParams) => {
 
 export const getTablesByRoomName = async (room: string) => {
   try {
-    const { data } = await api.get<Tables[]>('/tables/findTablesByRoom', { params: { room } })
+    const { data } = await api.get<ManageTable[]>('/tables/findTablesByRoom', { params: { room } })
     console.log(data)
     return data
   } catch (error) {

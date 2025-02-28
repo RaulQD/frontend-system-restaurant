@@ -43,6 +43,17 @@ export const getOrderDetailsById = async (orderId: Order['id_order']) => {
     }
   }
 }
+export const getOrderHistoryByOrderId = async (orderId: Order['id_order']) => { 
+  try {
+    const { data } = await api.get(`/orders/${orderId}/details`);
+    console.log(data);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
+}
 export const getOrderByTableId = async (tableId: number) => {
   try {
     const { data } = await api.get(`/orders/active/${tableId}/`);

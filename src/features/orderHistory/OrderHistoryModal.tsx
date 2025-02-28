@@ -1,29 +1,29 @@
 import ResponsiveDialog from '@/components/ResponsiveDialog';
-import { OrderDetails } from '@/types/order';
+import { OrderDetailsHistory } from '@/types/order';
 import OrderHistoryDetailsData from './OrderHistoryDetailsData';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
 type OrderHistoryModalProps = {
-    orderDetails: OrderDetails;
+    orderDetailsHistory: OrderDetailsHistory;
     open: boolean;
 };
 export default function OrderHistoryModal({
-    orderDetails,
+    orderDetailsHistory,
     open,
 }: OrderHistoryModalProps) {
     const navigate = useNavigate();
     return (
         <ResponsiveDialog
             open={open}
-            title={`Detalle de la orden # ${orderDetails.id_order}`}
+            title={`Detalle de la orden # ${orderDetailsHistory.order_number}`}
             description='Aquí puedes ver el detalle de la orden seleccionada.'
             size='lg'>
-            <OrderHistoryDetailsData orderDetails={orderDetails} />
+            <OrderHistoryDetailsData orderDetailsHistory={orderDetailsHistory} />
             <div className='flex justify-end'>
                 <Button
                     type='button'
-                    variant='destructive'
+                    variant='secondary'
                     className='mt-4'
                     onClick={() =>
                         navigate(location.pathname, { replace: true })

@@ -29,7 +29,17 @@ export type Items = {
 export type OrderItem = Pick<Items, 'id_item' | 'dish_id' | 'dishes_name' | 'image_url' | 'unit_price' | 'quantity' | 'status' | 'subtotal'>;
 
 
-export type OrderDetails = Pick<Order, 'id_order' | 'table_id' | 'num_table' | 'employee_id' | 'names' | 'order_status' | 'created_at' | 'items'>;
+export type OrderDetails = {
+  id_order: number;
+  employee: Employee;
+  table: Tables;
+  order_status: string;
+  order_number: string;
+  total: number;
+  created_at: string;
+  updated_at: string;
+  items: Items[];
+}
 // Para crear una orden nueva
 export type OrderCreateData = {
   table_id: number; // Mesa a la que pertenece la orden
@@ -39,16 +49,27 @@ export type OrderCreateData = {
 
 // Para listar órdenes en un panel
 export type OrdersList = {
-  id_order: number; 
-  order_status: string; 
-  order_number: string; 
+  id_order: number;
+  order_status: string;
+  order_number: string;
   employee: Employee;
   table: Tables;
-  total: number; 
-  minutes_elapsed: number; 
-  created_at: string; 
+  total: number;
+  minutes_elapsed: number;
+  created_at: string;
 
 };
+export type OrderDetailsHistory = {
+  id_order: number;
+  employee: Employee;
+  table: Tables;
+  order_status: string;
+  order_number: string;
+  total: number;
+  created_at: string;
+  updated_at: string;
+  items: Items[];
+}
 
 // PARA AÑADIR UN ITEM A UNA ORDERN
 export type AddItemToOrderData = {
@@ -93,9 +114,9 @@ export type OrderResponseType = {
   results: OrderResult[]
   pagination: PaginationInfoType;
 }
-export type  ProcessPaymentDataValues = {
-    amount_received: string;
-    employee_id: number;
-    employee_name: string;
-    change_amount: number;
+export type ProcessPaymentDataValues = {
+  amount_received: string;
+  employee_id: number;
+  employee_name: string;
+  change_amount: number;
 };

@@ -1,18 +1,21 @@
 import { useLocation } from 'react-router-dom';
 import OrderHistoryModal from './OrderHistoryModal';
-import { useGetOrderByID } from '../kitchen/useGetOrderByID';
+import { useGetOrderHistoryByOrderId } from './useGetOrderHistoryByOrderId';
 
 export default function OrderHistoryData() {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const orderId = searchParams.get('orderDetails');
     const open = orderId ? true : false;
-    const { orderDetails } = useGetOrderByID(Number(orderId));
+    const { orderDetailsHistory } = useGetOrderHistoryByOrderId(
+        Number(orderId)
+    );
+    console.log(orderDetailsHistory);
 
-    if (orderDetails)
+    if (orderDetailsHistory)
         return (
             <OrderHistoryModal
-                orderDetails={orderDetails}
+                orderDetailsHistory={orderDetailsHistory}
                 open={open}
             />
         );
