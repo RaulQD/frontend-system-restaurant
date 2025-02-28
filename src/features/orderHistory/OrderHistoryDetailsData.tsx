@@ -108,6 +108,10 @@ export default function OrderHistoryDetailsData({
                     <span>{formatCurrency(orderDetailsHistory.total)}</span>
                 </div>
                 <div className='flex items-center justify-start gap-2'>
+                    <p className='font-semibold text-black'>Estado: </p>
+                    <span>{statusOrder(orderDetailsHistory.order_status)}</span>
+                </div>
+                <div className='flex items-center justify-start gap-2'>
                     <p className='font-semibold text-black'>Mesero :</p>
                     <span>
                         {orderDetailsHistory.employee.names}{' '}
@@ -118,10 +122,7 @@ export default function OrderHistoryDetailsData({
                     <p className='font-semibold text-black'>Mesa :</p>
                     <span>{orderDetailsHistory.table.num_table}</span>
                 </div>
-                <div className='flex items-center justify-start gap-2'>
-                    <p className='font-semibold text-black'>Estado: </p>
-                    <span>{statusOrder(orderDetailsHistory.order_status)}</span>
-                </div>
+                
             </div>
             <Separator orientation='horizontal'/>
             <h3 className='font-outfit font-medium text-lg'>
