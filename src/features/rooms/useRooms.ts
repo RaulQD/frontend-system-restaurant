@@ -6,6 +6,7 @@ export const useRooms = () => {
   const { data: rooms, error, isLoading, isError} = useQuery<Rooms[]>({
     queryKey: ['rooms'],
     queryFn: getRooms,
+    retry:false,
   })
   return { rooms, error, isLoading,isError }
 }

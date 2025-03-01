@@ -15,7 +15,6 @@ export default function EditRoomData() {
         queryFn: () => getRoomById(Number(roomId)),
         enabled: !!roomId,
     });
-    console.log(data);
 
     if(data) return <EditRoomDataModal open={open} data={data} roomId={Number(roomId)} />;
 }

@@ -9,10 +9,8 @@ export const authenticatedUser = async (dataForm: LoginDataForm) => {
   try {
     const { data } = await api.post<LoginResponse>('/auth/login', dataForm)
     localStorage.setItem('token', data.token)
-    console.log(data)
     return data;
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error) && error.response)
       throw new Error(error.response.data.message)
   }
@@ -38,10 +36,8 @@ export const getAuthenticatedUser = async () => {
   }
   try {
     const { data } = await api.get<EmployeeProfile>('/auth/profile')
-    console.log(data)
     return data;
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error) && error.response)
       throw new Error(error.response.data.message)
   }

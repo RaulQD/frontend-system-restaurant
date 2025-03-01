@@ -24,7 +24,6 @@ export const getTables = async ({ page, room }: TableQueryParams) => {
 export const getTablesByRoomName = async (room: string) => {
   try {
     const { data } = await api.get<ManageTable[]>('/tables/findTablesByRoom', { params: { room } })
-    console.log(data)
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -69,7 +68,6 @@ export const updateTable = async ({ tableId, formData }: UpdateTableType) => {
     const { data } = await api.put(`/tables/${tableId}`, formData)
     return data
   } catch (error) {
-    
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message)
     } else {

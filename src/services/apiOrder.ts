@@ -25,7 +25,6 @@ export const getOrders = async ({ page, keyword, status, startDate, endDate }: G
 export const getOrdersForKitchen = async () => {
   try {
     const { data } = await api.get('/orders/kitchen');
-    console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -46,7 +45,6 @@ export const getOrderDetailsById = async (orderId: Order['id_order']) => {
 export const getOrderHistoryByOrderId = async (orderId: Order['id_order']) => { 
   try {
     const { data } = await api.get(`/orders/${orderId}/details`);
-    console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -155,7 +153,6 @@ export const getOrderSummary = async (orderId: number) => {
     const { data } = await api.get(`/orders/${orderId}/summary`);
     return data
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }
@@ -166,7 +163,6 @@ export const getOrderSummary = async (orderId: number) => {
 export const processPaymentOrder = async (orderId: number, amount_received: number, employee_id: Employee['id']) => {
   try {
     const { data } = await api.post<PaymentResponse>(`/orders/${orderId}/payment`, { amount_received, employee_id });
-    console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {

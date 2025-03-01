@@ -53,7 +53,6 @@ export const updateRoom = async ({ roomId, formData }: UpdateRoomType) => {
     const { data } = await api.put(`/rooms/${roomId}`, formData)
     return data
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message)
     } else {
