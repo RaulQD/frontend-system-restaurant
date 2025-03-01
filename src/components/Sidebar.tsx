@@ -3,7 +3,6 @@ import {
     BiCog,
     BiDish,
     BiFoodMenu,
-    BiSolidReport,
     BiUser,
 } from 'react-icons/bi';
 import SidebarDropdown from './SidebarDropdown';
@@ -72,20 +71,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                         },
                                     ]}
                                 />
-                                {/* <SidebarDropdown
-                                    label='Reportes'
-                                    Icon={BiSolidReport}
-                                    menuItems={[
-                                        {
-                                            path: '/dashboard/reports',
-                                            label: 'Total ventas por mes',
-                                        },
-                                        {
-                                            path: '/dashboard/reports-users',
-                                            label: 'Ventas por trabajador',
-                                        },
-                                    ]}
-                                /> */}
+                              
                                 <SidebarDropdown
                                     label='Ordenes'
                                     Icon={BiFoodMenu}

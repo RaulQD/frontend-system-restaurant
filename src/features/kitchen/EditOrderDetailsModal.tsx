@@ -12,7 +12,7 @@ export default function EditOrderDetailsModal({
     orderDetails,
 }: EditOrderDetailsModalProps) {
     //MOSTRAR EL NÚMERO DE LA MESA
-    const numTable = orderDetails.num_table;
+    const numTable = orderDetails?.table?.num_table;
 
     return (
         <ResponsiveDialog

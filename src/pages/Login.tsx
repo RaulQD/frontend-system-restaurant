@@ -1,6 +1,5 @@
 import Logo from '../assets/logo-icon.svg';
 import LoginForm from '@/features/auth/LoginForm';
-import { Button } from '@/components/ui/button';
 
 export default function Login() {
     return (
@@ -22,7 +21,6 @@ export default function Login() {
 
                         </div>
                         <LoginForm />
-                       
                     </div>
                 </div>
             </div>

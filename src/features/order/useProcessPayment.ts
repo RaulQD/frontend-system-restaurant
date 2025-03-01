@@ -1,10 +1,8 @@
 import { processPaymentOrder } from "@/services/apiOrder"
 import { useMutation } from "@tanstack/react-query"
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 
 export const useProcessPayment = () => {
-  const navigate = useNavigate();
   const { mutate: processPayment, isPending: isLodingPayment, isError, error } = useMutation({
     mutationFn: ({ orderId, amount_received, employee_id }: { orderId: number, amount_received: number, employee_id: number }) => processPaymentOrder(orderId, amount_received, employee_id),
     onError: (error) => {

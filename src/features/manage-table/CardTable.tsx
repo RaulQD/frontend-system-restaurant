@@ -1,11 +1,11 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { FaUsers } from 'react-icons/fa';
-import { Tables } from '@/types/tables';
+import { ManageTable } from '@/types/tables';
 import { BiBriefcase } from 'react-icons/bi';
 import { formatCurrency } from '../../utils/formatCurrency';
 
 type CardTableProps = {
-    table: Tables;
+    table: ManageTable;
 };
 
 export default function CardTable({ table }: CardTableProps) {

@@ -42,7 +42,7 @@ export default function OrderDetailsKitchen({
                 <p className='text-sm'>Tel.: 951530849</p>
                 <hr className='my-2 border-gray-300' />
                 <p className='text-start text-sm font-medium'>
-                    Mesa: {orderDetails.num_table}
+                    Mesa: {orderDetails.table.num_table}
                 </p>
             </div>
             <div className='w-full max-h-60 overflow-y-auto'>
