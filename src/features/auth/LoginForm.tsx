@@ -18,7 +18,6 @@ export default function LoginForm() {
         register,
         handleSubmit,
         formState: { errors },
-        watch,
         reset,
     } = useForm({
         defaultValues: initialValues,
