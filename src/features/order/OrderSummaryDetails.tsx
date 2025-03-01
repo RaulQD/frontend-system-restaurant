@@ -32,7 +32,7 @@ export default function OrderSummaryDetails({
         formState: { errors },
     } = useForm<ProcessPaymentDataValues>({
         defaultValues: {
-            employee_id: user?.id!,
+            employee_id: user?.employee.id_employee,
             amount_received: '',
         },
     });
@@ -63,7 +63,7 @@ export default function OrderSummaryDetails({
         const data = {
             orderId: orderSummary.orderId,
             amount_received: Number(formData.amount_received),
-            employee_id: user?.id,
+            employee_id: user?.employee.id_employee,
         };
         processPayment(data, {
             onSuccess: () => {

@@ -36,6 +36,7 @@ export const getAuthenticatedUser = async () => {
   }
   try {
     const { data } = await api.get<EmployeeProfile>('/auth/profile')
+    console.log(data)
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response)
