@@ -14,7 +14,6 @@ import Orders from './pages/Orders';
 import UnAuthorized from './pages/UnAuthorized';
 import EditEmployee from './features/admin-personal/EditEmployee';
 import Dashboard from './pages/Dashboard';
-import Reports from './pages/Reports';
 import Tables from './pages/Tables';
 import Rooms from './pages/Rooms';
 
@@ -121,7 +120,7 @@ export default function AppRoutes() {
                             </ProtectedRoutes>
                         }
                     />
-                    <Route path='reports' element={<Reports />} />
+                   
                     <Route
                         path='order-history'
                         element={
