@@ -75,17 +75,20 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }: NavbarProps) {
                                     <div className='flex items-start justify-center gap-2 cursor-pointer'>
                                         <Avatar>
                                             <AvatarImage
-                                                src={user?.employee.profile_picture_url}
+                                                src={
+                                                    user?.employee
+                                                        .profile_picture_url
+                                                }
                                                 alt='Foto de perfil'
                                                 className='cursor-pointer'
                                             />
                                             <AvatarFallback className='bg-teal-600 text-white font-medium'>
-                                                {initials}	
+                                                {initials}
                                             </AvatarFallback>
                                         </Avatar>
                                         <div className='flex flex-col items-start justify-center'>
                                             <span className='text-sm font-medium'>
-                                               {concatName}
+                                                {concatName}
                                             </span>
                                             <span className='text-xs text-gray-500'>
                                                 {user?.role}
@@ -94,13 +97,11 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }: NavbarProps) {
                                     </div>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align='end'>
-                                    <DropdownMenuItem>Perfil</DropdownMenuItem>
                                     <DropdownMenuItem onClick={handleLogout}>
                                         Cerrar Sesión
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
-
                         </div>
                     </div>
                 </div>
