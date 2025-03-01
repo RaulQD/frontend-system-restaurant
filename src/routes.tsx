@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Layout from './layout/Layout';
 import AuthLayout from './layout/AuthLayout';
 import Login from './pages/Login';
@@ -148,7 +148,7 @@ export default function AppRoutes() {
                         }
                     />
                 </Route>
-
+                <Route path="/" element={<Navigate to="/auth/login" />} />
                 <Route path='auth' element={<AuthLayout />}>
                     <Route path='login' element={<Login />} />
                 </Route>
