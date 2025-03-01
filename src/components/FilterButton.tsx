@@ -31,6 +31,7 @@ export default function FilterButton<T>({
     const { data: items } = useQuery<T[]>({
         queryKey,
         queryFn,
+        retry: false,
     });
 
     const handleButtonFilter = (value: string) => {

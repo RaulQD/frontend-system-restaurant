@@ -6,7 +6,8 @@ import { useQuery } from "@tanstack/react-query"
 export const useTableInfo = (tableId:Tables['id_table']) => {
   const { data: tableById, isLoading, error } = useQuery<Tables>({
     queryKey: ['tableByID',tableId],
-    queryFn: () => getTableById(tableId)
+    queryFn: () => getTableById(tableId),
+    enabled: !!tableId,
   })
 
   return { tableById, isLoading, error }

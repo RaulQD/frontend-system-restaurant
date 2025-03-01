@@ -71,14 +71,6 @@ export default function TableList() {
             </div>
         );
     }
-
-    if (!tables?.length) {
-        return (
-            <div className='flex justify-center items-center pt-20'>
-                <p className='text-lg'>{error?.message || 'error al cargar las mesas'}</p>
-            </div>
-        );
-    }
     if (isLoading || isOrderLoading) {
         return (
             <div className='flex justify-center items-center pt-40'>
@@ -86,21 +78,34 @@ export default function TableList() {
             </div>
         );
     }
+    if (!tables?.length) {
+        return (
+            <div className='flex justify-center items-center pt-20'>
+                <p className='text-lg'>{error?.message}</p>
+            </div>
+        );
+    }
 
     return (
         <>
-            <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-10 gap-y-5'>
-                {tables?.map((table) => (
-                    <li
-                        className='cursor-pointer'
-                        key={table.id_table}
-                        onClick={() =>
-                            handleTableClick(table.id_table, table.status)
-                        }>
-                        <CardTable table={table} />
-                    </li>
-                ))}
-            </ul>
+            {tables.length > 0 ? (
+                <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-10 gap-y-5'>
+                    {tables?.map((table) => (
+                        <li
+                            className='cursor-pointer'
+                            key={table.id_table}
+                            onClick={() =>
+                                handleTableClick(table.id_table, table.status)
+                            }>
+                            <CardTable table={table} />
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <div className='flex justify-center items-center pt-20'>
+                    <p className='text-lg'>No hay mesas disponibles</p>
+                </div>
+            )}
         </>
     );
 }
