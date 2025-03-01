@@ -24,7 +24,6 @@ const ROLES = {
 };
 
 export default function AppRoutes() {
-    
     return (
         <BrowserRouter>
             <Routes>
@@ -120,7 +119,7 @@ export default function AppRoutes() {
                             </ProtectedRoutes>
                         }
                     />
-                   
+
                     <Route
                         path='order-history'
                         element={
