@@ -212,6 +212,7 @@ export default function OrderSummaryDetails({
                         </div>
                         <div className='mt-4 flex items-center justify-end gap-4'>
                             <Button
+                                type='button'
                                 variant={'muted'}
                                 onClick={() =>
                                     navigate(location.pathname, {

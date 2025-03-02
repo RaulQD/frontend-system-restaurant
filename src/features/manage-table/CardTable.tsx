@@ -18,7 +18,7 @@ export default function CardTable({ table }: CardTableProps) {
             className={`${
                 table.status === 'DISPONIBLE' ? 'bg-blue-500' : 'bg-red-500'
             } relative`}>
-            <CardContent className='p-10'>
+            <CardContent className='p-8'>
                 <div className='flex flex-col gap-1'>
                     <p className='text-xl font-outfit font-semibold text-center uppercase text-white'>
                         {table.num_table}

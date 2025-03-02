@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 export const useSendOrderToKitchen = () => {
   const queryclient = useQueryClient();
-  const { mutate: sendOrder } = useMutation({
+  const { mutate: sendOrder, isPending } = useMutation({
     mutationFn: sendOrderToKitchen,
     onError: (error) => {
       toast.error(error.message)
@@ -14,5 +14,5 @@ export const useSendOrderToKitchen = () => {
       queryclient.refetchQueries({ queryKey: ['ordersKitchen'] })
     }
   });
-  return { sendOrder }
+  return { sendOrder, isPending }
 }

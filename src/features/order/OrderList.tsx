@@ -10,6 +10,7 @@ import { useCancelOrder } from './useCancelOrder';
 import { useNavigate } from 'react-router-dom';
 import OrderSummaryData from './OrderSummaryData';
 import { useUpdateItemStatus } from '../kitchen/useUpdateItemStatus';
+import SpinnerMini from '@/components/SpinnerMini';
 
 type OrderListProps = {
     activeOrder: Order;
@@ -22,7 +23,7 @@ export default function OrderList({
 }: OrderListProps) {
     const navigate = useNavigate();
     const [showCart, setShowCart] = useState(false);
-    const { sendOrder } = useSendOrderToKitchen();
+    const { sendOrder, isPending } = useSendOrderToKitchen();
     const { cancellationOrder } = useCancelOrder();
     const { updateStatus } = useUpdateItemStatus();
     const subTotal =
@@ -32,7 +33,10 @@ export default function OrderList({
         ) || 0;
 
     const isOrderIsEmpty = !activeOrder?.items.length;
-    const isOrderBusy =  activeOrder?.items.every((item) => item.status === 'LISTO PARA SERVIR' || item.status === 'SERVIDO');
+    const isOrderBusy = activeOrder?.items.every(
+        (item) =>
+            item.status === 'LISTO PARA SERVIR' || item.status === 'SERVIDO'
+    );
 
     //función para calcular el igv
     const desglosarIGV = (subTotal: number) => {
@@ -58,7 +62,11 @@ export default function OrderList({
 
     const handleSendOrder = () => {
         if (!activeOrder?.id_order) return;
-        sendOrder(activeOrder?.id_order);
+        sendOrder(activeOrder?.id_order, {
+            onSuccess: () => {
+                navigate('/dashboard/table');
+            },
+        });
     };
     const handleCancelOrder = () => {
         if (!activeOrder?.id_order) return;
@@ -156,9 +164,10 @@ export default function OrderList({
                             disabled={isOrderIsEmpty}
                             className='w-full hover:tracking-widest transition-all'
                             onClick={() => handleSendOrder()}>
-                            Enviar a cocina
+                            {isPending ? <SpinnerMini /> : 'Enviar a cocina'}
                         </Button>
                         <Button
+                            type='button'
                             variant={'principal'}
                             className='w-full hover:tracking-widest transition-all'
                             disabled={!isOrderBusy || isOrderIsEmpty}
