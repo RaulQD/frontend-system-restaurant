@@ -2,7 +2,7 @@ import { getAuthenticatedUser } from "@/services/apiAuth"
 import { useQuery } from "@tanstack/react-query"
 
 export const useUser = () => {
-  const { data: user, isLoading, isError, error } = useQuery({
+  const { data: user, isLoading, isSuccess, isError, error } = useQuery({
     queryKey: ['profile'],
     queryFn: getAuthenticatedUser,
     retry: false,
@@ -15,5 +15,6 @@ export const useUser = () => {
   const isWaiter = user?.role === 'mesero';
   const isChef = user?.role === 'cocinero';
 
-  return { user, isLoading, isError, error, isAdmin, isWaiter, isChef }
+
+  return { user, isLoading, isError, error, isSuccess, isAdmin, isWaiter, isChef }
 }

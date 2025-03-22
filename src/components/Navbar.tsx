@@ -8,8 +8,7 @@ import {
     DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import { useUser } from '@/hooks/useUser';
-import { useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useLogout } from '@/hooks/useLogout';
 
 type NavbarProps = {
     sidebarOpen: boolean;
@@ -18,8 +17,7 @@ type NavbarProps = {
 
 export default function Navbar({ sidebarOpen, setSidebarOpen }: NavbarProps) {
     const { user } = useUser();
-    const queryClient = useQueryClient();
-    const navigate = useNavigate();
+    const { logout } = useLogout();
 
     const fullName = user?.employee.full_name;
     const nameParts = fullName?.split(' ');
@@ -29,13 +27,7 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }: NavbarProps) {
     // Obtener las iniciales del nombre y apellido
     const initials = `${firstName[0]}${lastName[0]}`;
 
-    const handleLogout = () => {
-        // Lógica para cerrar sesión
-        localStorage.removeItem('token');
-        queryClient.clear();
-        navigate('/auth/login');
-    };
-
+    
     return (
         <nav className='bg-white border-b border-gray-300 fixed z-30 w-full'>
             <div className='px-3 py-3 lg:px-5 lg:pl-3'>
@@ -97,7 +89,7 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }: NavbarProps) {
                                     </div>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align='end'>
-                                    <DropdownMenuItem onClick={handleLogout}>
+                                    <DropdownMenuItem onClick={logout}>
                                         Cerrar Sesión
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>

@@ -2,12 +2,23 @@ import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
 import { Toaster } from '@/components/ui/toaster';
 import { usePageTittle } from '@/hooks/usePageTittle';
-import { useState } from 'react';
+import { connectSocket, disconnectSocket } from '@/lib/sockets';
+import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 export default function Layout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     usePageTittle();
+
+    useEffect(() => {
+        //Conectar el socket
+        connectSocket();
+        return () => {
+            //Desconectar el socket
+            disconnectSocket();
+        };
+    }, []);
+
     return (
         <>
             <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />

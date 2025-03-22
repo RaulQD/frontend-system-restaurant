@@ -1,12 +1,12 @@
+import { connectSocket } from "@/lib/sockets";
 import { authenticatedUser } from "@/services/apiAuth";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 export const useLogin = () => {
   const navigate = useNavigate();
 
-  const queryClient = useQueryClient();
   const { mutate: autentication, isPending } = useMutation({
     mutationFn: authenticatedUser,
     onError: (error) => {
@@ -14,7 +14,11 @@ export const useLogin = () => {
     },
     onSuccess: (data) => {
 
-      queryClient.setQueryData(['user'], data);
+      if (!data?.token) return;
+      localStorage.setItem('token', data?.token)
+
+      connectSocket()
+
       if (data?.role.role_name === 'cocinero') {
         navigate('/dashboard/kitchen')
       }

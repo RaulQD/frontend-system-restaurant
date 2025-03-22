@@ -1,10 +1,4 @@
-import {
-    BiCart,
-    BiCog,
-    BiDish,
-    BiFoodMenu,
-    BiUser,
-} from 'react-icons/bi';
+import { BiCart, BiCog, BiDish, BiFoodMenu, BiUser } from 'react-icons/bi';
 import SidebarDropdown from './SidebarDropdown';
 import SidebarItems from './SidebarItems';
 import { MdDashboard, MdOutlineTableBar } from 'react-icons/md';
@@ -38,11 +32,18 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
 
                         {(user?.role === 'mesero' ||
                             user?.role === 'administrador') && (
-                            <SidebarItems
-                                path='/dashboard/table'
-                                label='Manejo de Mesas'
-                                Icon={MdOutlineTableBar}
-                            />
+                            <>
+                                <SidebarItems
+                                    path='/dashboard/table'
+                                    label='Manejo de Mesas'
+                                    Icon={MdOutlineTableBar}
+                                />
+                                <SidebarItems
+                                    path='/dashboard/orders'
+                                    label='Ordenes'
+                                    Icon={BiCart}
+                                />
+                            </>
                         )}
                         {user?.role === 'administrador' && (
                             <>
@@ -71,7 +72,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                         },
                                     ]}
                                 />
-                              
+
                                 <SidebarDropdown
                                     label='Ordenes'
                                     Icon={BiFoodMenu}

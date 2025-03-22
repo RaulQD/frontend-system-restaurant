@@ -16,6 +16,7 @@ import EditEmployee from './features/admin-personal/EditEmployee';
 import Dashboard from './pages/Dashboard';
 import Tables from './pages/Tables';
 import Rooms from './pages/Rooms';
+import OrdersReady from './pages/OrdersReady';
 
 const ROLES = {
     Administrador: 'administrador',
@@ -108,6 +109,17 @@ export default function AppRoutes() {
                     />
 
                     <Route
+                        path='orders'
+                        element={
+                            <ProtectedRoutes
+                                allowedRoles={[
+                                    ROLES.Administrador,
+                                    ROLES.Mesero,
+                                ]}>
+                                <OrdersReady />
+                            </ProtectedRoutes>
+                        }></Route>
+                    <Route
                         path='kitchen'
                         element={
                             <ProtectedRoutes
@@ -148,7 +160,7 @@ export default function AppRoutes() {
                         }
                     />
                 </Route>
-                <Route path="/" element={<Navigate to="/auth/login" />} />
+                <Route path='/' element={<Navigate to='/auth/login' />} />
                 <Route path='auth' element={<AuthLayout />}>
                     <Route path='login' element={<Login />} />
                 </Route>

@@ -120,3 +120,9 @@ export type ProcessPaymentDataValues = {
   employee_name: string;
   change_amount: number;
 };
+
+export type OrderResponse = {
+  message: string;
+  status: boolean;
+  order: Order;
+}

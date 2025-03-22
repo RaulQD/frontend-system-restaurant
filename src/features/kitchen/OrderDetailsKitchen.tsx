@@ -5,6 +5,7 @@ import { useUpdateItemStatus } from './useUpdateItemStatus';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
 import { formatCurrency } from '../../utils/formatCurrency';
+import { useUser } from '@/hooks/useUser';
 
 type OrderDetailsKitchenProps = {
     orderDetails: OrderDetails;
@@ -21,12 +22,26 @@ export default function OrderDetailsKitchen({
     const navigate = useNavigate();
     const orderId = orderDetails.id_order;
     const { updateStatus } = useUpdateItemStatus();
+    const { user } = useUser();
+
     const handleUpdateStatus = (
         orderId: number,
         itemId: number,
         status: string
     ) => {
-        updateStatus({ orderId, itemId, status });
+        if (!user || !user.id) return;
+        updateStatus({ orderId, itemId, status },{
+            onSuccess: () => {
+                navigate(location.pathname, { replace: true });
+            }
+        });
+
+        console.log('📤 Emitiendo evento con:', {
+            orderId,
+            itemId,
+            status,
+            waiter_id: user.id,
+        });
     };
 
     return (
@@ -87,12 +102,14 @@ export default function OrderDetailsKitchen({
                                 </td>
                                 <td className='px-3 py-2 text-sm text-center'>
                                     {item.status === 'SERVIDO' ? (
-                                        <Badge variant={'success'} className='text-white font-semibold'>
+                                        <Badge
+                                            variant={'success'}
+                                            className='text-white font-semibold'>
                                             Servido
                                         </Badge>
                                     ) : (
                                         <form>
-                                           <select
+                                            <select
                                                 id='status'
                                                 name='status'
                                                 defaultValue={item.status}

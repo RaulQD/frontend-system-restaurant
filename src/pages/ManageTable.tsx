@@ -2,6 +2,9 @@ import TableList from '@/features/manage-table/TableList';
 import FilterButton from '@/components/FilterButton';
 import { Rooms } from '@/types/rooms';
 import { getRooms } from '@/services/apiRooms';
+import { useEffect } from 'react';
+import { socket } from '@/lib/sockets';
+import toast from 'react-hot-toast';
 
 export default function ManageTable() {
     // OBTENER LA FECHA ACTUAL DEL SISTEMA
@@ -13,6 +16,15 @@ export default function ManageTable() {
             day: 'numeric',
         });
     };
+    useEffect(() => {
+        socket.on('update-order-item-status', (data) => {
+            console.log('📢 Estado de item actualizado:', data);
+            toast.success(data.message);
+        })
+        return () => {
+            socket.off('update-order-item-status');
+        }
+    })
   
     return (
         <section>

@@ -1,6 +1,6 @@
 import api from "@/lib/axios";
 import { Employee } from "@/types/employee";
-import { AddItemToOrderData, Order, OrderCreateData, OrderResponseType, PaymentResponse } from "@/types/order";
+import { AddItemToOrderData, Order, OrderCreateData, OrderResponseType, OrdersList, PaymentResponse } from "@/types/order";
 import { isAxiosError } from "axios";
 
 type GetOrdersAPIType = {
@@ -25,11 +25,25 @@ export const getOrders = async ({ page, keyword, status, startDate, endDate }: G
 export const getOrdersForKitchen = async () => {
   try {
     const { data } = await api.get('/orders/kitchen');
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
+}
+export const getOrdersReadyForServing = async () => {
+  try {
+    const { data } = await api.get<OrdersList[]>('/orders/ready-for-serving')
+    console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }
+    throw new Error('Error al obtener las ordenes listas para servir');
   }
 }
 export const getOrderDetailsById = async (orderId: Order['id_order']) => {
@@ -54,7 +68,7 @@ export const getOrderHistoryByOrderId = async (orderId: Order['id_order']) => {
 }
 export const getOrderByTableId = async (tableId: number) => {
   try {
-    const { data } = await api.get(`/orders/active/${tableId}/`);
+    const { data } = await api.get(`/orders/active/${tableId}`);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -120,6 +134,7 @@ export const updateStatusItem = async (orderId: number, itemId: number, status: 
     const { data } = await api.patch(`/orders/${orderId}/item/${itemId}/status`, { status });
     return data;
   } catch (error) {
+    console.log(error)
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }

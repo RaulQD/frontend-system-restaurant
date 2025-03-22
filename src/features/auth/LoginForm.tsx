@@ -32,13 +32,19 @@ export default function LoginForm() {
     };
 
     return (
-        <div className='w-full max-w-sm sm:max-w-md md:max-w-lg mx-auto'>
+        <div className='w-full max-w-sm sm:max-w-md md:max-w-md mx-auto'>
             <form
                 className='space-y-6'
                 onSubmit={handleSubmit(onSubmit)}
                 noValidate>
                 <div>
-                    <Label htmlFor='username'>Usuario</Label>
+                    <Label
+                        htmlFor='username'
+                        className={`font-medium transition-colors ${
+                            errors.username ? 'text-red-500' : 'text-gray-600'
+                        }`}>
+                        Usuario
+                    </Label>
                     <div className='mt-2'>
                         <Input
                             type='text'
@@ -58,12 +64,17 @@ export default function LoginForm() {
                 </div>
 
                 <div>
-                    <Label htmlFor='password'>Contraseña</Label>
+                    <Label
+                        htmlFor='password'
+                        className={`font-medium transition-colors ${
+                            errors.username ? 'text-red-500' : 'text-gray-600'
+                        }`}>
+                        Contraseña
+                    </Label>
                     <div className='mt-2'>
                         <Input
                             type={showPassword ? 'text' : 'password'}
                             id='password'
-                            
                             autoComplete='off'
                             placeholder='*********'
                             {...register('password', {

@@ -17,22 +17,32 @@ type CardKitchenProps = {
 };
 
 export default function CardKitchen({ order }: CardKitchenProps) {
-    const [minutesElapsed, setMinutesElapsed] = useState<number>(0);
+    const [minutesElapsed, setMinutesElapsed] = useState<string>("00:00:00");
 
     useEffect(() => {
         const calculateMinutesElapsed = () => {
+            //OBETENER LA FECHA ACTUAL
+            const now = new Date();
+            //OBTENER LA FECHA DE CREACIÓN DE LA ORDEN
             const date = new Date(order.created_at);
-            const currentDate = new Date();
-            const diff = currentDate.getTime() - date.getTime();
-            const minutes = Math.floor(diff / 60000);
-            setMinutesElapsed(minutes);
+            //CALCULAR LOS MINUTOS TRANSCURRIDOS
+            const diff = Math.floor((now.getTime() - date.getTime()) / 1000);
+            //CALCULAR LAS HORAS,MINUTOS Y SEGUNDOS
+            const hours = Math.floor(diff / 3600);
+            const minutes = Math.floor((diff & 3600) / 60);
+            const seconds = diff % 60;
+            //FORMATEAR LOS MINUTOS TRANSCURRIDOS
+            const elapsed = `${String(hours).padStart(2, '0')}:${String(
+                minutes
+            ).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            //ACTUALIZAR EL ESTADO DE LOS MINUTOS TRANSCURRIDOS
+            setMinutesElapsed(elapsed);
         };
-        //calcular los minutos transcurridos
+        //EJECUTAR LA FUNCIÓN PARA CALCULAR LOS MINUTOS TRANSCURRIDOS
         calculateMinutesElapsed();
-        //configurar el intervalo para actualizar los minutos transcurridos
-        const interval = setInterval(() => {
-            calculateMinutesElapsed();
-        }, 60000);
+        //ACTUALIZAR LOS MINUTOS TRANSCURRIDOS CADA SEGUNDO
+        const interval = setInterval(calculateMinutesElapsed, 1000);
+        //LIMPIAR EL INTERVALO
         return () => clearInterval(interval);
     }, [order.created_at]);
 

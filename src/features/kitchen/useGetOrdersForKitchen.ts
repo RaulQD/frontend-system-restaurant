@@ -3,11 +3,10 @@ import { OrdersList } from "@/types/order"
 import { useQuery } from "@tanstack/react-query"
 
 export const useGetOrdersForKitchen = () => {
-  const { data: orders, isLoading, isError, error } = useQuery<OrdersList[]>({
+  const { data: orders, isLoading, isError, error, refetch } = useQuery<OrdersList[]>({
     queryKey: ['ordersKitchen'],
     queryFn: getOrdersForKitchen,
     retry: false,
-    // refetchInterval: 2000,
   })
-  return { orders, isLoading, isError, error }
+  return { orders, isLoading, isError, error, refetch }
 }
