@@ -2,10 +2,18 @@ import Spinner from '@/components/Spinner';
 import { useGetOrdersReady } from './useGetOrdersReady';
 import CardOrder from './CardOrder';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { socket } from '@/lib/sockets';
 
 export default function TableOrdersReady() {
     const navigate = useNavigate();
     const { orders, isError, isLoading, error } = useGetOrdersReady();
+
+    useEffect(() => {
+        socket.on('update-list-kitchen', () => {
+            
+        })
+    })
 
     if (isLoading) {
         return (
@@ -16,7 +24,7 @@ export default function TableOrdersReady() {
     }
     if (isError) {
         return (
-            <div className='flex justify-center items-center h-screen'>
+            <div className='flex justify-center items-center h-96'>
                 <p className='text-lg text-gray-500'>{error?.message}</p>
             </div>
         );
@@ -24,8 +32,8 @@ export default function TableOrdersReady() {
 
     if (!orders?.length) {
         return (
-            <div className='flex justify-center items-center'>
-                <p className='text-lg text-gray-500'>{error?.message}</p>
+            <div className='flex justify-center items-center h-96'>
+                <p className='text-lg text-gray-500'>{error?.message || 'No hay Ordenes listas para servir.'}</p>
             </div>
         );
     }

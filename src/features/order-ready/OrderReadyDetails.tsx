@@ -12,6 +12,7 @@ export default function OrderReadyDetails({
     const { updateStatus } = useUpdateItemStatus();
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
     const [isAllServed, setIsAllServed] = useState(false);
+    
     const handleCheckBoxChange = (itemId: number) => {
         //manejar el item individual
         if (selectedItems.includes(itemId)) {

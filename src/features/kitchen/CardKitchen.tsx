@@ -17,33 +17,26 @@ type CardKitchenProps = {
 };
 
 export default function CardKitchen({ order }: CardKitchenProps) {
-    const [minutesElapsed, setMinutesElapsed] = useState<string>("00:00:00");
+    const [elapsedTime, setElapsedTime] = useState<string>('00:00:00');
 
     useEffect(() => {
-        const calculateMinutesElapsed = () => {
-            //OBETENER LA FECHA ACTUAL
-            const now = new Date();
-            //OBTENER LA FECHA DE CREACIÓN DE LA ORDEN
-            const date = new Date(order.created_at);
-            //CALCULAR LOS MINUTOS TRANSCURRIDOS
-            const diff = Math.floor((now.getTime() - date.getTime()) / 1000);
-            //CALCULAR LAS HORAS,MINUTOS Y SEGUNDOS
+        const updateElapsedTime = () => {
+            const date = new Date();
+            const readyTime = new Date(order.created_at);
+            const diff = Math.floor(
+                (date.getTime() - readyTime.getTime()) / 1000
+            );
             const hours = Math.floor(diff / 3600);
-            const minutes = Math.floor((diff & 3600) / 60);
+            const minutes = Math.floor((diff % 3600) / 60);
             const seconds = diff % 60;
-            //FORMATEAR LOS MINUTOS TRANSCURRIDOS
             const elapsed = `${String(hours).padStart(2, '0')}:${String(
                 minutes
             ).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            //ACTUALIZAR EL ESTADO DE LOS MINUTOS TRANSCURRIDOS
-            setMinutesElapsed(elapsed);
+            setElapsedTime(elapsed);
         };
-        //EJECUTAR LA FUNCIÓN PARA CALCULAR LOS MINUTOS TRANSCURRIDOS
-        calculateMinutesElapsed();
-        //ACTUALIZAR LOS MINUTOS TRANSCURRIDOS CADA SEGUNDO
-        const interval = setInterval(calculateMinutesElapsed, 1000);
-        //LIMPIAR EL INTERVALO
-        return () => clearInterval(interval);
+        const intervalTime = setInterval(updateElapsedTime, 1000);
+        updateElapsedTime();
+        return () => clearInterval(intervalTime);
     }, [order.created_at]);
 
     //OBTENER EL PRIMER NOMBRE Y APELLIDO DEL USUARIO
@@ -134,7 +127,7 @@ export default function CardKitchen({ order }: CardKitchenProps) {
                         <div className='flex items-center gap-2'>
                             <TimerIcon className='w-3 h-3 text-red-500' />
                             <p className='text-sm text-red-500 font-medium'>
-                                {minutesElapsed} min
+                                {elapsedTime} min
                             </p>
                         </div>
                         {/* Número de pedido y mesa */}

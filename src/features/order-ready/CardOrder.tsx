@@ -15,7 +15,7 @@ type CardOrderProps = {
 };
 
 export default function CardOrder({ order }: CardOrderProps) {
-    const [elapsedTime, setElapsedTime] = useState<string>('00:00');
+    const [elapsedTime, setElapsedTime] = useState<string>('00:00:00');
     //OBTENER EL PRIMER NOMBRE Y APELLIDO DEL USUARIO
     const names = order.employee.names.split(' ');
     const last_name = order.employee.last_name.split(' ');
