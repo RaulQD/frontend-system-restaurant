@@ -40,7 +40,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                 />
                                 <SidebarItems
                                     path='/dashboard/orders'
-                                    label='Ordenes'
+                                    label='Ordenes listas'
                                     Icon={BiCart}
                                 />
                             </>

@@ -15,13 +15,11 @@ export default function TableKitchen() {
 
     useEffect(() => {
         socket.on('new-order-to-send-kitchen', (newOrder) => {
-            console.log('📢 Nueva orden recibida:', newOrder);
             toast.success(newOrder.message);
             //ACTUALIZAR LA DATA DE ORDENES EN CACHE
             queryClient.invalidateQueries({ queryKey: ['ordersKitchen'] });
         });
         socket.on('update-list-kitchen', () => {
-            console.log('📢 Actualizando lista de cocina');
             queryClient.invalidateQueries({ queryKey: ['ordersKitchen'] });
         });
        
@@ -39,7 +37,6 @@ export default function TableKitchen() {
         );
     }
     if (!orders?.length) {
-        console.log('❌ no hay ordenes en cocina');
         return (
             <div className='flex justify-center items-center h-96'>
                 <p className='text-lg text-gray-500'>

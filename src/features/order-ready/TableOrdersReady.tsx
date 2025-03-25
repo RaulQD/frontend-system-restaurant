@@ -4,16 +4,23 @@ import CardOrder from './CardOrder';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { socket } from '@/lib/sockets';
+import toast from 'react-hot-toast';
 
 export default function TableOrdersReady() {
     const navigate = useNavigate();
-    const { orders, isError, isLoading, error } = useGetOrdersReady();
+    const { orders, isError, isLoading, error, refetch } = useGetOrdersReady();
 
     useEffect(() => {
-        socket.on('update-list-kitchen', () => {
-            
-        })
-    })
+        socket.emit('join-orders-ready');
+        socket.on('update-list-orders-ready', (data) => {
+            toast.success(data.message);
+            refetch();
+        });
+        return () => {
+            socket.emit('leave-orders-ready');
+            socket.off('update-list-orders-ready');
+        };
+    }, [refetch]);
 
     if (isLoading) {
         return (
@@ -33,7 +40,9 @@ export default function TableOrdersReady() {
     if (!orders?.length) {
         return (
             <div className='flex justify-center items-center h-96'>
-                <p className='text-lg text-gray-500'>{error?.message || 'No hay Ordenes listas para servir.'}</p>
+                <p className='text-lg text-gray-500'>
+                    {error?.message || 'No hay Ordenes listas para servir.'}
+                </p>
             </div>
         );
     }
