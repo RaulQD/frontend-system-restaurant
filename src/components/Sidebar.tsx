@@ -9,8 +9,9 @@ type SidebarProps = {
     setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function Sidebar({ sidebarOpen }: SidebarProps) {
+export default function Sidebar({ sidebarOpen,setSidebarOpen }: SidebarProps) {
     const { user } = useUser();
+    const closeSidebar = () => setSidebarOpen(false);
     return (
         <aside
             id='sidebar'
@@ -27,6 +28,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                 path='/dashboard/home'
                                 label='Dashboard'
                                 Icon={MdDashboard}
+                                onClick={closeSidebar}
                             />
                         )}
 
@@ -37,11 +39,13 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                     path='/dashboard/table'
                                     label='Manejo de Mesas'
                                     Icon={MdOutlineTableBar}
+                                    onClick={closeSidebar}
                                 />
                                 <SidebarItems
                                     path='/dashboard/orders'
                                     label='Ordenes listas'
                                     Icon={BiCart}
+                                    onClick={closeSidebar}
                                 />
                             </>
                         )}
@@ -61,6 +65,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                             label: 'Categorias',
                                         },
                                     ]}
+                                    onClick={closeSidebar}
                                 />
                                 <SidebarDropdown
                                     label='Personal'
@@ -71,6 +76,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                             label: 'Administrar Personal',
                                         },
                                     ]}
+                                    onClick={closeSidebar}
                                 />
 
                                 <SidebarDropdown
@@ -82,6 +88,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                             label: 'Historial de ordenes',
                                         },
                                     ]}
+                                    onClick={closeSidebar}
                                 />
                             </>
                         )}
@@ -97,6 +104,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                         label: 'Listado de Pedidos',
                                     },
                                 ]}
+                                onClick={closeSidebar}
                             />
                         )}
                         {user?.role === 'administrador' && (
@@ -113,6 +121,7 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
                                         label: 'Gestion de Salones',
                                     },
                                 ]}
+                                onClick={closeSidebar}
                             />
                         )}
                     </ul>

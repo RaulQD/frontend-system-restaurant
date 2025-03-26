@@ -12,11 +12,13 @@ type SidebarDropdownProps = {
     label: string;
     Icon: IconType;
     menuItems: DropdownItems[];
+    onClick?: () => void;
 };
 export default function SidebarDropdown({
     label,
     Icon,
     menuItems,
+    onClick
 }: SidebarDropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -37,7 +39,7 @@ export default function SidebarDropdown({
                         }  transition-all`}
                     />
                 </button>
-                <Dropdown isOpen={isOpen} menuItems={menuItems} />
+                <Dropdown isOpen={isOpen} menuItems={menuItems} onClick={onClick}/>
             </li>
         </>
     );
