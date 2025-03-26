@@ -20,7 +20,6 @@ export default function TableList() {
         useGetOrderActiveForTable(selectedTable || 0);
     const { createOrders } = useCreateOrder();
     const { tables, isLoading, isError, error } = useTables(room);
-
     useEffect(() => {
         if (!searchParams.has('room')) {
             searchParams.set('room', 'comedor principal');

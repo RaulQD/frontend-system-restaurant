@@ -18,7 +18,6 @@ export default function ManageTable() {
     };
     useEffect(() => {
         socket.on('update-order-item-status', (data) => {
-            console.log('📢 Estado de item actualizado:', data);
             toast.success(data.message);
         })
         return () => {

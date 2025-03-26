@@ -11,7 +11,6 @@ import { useNavigate } from 'react-router-dom';
 import PaginationI from '@/components/PaginationI';
 import Spinner from '@/components/Spinner';
 import DropdownActions from '@/components/DropdownActions';
-import AddTableData from './AddTableData';
 import EditTableData from './EditTableData';
 import { BiPencil, BiTrash } from 'react-icons/bi';
 
@@ -107,7 +106,6 @@ export default function TablesList() {
                 </Table>
             </div>
             <PaginationI totalItems={tables?.pagination.totalTables || 0} />
-            <AddTableData />
             <EditTableData />
         </div>
     );

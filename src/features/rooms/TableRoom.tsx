@@ -10,7 +10,6 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useRooms } from './useRooms';
 import { BiPencil, BiTrash } from 'react-icons/bi';
-import AddRoomData from './AddRoomData';
 import EditRoomData from './EditRoomData';
 import AlertMessageDialog from '@/components/AlertMessageDialog';
 import { useState } from 'react';
@@ -112,7 +111,6 @@ export default function TableRoom() {
                     </TableBody>
                 </Table>
             </div>
-            <AddRoomData />
             <EditRoomData />
             <AlertMessageDialog
                 title='Eliminar Sala'

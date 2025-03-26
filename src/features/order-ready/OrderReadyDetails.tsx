@@ -31,15 +31,14 @@ export default function OrderReadyDetails({
 
     //manejar la seleccion de todos los items
     const handleSelectAllItems = () => {
-        const readyItems = orderDetails.items
-            .filter((item) => item.status === 'LISTO PARA SERVIR')
-            .map((item) => item.id_item);
-        console.log('Todos los ítems listos:', readyItems);
+        //SELECCIONAR TODO LOS ITEMS  DE LA ORDEN
+        const readyItems = orderDetails.items.map((item) => item.id_item);
+        
         if (selectedItems.length === readyItems.length) {
+            //deseleccionar todos los listos para servir
             setSelectedItems([]);
-            console.log('Deseleccionando todos');
         } else {
-            console.log('Seleccionando todos');
+            //seleccionar todos los listos para servir
             setSelectedItems(readyItems);
         }
     };

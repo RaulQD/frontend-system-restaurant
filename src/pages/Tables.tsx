@@ -1,5 +1,6 @@
 import FilterButton from '@/components/FilterButton';
 import { Button } from '@/components/ui/button';
+import AddTableData from '@/features/tables/AddTableData';
 import TablesList from '@/features/tables/TablesList';
 import { getRooms } from '@/services/apiRooms';
 import { Rooms } from '@/types/rooms';
@@ -41,6 +42,7 @@ export default function Tables() {
                 />
             </div>
             <TablesList />
+            <AddTableData />
         </section>
     );
 }

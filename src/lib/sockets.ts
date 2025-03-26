@@ -9,7 +9,6 @@ export const connectSocket = () => {
       console.warn("⚠ No se pudo conectar a WebSocket: Token no encontrado.");
       return
    }
-   console.log("Token WebSocket:", localStorage.getItem('token'));
    
    if (!socket.connected) {
       socket.auth = { token }

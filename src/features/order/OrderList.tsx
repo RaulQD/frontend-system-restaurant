@@ -24,7 +24,7 @@ export default function OrderList({
     const navigate = useNavigate();
     const [showCart, setShowCart] = useState(false);
     const { sendOrder, isPending } = useSendOrderToKitchen();
-    const { cancellationOrder } = useCancelOrder();
+    const { cancellationOrder,isCancelOrder } = useCancelOrder();
     const { updateStatus } = useUpdateItemStatus();
     const subTotal =
         activeOrder?.items.reduce(
@@ -155,13 +155,14 @@ export default function OrderList({
                         </ul>
                         <Button
                             variant='destructive'
+                            disabled={isOrderBusy}
                             className='w-full hover:tracking-widest transition-all text-white'
                             onClick={() => handleCancelOrder()}>
-                            Cancelar
+                            {isCancelOrder ? <SpinnerMini /> : 'Cancelar Orden'}
                         </Button>
                         <Button
                             variant={'default'}
-                            disabled={isOrderIsEmpty}
+                            disabled={isOrderIsEmpty || isOrderBusy}
                             className='w-full hover:tracking-widest transition-all'
                             onClick={() => handleSendOrder()}>
                             {isPending ? <SpinnerMini /> : 'Enviar a cocina'}

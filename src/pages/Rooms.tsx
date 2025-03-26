@@ -1,10 +1,11 @@
 import { Button } from '@/components/ui/button';
+import AddRoomData from '@/features/rooms/AddRoomData';
 import TableRoom from '@/features/rooms/TableRoom';
 import { BiPlus } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 
 export default function Rooms() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
     return (
         <section>
             <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-14'>
@@ -26,6 +27,7 @@ export default function Rooms() {
                 </Button>
             </div>
             <TableRoom />
+            <AddRoomData />
         </section>
     );
 }

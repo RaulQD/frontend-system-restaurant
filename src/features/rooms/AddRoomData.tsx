@@ -4,8 +4,8 @@ import AddRoomDataModal from './AddRoomDataModal';
 export default function AddRoomData() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const modalTable = queryParams.get('createRoom');
-    const open = modalTable ? true : false;
+    const modalRoom = queryParams.get('createRoom');
+    const open = modalRoom ? true : false;
 
     return <AddRoomDataModal open={open} />;
 }
