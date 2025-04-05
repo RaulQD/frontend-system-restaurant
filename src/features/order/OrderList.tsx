@@ -9,7 +9,6 @@ import { useSendOrderToKitchen } from './useSendOrderToKitchen';
 import { useCancelOrder } from './useCancelOrder';
 import { useNavigate } from 'react-router-dom';
 import OrderSummaryData from './OrderSummaryData';
-import { useUpdateItemStatus } from '../kitchen/useUpdateItemStatus';
 import SpinnerMini from '@/components/SpinnerMini';
 
 type OrderListProps = {
@@ -24,13 +23,11 @@ export default function OrderList({
     const navigate = useNavigate();
     const [showCart, setShowCart] = useState(false);
     const { sendOrder, isPending } = useSendOrderToKitchen();
-    const { cancellationOrder,isCancelOrder } = useCancelOrder();
-    const { updateStatus } = useUpdateItemStatus();
-    const subTotal =
-        activeOrder?.items.reduce(
-            (acc, items) => acc + items.quantity * (items.unit_price || 0),
-            0
-        ) || 0;
+    const { cancellationOrder, isCancelOrder } = useCancelOrder();
+    const subTotal = activeOrder?.items.reduce(
+        (acc, item) => acc + item.unit_price * item.quantity,
+        0
+    );
 
     const isOrderIsEmpty = !activeOrder?.items.length;
     const isOrderBusy = activeOrder?.items.every(
@@ -77,16 +74,6 @@ export default function OrderList({
             },
         });
     };
-
-    //CAMBIAR EL ESTADO DEL ITEM DE LA ORDEN A SERVIDO
-    const handleChangeStatusItem = (
-        orderId: number,
-        itemId: number,
-        status: string
-    ) => {
-        updateStatus({ orderId, itemId, status });
-    };
-
     return (
         <>
             <aside
@@ -116,9 +103,6 @@ export default function OrderList({
                                         }
                                         handleDisableButton={
                                             handleDisableButton
-                                        }
-                                        handleChangeStatusItem={
-                                            handleChangeStatusItem
                                         }
                                     />
                                 </li>
@@ -155,8 +139,8 @@ export default function OrderList({
                         </ul>
                         <Button
                             variant='destructive'
-                            disabled={isOrderBusy}
                             className='w-full hover:tracking-widest transition-all text-white'
+                            disabled={isOrderBusy}
                             onClick={() => handleCancelOrder()}>
                             {isCancelOrder ? <SpinnerMini /> : 'Cancelar Orden'}
                         </Button>

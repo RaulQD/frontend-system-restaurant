@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { CheckCheckIcon } from 'lucide-react';
 import { PiHandCoins } from 'react-icons/pi';
 import { Separator } from '@/components/ui/separator';
+import SpinnerMini from '@/components/SpinnerMini';
 
 type OrderReadyDetailsProps = {
     orderDetails: OrderDetails;
@@ -14,9 +15,8 @@ type OrderReadyDetailsProps = {
 export default function OrderReadyDetails({
     orderDetails,
 }: OrderReadyDetailsProps) {
-    const { updateStatus } = useUpdateItemStatus();
+    const { updateStatus, isPending } = useUpdateItemStatus();
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
-    const [isAllServed, setIsAllServed] = useState(false);
     const navigate = useNavigate();
 
     const handleCheckBoxChange = (itemId: number) => {
@@ -33,7 +33,7 @@ export default function OrderReadyDetails({
     const handleSelectAllItems = () => {
         //SELECCIONAR TODO LOS ITEMS  DE LA ORDEN
         const readyItems = orderDetails.items.map((item) => item.id_item);
-        
+
         if (selectedItems.length === readyItems.length) {
             //deseleccionar todos los listos para servir
             setSelectedItems([]);
@@ -58,7 +58,6 @@ export default function OrderReadyDetails({
                 }
             );
         });
-        setIsAllServed(true);
     };
     const statusBadge = (status: string) => {
         switch (status) {
@@ -118,7 +117,6 @@ export default function OrderReadyDetails({
                                             ).length
                                     }
                                     onChange={handleSelectAllItems}
-                                    disabled={isAllServed}
                                     className='accent-teal-300 cursor-pointer'
                                 />
                             </th>
@@ -146,18 +144,14 @@ export default function OrderReadyDetails({
                                 <td className='px-3 py-2 text-sm text-center'>
                                     <input
                                         type='checkbox'
-                                        checked={
-                                            selectedItems.includes(
-                                                item.id_item
-                                            ) || isAllServed
-                                        }
+                                        checked={selectedItems.includes(
+                                            item.id_item
+                                        )}
                                         onChange={() =>
                                             handleCheckBoxChange(item.id_item)
                                         }
                                         disabled={
-                                            item.status !==
-                                                'LISTO PARA SERVIR' ||
-                                            isAllServed
+                                            item.status !== 'LISTO PARA SERVIR'
                                         }
                                         className='accent-teal-300 cursor-pointer'
                                     />
@@ -170,13 +164,17 @@ export default function OrderReadyDetails({
             {/* Botón para actualizar todos los ítems seleccionados */}
             {selectedItems.length > 0 && (
                 <>
-                    <Separator orientation='horizontal'className='mt-4'/>
+                    <Separator orientation='horizontal' className='mt-4' />
                     <Button
                         onClick={handleChangeStatusItem}
-                        disabled={isAllServed}
-                        variant={isAllServed ? 'muted' : 'principal'}
+                        disabled={isPending}
+                        variant={'principal'}
                         className='mt-4 text-white font-semibold py-2 px-4 rounded'>
-                        SERVIDO ({selectedItems.length})
+                        {isPending ? (
+                            <SpinnerMini />
+                        ) : (
+                            ` Servir (${selectedItems.length})`
+                        )}
                     </Button>
                 </>
             )}

@@ -3,26 +3,18 @@ import { OrderItem } from '@/types/order';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { formatCurrency } from '@/utils/formatCurrency';
-import { useParams } from 'react-router-dom';
 
 type CardOrderListProps = {
     orderItem: OrderItem;
     handleDecreaseQuantity: (dishId: number) => void;
     handleDisableButton: (status: string) => boolean;
-    handleChangeStatusItem: (
-        orderId: number,
-        itemId: number,
-        status: string
-    ) => void;
 };
 
 export default function CardOrderList({
     orderItem,
     handleDecreaseQuantity,
     handleDisableButton,
-    handleChangeStatusItem,
 }: CardOrderListProps) {
-    const { orderId } = useParams();
     const totalQuantityItems = orderItem.unit_price * orderItem.quantity;
     //OBTENER LOS COLORES DEPENDIENDO DEL ESTADO DE LA ORDEN CON SWITCH
     const statusOrderItemsColor = (status: string) => {
@@ -45,14 +37,7 @@ export default function CardOrderList({
                 return (
                     <Badge
                         variant='muted'
-                        className='text-black font-semibold '
-                        onClick={() =>
-                            handleChangeStatusItem(
-                                Number(orderId),
-                                orderItem.id_item,
-                                'SERVIDO'
-                            )
-                        }>
+                        className='text-black font-semibold '>
                         Listo para servir
                     </Badge>
                 );
@@ -130,11 +115,9 @@ export default function CardOrderList({
                                 {formatCurrency(totalQuantityItems)}
                             </span>
 
-                            <div>
-                                <span className='cursor-pointer'>
-                                    {statusOrderItemsColor(orderItem.status)}
-                                </span>
-                            </div>
+                            <span>
+                                {statusOrderItemsColor(orderItem.status)}
+                            </span>
                         </div>
                     </div>
                 </div>

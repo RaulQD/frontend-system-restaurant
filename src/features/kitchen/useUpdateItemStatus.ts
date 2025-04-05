@@ -4,7 +4,7 @@ import toast from "react-hot-toast"
 
 export const useUpdateItemStatus = () => {
   const queryClient = useQueryClient();
-  const { mutate: updateStatus, error } = useMutation({
+  const { mutate: updateStatus, error,isPending } = useMutation({
     mutationFn: ({ orderId, itemId, status }: { orderId: number, itemId: number, status: string }) => updateStatusItem(orderId, itemId, status),
     onError: (error) => {
       toast.error(error.message)
@@ -18,5 +18,5 @@ export const useUpdateItemStatus = () => {
 
     }
   })
-  return { updateStatus, error }
+  return { updateStatus, error, isPending }
 }

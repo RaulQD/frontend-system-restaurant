@@ -14,6 +14,8 @@ export const usePageTittle = () => {
         title = "Cocina - Foodie Hub";
       } else if (pathSegments.includes("table") && pathSegments.includes("order")) {
         title = "Crear Orden - Foodie Hub";
+      } else if (pathSegments.includes("orders")) {
+        title = "Ordenes Listas - Foodie Hub";
       } else if (pathSegments.includes("table")) {
         title = "Mesas - Foodie Hub";
       } else if (pathSegments.includes("dishes")) {
