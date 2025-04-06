@@ -32,7 +32,7 @@ export default function OrderList({
     const isOrderIsEmpty = !activeOrder?.items.length;
     const isOrderBusy = activeOrder?.items.every(
         (item) =>
-            item.status === 'LISTO PARA SERVIR' || item.status === 'SERVIDO'
+           ['EN PREPARACION','LISTO PARA SERVIR', 'SERVIDO'].includes(item.status) 
     );
 
     //función para calcular el igv
@@ -158,7 +158,7 @@ export default function OrderList({
                             disabled={!isOrderBusy || isOrderIsEmpty}
                             onClick={() =>
                                 navigate(
-                                    location.pathname + `?orderSummary=true`
+                                    location.pathname + `?orderSummary=${activeOrder?.id_order}`
                                 )
                             }>
                             Confirmar Pago
