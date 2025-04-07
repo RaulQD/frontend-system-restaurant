@@ -1,4 +1,4 @@
-# Sistema de Gestión de Pedidos - Frontend
+# Sistema de Restaurant - Frontend
 
 Este es el cliente web del sistema de gestión de pedidos para restaurantes. Permite a los meseros, cocineros y administradores gestionar órdenes en tiempo real de forma eficiente.
 
