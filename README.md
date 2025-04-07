@@ -25,7 +25,7 @@ Este es el cliente web del sistema de restaurantes. Permite a los meseros, cocin
 1. Clonar el repositorio:
 
    ```bash
-   git clone https://github.com/tu_usuario/tu_repositorio_frontend.git
+   git clone https://github.com/RaulQD/frontend-system-restaurant.git
 
    ```
 2. Instalar dependencia
