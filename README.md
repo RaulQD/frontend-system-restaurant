@@ -48,7 +48,11 @@ Este es el cliente web del sistema de restaurantes. Permite a los meseros, cocin
 ## 📷 Capturas 
 
 ### Crear y pagar una orden
-- Gestionar las mesas disponibles                                                - Crear la orden al seleccionar la mesa.                           
-<img src="./screenshots/Gestion_de_mesas.webp" alt="Crear Orden" width="450" /> <img src="./screenshots/agregar_items.webp" alt="Agregar Items" width="450" />
+<p align="center">
+   - Gestionar las mesas disponibles                                                                   
+<img src="./screenshots/Gestion_de_mesas.webp" alt="Crear Orden" width="30%" />
+ - Crear la orden al seleccionar la mesa.       
+<img src="./screenshots/agregar_items.webp" alt="Agregar Items" width="30%" />
 - Finalizar y pagar la orden
-<img src="./screenshots/pagar_orden.webp" alt="Pagar Orden" width="400" />
+<img src="./screenshots/pagar_orden.webp" alt="Pagar Orden" width="30%" />
+</p>
