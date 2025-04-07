@@ -44,4 +44,10 @@ Este es el cliente web del sistema de restaurantes. Permite a los meseros, cocin
    ```bash
    npm run dev
    ```
-   
+
+## 📷 Capturas 
+
+### Crear y pagar una orden
+-- Seleccionar una mesa para la creación de la orden.
+![Mesas](./screenshots/Gestion_de_mesas.webp)
+-- Inicio de la creación de la orden
