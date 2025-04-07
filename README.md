@@ -46,9 +46,11 @@ Este es el cliente web del sistema de restaurantes. Permite a los meseros, cocin
    ```
 
 ## 📷 Capturas 
+
 ### Iniciar sesión
 <p> Login</p>
 <img  src="./screenshots/login.webp" alt="login"/>
+
 ### Crear y pagar una orden
 <div style="display: flex; justify-content: space-around; width:100%">                                                                  
    <div>
