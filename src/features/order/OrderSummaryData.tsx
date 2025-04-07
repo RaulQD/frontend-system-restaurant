@@ -7,7 +7,7 @@ import { OrderSummary } from '@/types/order';
 export default function OrderSummaryData() {
     const localtion = useLocation();
     const queryParam = new URLSearchParams(localtion.search);
-    const orderId = queryParam.get('orderSummary');
+    const orderId = queryParam.get('orderSummary')!;
     const open = Boolean(orderId);
     const {
         data: orderSummary,
