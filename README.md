@@ -55,6 +55,6 @@ Este es el cliente web del sistema de restaurantes. Permite a los meseros, cocin
 ![Agregar items](./screenshots/agregar_items.webp)
 
 - Finalizar y pagar orden
-![Pagar orden](./screenshots/pagar_ordern.webp)
+![Pagar orden](./screenshots/pagar_orden.webp)
 
 
