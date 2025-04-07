@@ -28,18 +28,18 @@ Este es el cliente web del sistema de restaurantes. Permite a los meseros, cocin
    git clone https://github.com/RaulQD/frontend-system-restaurant.git
 
    ```
-2. Instalar dependencia
+2. Instalar dependencia:
 
    ```bash
    npm install
    ```
-3. Configuración variables de entorno .env
+3. Configuración variables de entorno .env:
    
    ```bash
    VITE_API_URL = TU_API_URL
    VITE_SOCKET_URL = TU_SOCKET_URL
    ```
-4. Iniciar Servidor
+4. Iniciar proyecto en desarrollo:
 
    ```bash
    npm run dev
@@ -48,13 +48,6 @@ Este es el cliente web del sistema de restaurantes. Permite a los meseros, cocin
 ## 📷 Capturas 
 
 ### Crear y pagar una orden
-- Seleccionar una mesa para la creación de la orden.
-![Mesas](./screenshots/Gestion_de_mesas.webp)
-
-- Inicio de la creación de la orden
-![Agregar items](./screenshots/agregar_items.webp)
-
-- Finalizar y pagar orden
-![Pagar orden](./screenshots/pagar_orden.webp)
-
-
+<img src="./screenshots/Gestion_de_mesas.webp" alt="Crear Orden" width="500" />
+<img src="./screenshots/agregar_items.webp" alt="Agregar Items" width="500" />
+<img src="./screenshots/pagar_orden.webp" alt="Pagar Orden" width="500" />
