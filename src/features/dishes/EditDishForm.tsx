@@ -196,7 +196,7 @@ export default function EditDishForm({
                         className={`font-medium transition-colors ${
                             errors.available ? 'text-red-500' : 'text-gray-600'
                         }`}>
-                        available
+                        Estado
                     </Label>
                     <select
                         id='available'

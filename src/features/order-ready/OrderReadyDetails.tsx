@@ -26,13 +26,15 @@ export default function OrderReadyDetails({
         } else {
             setSelectedItems([...selectedItems, itemId]);
         }
-        console.log('Ítems seleccionados:', selectedItems); // 👀 Verificar qué ítems están siendo seleccionados
     };
+    console.log('Ítems seleccionados:', selectedItems); // 👀 Verificar qué ítems están siendo seleccionados
 
     //manejar la seleccion de todos los items
     const handleSelectAllItems = () => {
         //SELECCIONAR TODO LOS ITEMS  DE LA ORDEN
-        const readyItems = orderDetails.items.map((item) => item.id_item);
+        const readyItems = orderDetails.items
+            .filter((item) => item.status === 'LISTO PARA SERVIR')
+            .map((item) => item.id_item);
 
         if (selectedItems.length === readyItems.length) {
             //deseleccionar todos los listos para servir
@@ -44,20 +46,14 @@ export default function OrderReadyDetails({
     };
 
     const handleChangeStatusItem = () => {
-        selectedItems.forEach((itemId) => {
-            updateStatus(
-                {
-                    orderId: Number(orderDetails.id_order),
-                    itemId,
-                    status: 'SERVIDO',
-                },
-                {
-                    onSuccess: () => {
-                        navigate(location.pathname, { replace: true });
-                    },
-                }
-            );
-        });
+        for (const itemId of selectedItems) {
+            updateStatus({
+                orderId: Number(orderDetails.id_order),
+                itemId,
+                status: 'SERVIDO',
+            });
+        }
+        navigate(location.pathname, { replace: true });
     };
     const statusBadge = (status: string) => {
         switch (status) {

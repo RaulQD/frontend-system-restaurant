@@ -162,7 +162,6 @@ export default function EmployeeForm() {
                                             } `}>
                                             Sueldo
                                         </Label>
-                                        id='salary'
                                         <Input
                                             type='text'
                                             placeholder='0.00'

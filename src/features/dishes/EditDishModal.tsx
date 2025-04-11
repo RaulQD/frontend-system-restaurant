@@ -76,7 +76,7 @@ export default function EditDishModal({
             title='Editar plato'
             open={open}
             description='Aquí puedes editar los datos del plato.'
-            size='lg'>
+            size='md'>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <EditDishForm
                     errors={errors}

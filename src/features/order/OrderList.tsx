@@ -29,12 +29,12 @@ export default function OrderList({
         0
     );
 
-    const isOrderIsEmpty = !activeOrder?.items.length;
-    const isOrderBusy = activeOrder?.items.every(
-        (item) =>
-           ['EN PREPARACION','LISTO PARA SERVIR', 'SERVIDO'].includes(item.status) 
-    );
+    const hasItems = activeOrder?.items.length > 0;
+    const isOrderBusy = activeOrder?.items.every( item => item.status === 'EN PREPARACION' || item.status === 'LISTO PARA SERVIR' || item.status === 'SERVIDO' );
 
+    const cancelledOrder = isOrderBusy;
+    const sendOrderToKitchen = hasItems && !isOrderBusy;
+    const canConfirmPayment =  isOrderBusy;
     //función para calcular el igv
     const desglosarIGV = (subTotal: number) => {
         const basePrice = subTotal / 1.18;
@@ -140,13 +140,13 @@ export default function OrderList({
                         <Button
                             variant='destructive'
                             className='w-full hover:tracking-widest transition-all text-white'
-                            disabled={isOrderBusy}
+                            disabled={!cancelledOrder}
                             onClick={() => handleCancelOrder()}>
                             {isCancelOrder ? <SpinnerMini /> : 'Cancelar Orden'}
                         </Button>
                         <Button
                             variant={'default'}
-                            disabled={isOrderIsEmpty || isOrderBusy}
+                            disabled={!sendOrderToKitchen}
                             className='w-full hover:tracking-widest transition-all'
                             onClick={() => handleSendOrder()}>
                             {isPending ? <SpinnerMini /> : 'Enviar a cocina'}
@@ -155,7 +155,7 @@ export default function OrderList({
                             type='button'
                             variant={'principal'}
                             className='w-full hover:tracking-widest transition-all'
-                            disabled={!isOrderBusy || isOrderIsEmpty}
+                            disabled={!canConfirmPayment}
                             onClick={() =>
                                 navigate(
                                     location.pathname + `?orderSummary=${activeOrder?.id_order}`
