@@ -30,7 +30,7 @@ export default function OrderList({
     );
 
     const hasItems = activeOrder?.items.length > 0;
-    const isOrderBusy = activeOrder?.items.every( item => item.status === 'EN PREPARACION' || item.status === 'LISTO PARA SERVIR' || item.status === 'SERVIDO' );
+    const isOrderBusy = activeOrder?.items.some( item => item.status === 'EN PREPARACION' || item.status === 'LISTO PARA SERVIR' || item.status === 'SERVIDO' );
 
     const cancelledOrder = isOrderBusy;
     const sendOrderToKitchen = hasItems && !isOrderBusy;
@@ -140,7 +140,7 @@ export default function OrderList({
                         <Button
                             variant='destructive'
                             className='w-full hover:tracking-widest transition-all text-white'
-                            disabled={!cancelledOrder}
+                            disabled={cancelledOrder}
                             onClick={() => handleCancelOrder()}>
                             {isCancelOrder ? <SpinnerMini /> : 'Cancelar Orden'}
                         </Button>

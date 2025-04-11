@@ -57,7 +57,10 @@ export type OrdersList = {
   total: number;
   minutes_elapsed: number;
   created_at: string;
-
+  updated_at: string;
+  start_time: string;
+  end_time: string;
+  ready_time: string;
 };
 export type OrderDetailsHistory = {
   id_order: number;

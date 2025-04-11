@@ -18,31 +18,42 @@ type CardKitchenProps = {
 
 export default function CardKitchen({ order }: CardKitchenProps) {
     const [elapsedTime, setElapsedTime] = useState<string>('00:00:00');
+    const [timerColor,setTimerColor] = useState<string>("");
+    //OBTENER EL PRIMER NOMBRE Y APELLIDO DEL USUARIO
+    const names = order.employee.names.split(' ');
+    const last_name = order.employee.last_name.split(' ');
+    const full_name = names[0] + ' ' + last_name[0];
 
     useEffect(() => {
-        const updateElapsedTime = () => {
+        const updateElapsedTime = (startTimeStr: string) => {
             const date = new Date();
-            const readyTime = new Date(order.created_at);
+            const readyTime = new Date(startTimeStr);
             const diff = Math.floor(
                 (date.getTime() - readyTime.getTime()) / 1000
             );
             const hours = Math.floor(diff / 3600);
             const minutes = Math.floor((diff % 3600) / 60);
             const seconds = diff % 60;
-            const elapsed = `${String(hours).padStart(2, '0')}:${String(
+
+            if(minutes < 5 ){
+                setTimerColor("text-green-500")
+            } else if(minutes >= 5 && minutes < 10){
+                setTimerColor("text-yellow-500")
+            } else if(minutes >= 10 && minutes < 15){
+                setTimerColor("text-orange-500")
+            } else {
+                setTimerColor("text-red-500")
+            }
+           return `${String(hours).padStart(2, '0')}:${String(
                 minutes
             ).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            setElapsedTime(elapsed);
         };
-        const intervalTime = setInterval(updateElapsedTime, 1000);
-        updateElapsedTime();
+        setElapsedTime(updateElapsedTime(order.start_time));
+        const intervalTime = setInterval(() => {
+            setElapsedTime(updateElapsedTime(order.start_time))
+        },1000)
         return () => clearInterval(intervalTime);
-    }, [order.created_at]);
-
-    //OBTENER EL PRIMER NOMBRE Y APELLIDO DEL USUARIO
-    const names = order.employee.names.split(' ');
-    const last_name = order.employee.last_name.split(' ');
-    const full_name = names[0] + ' ' + last_name[0];
+    }, [order.start_time]);
 
     const statusOrder = (status: string) => {
         switch (status) {
@@ -126,7 +137,7 @@ export default function CardKitchen({ order }: CardKitchenProps) {
                         {/* Minutos transcurridos */}
                         <div className='flex items-center gap-2'>
                             <TimerIcon className='w-3 h-3 text-red-500' />
-                            <p className='text-sm text-red-500 font-medium'>
+                            <p className={`text-sm font-medium ${timerColor}`}>
                                 {elapsedTime} min
                             </p>
                         </div>

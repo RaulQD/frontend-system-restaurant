@@ -16,6 +16,7 @@ type CardOrderProps = {
 
 export default function CardOrder({ order }: CardOrderProps) {
     const [elapsedTime, setElapsedTime] = useState<string>('00:00:00');
+    const [timerColor, setTimerColor] = useState<string>('');
     //OBTENER EL PRIMER NOMBRE Y APELLIDO DEL USUARIO
     const names = order.employee.names.split(' ');
     const last_name = order.employee.last_name.split(' ');
@@ -24,13 +25,24 @@ export default function CardOrder({ order }: CardOrderProps) {
     useEffect(() => {
         const updateElapsedTime = () => {
             const date = new Date();
-            const readyTime = new Date(order.created_at);
+            const readyTime = new Date(order.ready_time);
             const diff = Math.floor(
                 (date.getTime() - readyTime.getTime()) / 1000
             );
             const hours = Math.floor(diff / 3600);
             const minutes = Math.floor((diff % 3600) / 60);
             const seconds = diff % 60;
+
+            if (minutes < 5) {
+                setTimerColor('text-green-500');
+            } else if (minutes >= 5 && minutes < 10) {
+                setTimerColor('text-yellow-500');
+            } else if (minutes >= 10 && minutes < 15) {
+                setTimerColor('text-orange-500');
+            } else {
+                setTimerColor('text-red-500');
+            }
+
             const elapsed = `${String(hours).padStart(2, '0')}:${String(
                 minutes
             ).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
@@ -82,7 +94,7 @@ export default function CardOrder({ order }: CardOrderProps) {
                 </div>
             </CardHeader>
             <CardContent className='px-4 pb-4'>
-                <Separator className='mb-4'/>
+                <Separator className='mb-4' />
                 <div>
                     {/* Fecha de creación */}
                     <div className='flex items-center gap-2'>
@@ -93,8 +105,8 @@ export default function CardOrder({ order }: CardOrderProps) {
                     </div>
                     {/* Minutos transcurridos */}
                     <div className='flex items-center gap-2'>
-                        <TimerIcon className='w-3 h-3 text-red-500' />
-                        <p className='text-sm text-red-500 font-medium'>
+                        <TimerIcon className={`w-3 h-3 ${timerColor}`} />
+                        <p className={`text-sm font-medium ${timerColor}`}> 
                             {elapsedTime} min
                         </p>
                     </div>
