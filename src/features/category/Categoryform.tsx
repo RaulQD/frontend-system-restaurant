@@ -2,20 +2,40 @@ import { ErrorMessage } from '@/components/ErrorMessage';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CategoryForm } from '@/types/category';
-import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import {
+    Control,
+    Controller,
+    FieldErrors,
+    UseFormRegister,
+} from 'react-hook-form';
 import { Textarea } from '@/components/ui/textarea';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 
 type CategoryFormProps = {
     errors: FieldErrors<CategoryForm>;
     register: UseFormRegister<CategoryForm>;
+    isEdit?: boolean;
+    control: Control<CategoryForm, any>;
 };
 
-export default function Categoryform({ errors, register }: CategoryFormProps) {
+export default function Categoryform({
+    errors,
+    register,
+    isEdit = false,
+    control,
+}: CategoryFormProps) {
     return (
         <>
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5 font-outfit'>
                 <div className='w-full col-span-3 row-span-2'>
-                    <Label htmlFor='category_name'
+                    <Label
+                        htmlFor='category_name'
                         className={`font-medium transition-colors ${
                             errors.category_name
                                 ? 'text-red-500'
@@ -73,6 +93,44 @@ export default function Categoryform({ errors, register }: CategoryFormProps) {
                         </ErrorMessage>
                     )}
                 </div>
+                {isEdit ? (
+                    <div className='col-span-3'>
+                        <Label
+                            htmlFor='status'
+                            className={`font-medium transition-colors ${
+                                errors.status ? 'text-red-500' : 'text-gray-600'
+                            }`}>
+                            Estado
+                        </Label>
+                        <Controller
+                            name='status'
+                            control={control}
+                            rules={{ required: 'Selecciona un estado.' }}
+                            render={({ field }) => (
+                                <Select
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder='Selecciona un estado' />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value='DISPONIBLE'>
+                                            Disponible
+                                        </SelectItem>
+                                        <SelectItem value='NO DISPONIBLE'>
+                                            No disponible
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            )}
+                        />
+                        {errors.status && (
+                            <ErrorMessage>{errors.status.message}</ErrorMessage>
+                        )}
+                    </div>
+                ) : (
+                    <></>
+                )}
             </div>
         </>
     );

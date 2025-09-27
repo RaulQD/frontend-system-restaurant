@@ -4,6 +4,7 @@ import MenuList from '@/features/order/MenuList';
 import OrderList from '@/features/order/OrderList';
 import { useDecreaseQuantity } from '@/features/order/useDecreaseQuantity';
 import { useGetOrderActiveForTable } from '@/features/order/useGetOrderActiveForTable';
+import { LucideChevronLeft } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 export default function Orders() {
     //OBTENER EL NUMERO DE LA MESA SELECCIONADA DE LA URL
@@ -20,8 +21,13 @@ export default function Orders() {
 
     return (
         <>
-            <section className='h-[90dvh] xl:flex xl:gap-x-4'>
+            <section className='h-[90vh] xl:flex xl:gap-x-4'>
                 <div className='lg:basis-2/3 overflow-y-auto '>
+                    <div className='inline-flex items-center gap-x-1 text-gray-500 hover:text-white hover:bg-emerald-500 cursor-pointer mb-4 px-2 py-1 rounded-md transition-colors duration-300' onClick={() => window.history.back()}>
+                        <LucideChevronLeft className='size-4' />
+                        <span>volver</span>
+                    </div>
+
                     <h1 className='font-outfit text-xl font-medium mb-4'>
                         Orden de la mesa #{tableById?.num_table}
                     </h1>

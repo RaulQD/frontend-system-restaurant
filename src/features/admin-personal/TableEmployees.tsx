@@ -160,12 +160,6 @@ export default function TableEmployees() {
                                                     iconType: BiPencil
                                                 },
                                                 {
-                                                    label: 'Ver',
-                                                    onClick: () =>
-                                                        console.log('ver')
-                                                    
-                                                },
-                                                {
                                                     label: 'Eliminar',
                                                     onClick: () =>
                                                         handleDeleteClick(

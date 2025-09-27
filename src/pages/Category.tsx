@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import AddCategory from '@/features/category/AddCategory';
 import TableCategory from '@/features/category/TableCategory';
-import { BiPlus } from 'react-icons/bi';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Category() {
@@ -24,8 +23,7 @@ export default function Category() {
                     </span>
                 </div>
                 <Button variant={'principal'} onClick={()=> navigate(location.pathname + '?createCategory=true')}>
-                    <BiPlus className='mr-1 text-xl text-white' />
-                    Agregar category
+                    Crear categoría
                 </Button>
             </div>
             <TableCategory />

@@ -48,8 +48,7 @@ export default function AdminPanel() {
                     onClick={() =>
                         navigate('/dashboard/employees/create')
                     }>
-                    <BiPlus className='mr-1 text-xl text-white' />
-                    Agregar empleados
+                    Crear empleados
                 </Button>
             </div>
             <div className='mt-14'>

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { socket } from '@/lib/sockets';
 import toast from 'react-hot-toast';
+import { Button } from '@/components/ui/button';
 
 export default function TableOrdersReady() {
     const navigate = useNavigate();
@@ -39,10 +40,11 @@ export default function TableOrdersReady() {
 
     if (!orders?.length) {
         return (
-            <div className='flex justify-center items-center h-96'>
+            <div className='flex flex-col justify-center items-center h-96 gap-4'>
                 <p className='text-lg text-gray-500'>
                     {error?.message || 'No hay Ordenes listas para servir.'}
                 </p>
+                <Button variant={'principal'} onClick={() => navigate('/dashboard/table')}>Ir a Mesas</Button>
             </div>
         );
     }

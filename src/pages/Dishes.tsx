@@ -2,7 +2,6 @@ import Filter from '@/components/Filter';
 import { Button } from '@/components/ui/button';
 import AddDishes from '@/features/dishes/AddDishes';
 import TableDishes from '@/features/dishes/TableDishes';
-import { BiPlus } from 'react-icons/bi';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Dishes() {
@@ -29,8 +28,7 @@ export default function Dishes() {
                     onClick={() =>
                         navigate(location.pathname + '?createDish=true')
                     }>
-                    <BiPlus className='mr-1 text-xl text-white' />
-                    Agregar plato
+                    Crear plato
                 </Button>
             </div>
             <div className='mt-14'>

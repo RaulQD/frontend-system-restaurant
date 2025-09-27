@@ -73,11 +73,11 @@ export default function CardOrderList({
                     />
                     <div className='w-full flex flex-row items-center justify-between '>
                         <div className='flex flex-col justify-between gap-2'>
-                            <div className='flex items-center justify-between gap-1'>
+                            <div className='flex items-center justify-between gap-1 '>
                                 <CardTitle className='font-normal text-gray-600 line-clamp-1 '>
                                     {orderItem.dishes_name}
                                 </CardTitle>
-                                <span className='text-gray-500 text-sm'>
+                                <span className='text-gray-500 text-sm whitespace-nowrap'>
                                     (x {orderItem.quantity})
                                 </span>
                             </div>

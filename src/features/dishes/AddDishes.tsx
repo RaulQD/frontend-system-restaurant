@@ -43,7 +43,6 @@ export default function AddDishes({ open }: AddDishesProps) {
             console.error('No se ha seleccionado ninguna imagen');
             return;
         }
-        console.log(data.image_url);
         addDish(formData, {
             onSuccess: () => {
                 reset();

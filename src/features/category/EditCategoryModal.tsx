@@ -23,11 +23,13 @@ export default function EditCategoryModal({
         register,
         handleSubmit,
         reset,
+        control,
         formState: { errors },
     } = useForm<CategoryForm>({
         defaultValues: {
             category_name: data.category_name,
             category_description: data.category_description,
+            status: data.status,
         },
     });
 
@@ -52,7 +54,12 @@ export default function EditCategoryModal({
             open={open}
             description='Aquí puedes editar los datos de la categoría.'>
             <form onSubmit={handleSubmit(handleEditCategory)} noValidate>
-                <Categoryform register={register} errors={errors} />
+                <Categoryform
+                    register={register}
+                    errors={errors}
+                    isEdit
+                    control={control}
+                />
                 <div className='flex items-center justify-end gap-2'>
                     <Button
                         type='button'

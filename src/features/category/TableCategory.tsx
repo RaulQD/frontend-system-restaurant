@@ -17,6 +17,7 @@ import AlertMessageDialog from '../../components/AlertMessageDialog';
 import { useNavigate } from 'react-router-dom';
 import PaginationI from '@/components/PaginationI';
 import DropdownActions from '@/components/DropdownActions';
+import { Badge } from '@/components/ui/badge';
 
 export default function TableCategory() {
     const navigate = useNavigate();
@@ -45,6 +46,25 @@ export default function TableCategory() {
     const handleDeleteCategory = (categoryId: Category['id']) => {
         categoryDelete(categoryId);
     };
+    const getCategoryStatusBadge = (status: string) => {
+      switch(status) {
+        case 'DISPONIBLE':
+          return (
+            <Badge variant='success' className='text-white font-bold'>
+              Disponible
+            </Badge>
+
+            );
+        case 'NO DISPONIBLE':
+          return (
+            <Badge variant='destructive' className='text-white font-bold'>
+              No Disponible
+            </Badge>
+          );
+          
+        }
+
+    }
 
     return (
         <div className='mt-6'>
@@ -55,6 +75,7 @@ export default function TableCategory() {
                             <TableHead className='w-[200px] pl-6'>ID</TableHead>
                             <TableHead>Nombre de la categoria</TableHead>
                             <TableHead>Descripcion</TableHead>
+                            <TableHead>Estado</TableHead>
                             <TableHead className='text-center'>
                                 Acciones
                             </TableHead>
@@ -69,6 +90,9 @@ export default function TableCategory() {
                                 <TableCell>{category.category_name}</TableCell>
                                 <TableCell>
                                     {category.category_description}
+                                </TableCell>
+                                <TableCell >
+                                    {getCategoryStatusBadge(category.status)}
                                 </TableCell>
                                 <TableCell className='flex items-center justify-center'>
                                     <DropdownActions

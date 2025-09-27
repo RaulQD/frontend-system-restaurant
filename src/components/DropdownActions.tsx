@@ -31,7 +31,7 @@ export default function DropdownActions({ actions }: DropdownActionsProps) {
                     <DropdownMenuItem
                         key={action.label}
                         className={`cursor-pointer ${
-                            action.className || ''
+                            action.className 
                         }`}
                         onClick={action.onClick}>
                         {action.iconType && (

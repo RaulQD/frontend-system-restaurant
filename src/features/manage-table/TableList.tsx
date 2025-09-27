@@ -9,6 +9,7 @@ import { useUser } from '@/hooks/useUser';
 import { useCreateOrder } from '../order/useCreateOrder';
 import toast from 'react-hot-toast';
 import { OrderCreateData } from '@/types/order';
+import { socket } from '@/lib/sockets';
 
 export default function TableList() {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ export default function TableList() {
         useGetOrderActiveForTable(selectedTable || 0);
     const { createOrders } = useCreateOrder();
     const { tables, isLoading, isError, error } = useTables(room);
+    
     useEffect(() => {
         if (!searchParams.has('room')) {
             searchParams.set('room', 'comedor principal');
@@ -27,6 +29,16 @@ export default function TableList() {
         }
     }, [searchParams, setSearchParams]);
 
+    useEffect(() => {
+        socket.emit('join-orders-ready');
+        socket.on('update-list-orders-ready', (data) => {
+            toast.success(data.message);
+        });
+        return () => {
+            socket.emit('leave-orders-ready');
+            socket.off('update-list-orders-ready');
+        };
+    }, []);
     const handleTableClick = (
         tableId: Tables['id_table'],
         tableStatus: Tables['status']

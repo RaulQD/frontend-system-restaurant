@@ -27,7 +27,6 @@ export default function OrderReadyDetails({
             setSelectedItems([...selectedItems, itemId]);
         }
     };
-    console.log('Ítems seleccionados:', selectedItems); // 👀 Verificar qué ítems están siendo seleccionados
 
     //manejar la seleccion de todos los items
     const handleSelectAllItems = () => {

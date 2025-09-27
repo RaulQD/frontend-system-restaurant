@@ -7,6 +7,7 @@ export const useCreateRoom = () => {
   const { mutate: create, isPending, isError, error } = useMutation({
     mutationFn: createRoom,
     onError: (error) => {
+      console.log(error)
       toast.error(error.message)
     },
     onSuccess: (data) => {

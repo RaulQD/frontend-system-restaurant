@@ -25,10 +25,8 @@ export const getOrders = async ({ page, keyword, status, startDate, endDate }: G
 export const getOrdersForKitchen = async () => {
   try {
     const { data } = await api.get('/orders/kitchen');
-    console.log(data);
     return data;
   } catch (error) {
-    console.log(error)
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }
@@ -37,7 +35,6 @@ export const getOrdersForKitchen = async () => {
 export const getOrdersReadyForServing = async () => {
   try {
     const { data } = await api.get<OrdersList[]>('/orders/ready-for-serving')
-    console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -134,7 +131,6 @@ export const updateStatusItem = async (orderId: number, itemId: number, status: 
     const { data } = await api.patch(`/orders/${orderId}/item/${itemId}/status`, { status });
     return data;
   } catch (error) {
-    console.log(error)
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }

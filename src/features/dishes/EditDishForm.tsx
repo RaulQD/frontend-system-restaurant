@@ -1,21 +1,33 @@
 import { ErrorMessage } from '@/components/ErrorMessage';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { getCategories } from '@/services/apiCategory';
 import { Category } from '@/types/category';
 import { DishesFormData } from '@/types/dish';
 import { Cross2Icon, UploadIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
-import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { Dispatch } from 'react';
+import {
+    Control,
+    Controller,
+    FieldErrors,
+    UseFormRegister,
+} from 'react-hook-form';
 
 type CategoryFormProps = {
     errors: FieldErrors<DishesFormData>;
     register: UseFormRegister<DishesFormData>;
     handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     selectedImage: string | File | null;
-    setSelectedImage: React.Dispatch<
-        React.SetStateAction<string | File | null>
-    >;
+    setSelectedImage: Dispatch<React.SetStateAction<string | File | null>>;
+    control: Control<DishesFormData, any>;
 };
 export default function EditDishForm({
     errors,
@@ -23,6 +35,7 @@ export default function EditDishForm({
     handleImageChange,
     selectedImage,
     setSelectedImage,
+    control,
 }: CategoryFormProps) {
     const { data: category } = useQuery<Category[]>({
         queryKey: ['categories'],
@@ -198,15 +211,28 @@ export default function EditDishForm({
                         }`}>
                         Estado
                     </Label>
-                    <select
-                        id='available'
-                        className='flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1'
-                        {...register('available', {
-                            required: 'Selecciona una opción.',
-                        })}>
-                        <option value='DISPONIBLE'>Disponible</option>
-                        <option value='NO DISPONIBLE'>No Disponible</option>
-                    </select>
+                    <Controller
+                        name='available'
+                        control={control}
+                        rules={{ required: 'Selecciona una opción.' }}
+                        render={({ field }) => (
+                            <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}>
+                                <SelectTrigger className='w-[180px]'>
+                                    <SelectValue placeholder='Selecciona una opción' />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value='DISPONIBLE'>
+                                        Disponible
+                                    </SelectItem>
+                                    <SelectItem value='NO DISPONIBLE'>
+                                        No Disponible
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        )}
+                    />
                     {errors.available && (
                         <ErrorMessage>{errors.available.message}</ErrorMessage>
                     )}
@@ -222,19 +248,29 @@ export default function EditDishForm({
                         Categoría
                     </Label>
                     {category && (
-                        <select
-                            id='category_name'
-                            className='flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1'
-                            {...register('category_name', {
-                                required: 'Selecciona una categoria.',
-                            })}>
-                            <option value=''>Selecciona una categoria</option>
-                            {category?.map((cat) => (
-                                <option key={cat.id} value={cat.category_name}>
-                                    {cat.category_name}
-                                </option>
-                            ))}
-                        </select>
+                        <Controller
+                            name='category_name'
+                            control={control}
+                            rules={{ required: 'Selecciona una categoría.' }}
+                            render={({ field }) => (
+                                <Select
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}>
+                                    <SelectTrigger className='w-[180px]'>
+                                        <SelectValue placeholder='Selecciona una categoria' />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {category?.map((cat) => (
+                                            <SelectItem
+                                                key={cat.id}
+                                                value={cat.category_name}>
+                                                {cat.category_name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            )}
+                        />
                     )}
 
                     {errors.category_name && (

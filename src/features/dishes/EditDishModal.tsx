@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useUpdateDish } from './useUpdateDish';
 import { Button } from '@/components/ui/button';
-import { BiUpload } from 'react-icons/bi';
 import SpinnerMini from '@/components/SpinnerMini';
 
 type EditDishModalProps = {
@@ -28,6 +27,7 @@ export default function EditDishModal({
         register,
         handleSubmit,
         reset,
+        control,
         formState: { errors },
     } = useForm<DishesFormData>({
         defaultValues: {
@@ -46,7 +46,6 @@ export default function EditDishModal({
         formData.append('price', data.price.toString());
         formData.append('category_name', data.category_name);
         formData.append('available', data.available);
-        //AÑADIR LA IMAGEN SELECCIONADA
         // AÑADIR LA IMAGEN SELECCIONADA
         if (selectedImage instanceof File) {
             formData.append('image', selectedImage);
@@ -84,6 +83,7 @@ export default function EditDishModal({
                     handleImageChange={handleImageChange}
                     selectedImage={selectedImage}
                     setSelectedImage={setSelectedImage}
+                    control={control}
                 />
                 <div className='flex items-center justify-end gap-2'>
                     <Button
@@ -101,10 +101,7 @@ export default function EditDishModal({
                                 <SpinnerMini />
                             </div>
                         ) : (
-                            <>
-                                <BiUpload className='mr-2' />
-                                Guardar plato
-                            </>
+                            <>Guardar</>
                         )}
                     </Button>
                 </div>

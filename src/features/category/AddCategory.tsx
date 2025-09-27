@@ -5,7 +5,6 @@ import Categoryform from './Categoryform';
 import ResponsiveDialog from '@/components/ResponsiveDialog';
 import { Button } from '@/components/ui/button';
 import SpinnerMini from '@/components/SpinnerMini';
-import { BiSave } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
@@ -18,11 +17,13 @@ export default function AddCategory({ open }: AddCategoryProps) {
     const initialValues: CategoryForm = {
         category_name: '',
         category_description: '',
+        status: 'DISPONIBLE',
     };
     const {
         register,
         handleSubmit,
         reset,
+        control,
         formState: { errors },
     } = useForm({
         defaultValues: initialValues,
@@ -48,7 +49,7 @@ export default function AddCategory({ open }: AddCategoryProps) {
             open={open}
             description='Agrega un plato al menú de tu restaurante'>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <Categoryform register={register} errors={errors} />
+                <Categoryform register={register} errors={errors} control={control}/>
                 <div className='flex items-center justify-end gap-2'>
                     <Button
                         type='button'
@@ -66,7 +67,7 @@ export default function AddCategory({ open }: AddCategoryProps) {
                             </div>
                         ) : (
                             <div className='flex items-center gap-2'>
-                                <BiSave /> Guardar
+                                Guardar
                             </div>
                         )}
                     </Button>

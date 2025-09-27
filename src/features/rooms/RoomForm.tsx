@@ -59,6 +59,10 @@ export default function RoomForm({ errors, register }: RoomFormProps) {
                                 value: 1,
                                 message: 'La capacidad debe ser mayor a 0.',
                             },
+                            pattern: {
+                                value: /^[0-9]+$/,
+                                message: 'La capacidad de la mesa debe ser un número.',
+                            },
                         })}
                     />
                     {errors.num_tables && (
